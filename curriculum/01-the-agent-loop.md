@@ -1,3 +1,9 @@
+---
+title: "Module 01 — The agent loop"
+parent: Curriculum
+nav_order: 1
+---
+
 # Module 01 — The agent loop
 
 ## Goals

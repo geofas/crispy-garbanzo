@@ -1,3 +1,9 @@
+---
+title: "Module 03 — Context engineering"
+parent: Curriculum
+nav_order: 3
+---
+
 # Module 03 — Context engineering
 
 ## Goals

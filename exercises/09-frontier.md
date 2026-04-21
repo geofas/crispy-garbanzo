@@ -1,3 +1,9 @@
+---
+title: "Exercises — Module 09: Frontier topics"
+parent: Exercises
+nav_order: 9
+---
+
 # Exercises — Module 09: Frontier topics
 
 ## 9.1 — Literature review

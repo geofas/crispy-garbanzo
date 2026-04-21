@@ -1,3 +1,9 @@
+---
+title: "Exercises — Module 00: Foundations"
+parent: Exercises
+nav_order: 0
+---
+
 # Exercises — Module 00: Foundations
 
 ## 0.1 — Harness archaeology

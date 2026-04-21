@@ -1,3 +1,9 @@
+---
+title: "Exercises — Module 05: Permissions and safety"
+parent: Exercises
+nav_order: 5
+---
+
 # Exercises — Module 05: Permissions and safety
 
 ## 5.1 — Blast radius audit

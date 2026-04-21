@@ -1,3 +1,9 @@
+---
+title: "Exercises — Module 07: Evaluations"
+parent: Exercises
+nav_order: 7
+---
+
 # Exercises — Module 07: Evaluations
 
 ## 7.1 — Build a ten-case suite

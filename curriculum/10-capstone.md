@@ -1,3 +1,9 @@
+---
+title: "Module 10 — Capstone: build your own harness"
+parent: Curriculum
+nav_order: 10
+---
+
 # Module 10 — Capstone: build your own harness
 
 ## Goals

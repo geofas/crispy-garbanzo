@@ -1,3 +1,9 @@
+---
+title: "Module 00 — What is harness engineering?"
+parent: Curriculum
+nav_order: 0
+---
+
 # Module 00 — What is harness engineering?
 
 ## Goals

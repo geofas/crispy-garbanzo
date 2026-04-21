@@ -1,3 +1,9 @@
+---
+title: References
+layout: default
+nav_order: 5
+---
+
 # References
 
 A canonical reading list for harness engineering. Prefer primary

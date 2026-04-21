@@ -1,3 +1,9 @@
+---
+title: "Exercises — Module 02: Tools and tool use"
+parent: Exercises
+nav_order: 2
+---
+
 # Exercises — Module 02: Tools and tool use
 
 ## 2.1 — Description surgery

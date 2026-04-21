@@ -1,3 +1,9 @@
+---
+title: "Module 06 — Prompts for harnesses"
+parent: Curriculum
+nav_order: 6
+---
+
 # Module 06 — Prompts for harnesses
 
 ## Goals

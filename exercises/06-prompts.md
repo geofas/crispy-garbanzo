@@ -1,3 +1,9 @@
+---
+title: "Exercises — Module 06: Prompts for harnesses"
+parent: Exercises
+nav_order: 6
+---
+
 # Exercises — Module 06: Prompts for harnesses
 
 ## 6.1 — Cut by half

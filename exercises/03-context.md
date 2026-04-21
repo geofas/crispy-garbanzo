@@ -1,3 +1,9 @@
+---
+title: "Exercises — Module 03: Context engineering"
+parent: Exercises
+nav_order: 3
+---
+
 # Exercises — Module 03: Context engineering
 
 ## 3.1 — Compaction bake-off

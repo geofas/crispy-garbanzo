@@ -1,3 +1,9 @@
+---
+title: "Module 07 — Evaluations"
+parent: Curriculum
+nav_order: 7
+---
+
 # Module 07 — Evaluations
 
 ## Goals

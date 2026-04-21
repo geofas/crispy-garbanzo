@@ -1,3 +1,9 @@
+---
+title: "Module 05 — Permissions and safety"
+parent: Curriculum
+nav_order: 5
+---
+
 # Module 05 — Permissions and safety
 
 ## Goals

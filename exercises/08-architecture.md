@@ -1,3 +1,9 @@
+---
+title: "Exercises — Module 08: Architecture patterns"
+parent: Exercises
+nav_order: 8
+---
+
 # Exercises — Module 08: Architecture patterns
 
 ## 8.1 — Reverse-engineer an architecture

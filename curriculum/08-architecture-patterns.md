@@ -1,3 +1,9 @@
+---
+title: "Module 08 — Architecture patterns"
+parent: Curriculum
+nav_order: 8
+---
+
 # Module 08 — Architecture patterns
 
 ## Goals

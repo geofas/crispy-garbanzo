@@ -1,3 +1,9 @@
+---
+title: "Module 02 — Tools and tool use"
+parent: Curriculum
+nav_order: 2
+---
+
 # Module 02 — Tools and tool use
 
 ## Goals

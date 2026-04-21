@@ -1,3 +1,9 @@
+---
+title: "Exercises — Module 01: The agent loop"
+parent: Exercises
+nav_order: 1
+---
+
 # Exercises — Module 01: The agent loop
 
 ## 1.1 — Build the minimal loop

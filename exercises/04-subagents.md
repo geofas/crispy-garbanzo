@@ -1,3 +1,9 @@
+---
+title: "Exercises — Module 04: Control flow and subagents"
+parent: Exercises
+nav_order: 4
+---
+
 # Exercises — Module 04: Control flow and subagents
 
 ## 4.1 — Subagent vs. tool

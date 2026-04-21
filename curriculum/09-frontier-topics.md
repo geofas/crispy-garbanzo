@@ -1,3 +1,9 @@
+---
+title: "Module 09 — Frontier topics"
+parent: Curriculum
+nav_order: 9
+---
+
 # Module 09 — Frontier topics
 
 ## Goals

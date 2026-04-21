@@ -1,3 +1,9 @@
+---
+title: "Module 04 — Control flow and subagents"
+parent: Curriculum
+nav_order: 4
+---
+
 # Module 04 — Control flow and subagents
 
 ## Goals
