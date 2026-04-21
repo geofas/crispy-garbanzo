@@ -1,0 +1,28 @@
+title: Harness Engineering Trainer
+description: A self-directed curriculum for becoming a subject-matter expert in harness engineering.
+
+remote_theme: just-the-docs/just-the-docs
+
+plugins:
+  - jekyll-remote-theme
+  - jekyll-seo-tag
+
+search_enabled: true
+heading_anchors: true
+
+color_scheme: dark
+
+aux_links:
+  Source on GitHub:
+    - https://github.com/geofas/crispy-garbanzo
+
+exclude:
+  - capstone/evals/
+  - "*.py"
+  - "**/*.py"
+
+defaults:
+  - scope:
+      path: ""
+    values:
+      layout: default
