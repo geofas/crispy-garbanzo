@@ -1,0 +1,664 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Gaming Brain-Type Quiz</title>
+<style>
+  :root {
+    --bg: #0f1419;
+    --card: #1a2029;
+    --text: #e6e9ef;
+    --muted: #8b95a5;
+    --accent: #7aa2f7;
+    --accent-soft: #2a3548;
+    --border: #2a3140;
+    --good: #9ece6a;
+  }
+  @media (prefers-color-scheme: light) {
+    :root {
+      --bg: #fafbfc;
+      --card: #ffffff;
+      --text: #1a1f2c;
+      --muted: #5e6878;
+      --accent: #2557d6;
+      --accent-soft: #e6efff;
+      --border: #e1e5ec;
+      --good: #2c8a3e;
+    }
+  }
+  * { box-sizing: border-box; }
+  html, body {
+    margin: 0;
+    padding: 0;
+    background: var(--bg);
+    color: var(--text);
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", sans-serif;
+    line-height: 1.5;
+  }
+  main {
+    max-width: 720px;
+    margin: 0 auto;
+    padding: 2rem 1.25rem 4rem;
+  }
+  header h1 {
+    font-size: 1.5rem;
+    margin: 0 0 .25rem;
+  }
+  header p {
+    color: var(--muted);
+    margin: 0 0 2rem;
+    font-size: .95rem;
+  }
+  .progress {
+    height: 4px;
+    background: var(--accent-soft);
+    border-radius: 2px;
+    overflow: hidden;
+    margin-bottom: 1.5rem;
+  }
+  .progress-bar {
+    height: 100%;
+    background: var(--accent);
+    transition: width .25s ease;
+  }
+  .card {
+    background: var(--card);
+    border: 1px solid var(--border);
+    border-radius: 12px;
+    padding: 1.5rem;
+  }
+  .qmeta {
+    color: var(--muted);
+    font-size: .85rem;
+    margin-bottom: .5rem;
+    letter-spacing: .03em;
+    text-transform: uppercase;
+  }
+  .qtext {
+    font-size: 1.15rem;
+    font-weight: 600;
+    margin: 0 0 1.25rem;
+  }
+  .options {
+    display: flex;
+    flex-direction: column;
+    gap: .5rem;
+    margin-bottom: 1.5rem;
+  }
+  .option {
+    display: flex;
+    align-items: flex-start;
+    gap: .75rem;
+    padding: .85rem 1rem;
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    cursor: pointer;
+    transition: border-color .15s ease, background .15s ease;
+    user-select: none;
+  }
+  .option:hover {
+    border-color: var(--accent);
+  }
+  .option.selected {
+    border-color: var(--accent);
+    background: var(--accent-soft);
+  }
+  .option input {
+    margin: .25rem 0 0;
+    accent-color: var(--accent);
+    flex-shrink: 0;
+  }
+  .option-letter {
+    font-weight: 700;
+    color: var(--accent);
+    margin-right: .35rem;
+  }
+  .controls {
+    display: flex;
+    justify-content: space-between;
+    gap: .75rem;
+  }
+  button {
+    font: inherit;
+    padding: .65rem 1.25rem;
+    border-radius: 8px;
+    border: 1px solid var(--border);
+    background: var(--card);
+    color: var(--text);
+    cursor: pointer;
+    transition: background .15s, border-color .15s;
+  }
+  button:hover:not(:disabled) {
+    border-color: var(--accent);
+  }
+  button:disabled {
+    opacity: .4;
+    cursor: not-allowed;
+  }
+  button.primary {
+    background: var(--accent);
+    border-color: var(--accent);
+    color: white;
+  }
+  button.primary:hover:not(:disabled) {
+    filter: brightness(1.08);
+  }
+  .hint {
+    color: var(--muted);
+    font-size: .85rem;
+    margin: -.5rem 0 1rem;
+  }
+  /* results */
+  .scores {
+    display: grid;
+    grid-template-columns: auto 1fr auto;
+    gap: .5rem 1rem;
+    margin: 1.5rem 0;
+    align-items: center;
+  }
+  .score-name { font-weight: 600; }
+  .score-name.top { color: var(--good); }
+  .score-bar-wrap {
+    background: var(--accent-soft);
+    height: 8px;
+    border-radius: 4px;
+    overflow: hidden;
+  }
+  .score-bar {
+    height: 100%;
+    background: var(--accent);
+    border-radius: 4px;
+  }
+  .score-bar.top { background: var(--good); }
+  .score-val {
+    font-variant-numeric: tabular-nums;
+    color: var(--muted);
+    font-size: .9rem;
+  }
+  h2 {
+    margin: 2rem 0 .5rem;
+    font-size: 1.25rem;
+  }
+  h3 {
+    margin: 1.25rem 0 .35rem;
+    font-size: 1.05rem;
+    color: var(--accent);
+  }
+  .archetype-block {
+    margin: 1rem 0 1.5rem;
+    padding: 1rem 1.25rem;
+    border-left: 3px solid var(--accent);
+    background: var(--accent-soft);
+    border-radius: 0 8px 8px 0;
+  }
+  .archetype-block.secondary {
+    border-left-color: var(--muted);
+    background: var(--card);
+    border: 1px solid var(--border);
+    border-left: 3px solid var(--muted);
+  }
+  .archetype-name {
+    font-weight: 700;
+    font-size: 1.1rem;
+    margin: 0 0 .35rem;
+  }
+  .archetype-tag {
+    font-size: .8rem;
+    color: var(--muted);
+    text-transform: uppercase;
+    letter-spacing: .04em;
+    margin-bottom: .5rem;
+  }
+  .games {
+    font-style: italic;
+  }
+  .footnote {
+    color: var(--muted);
+    font-size: .85rem;
+    margin-top: 2rem;
+    border-top: 1px solid var(--border);
+    padding-top: 1rem;
+  }
+  .restart {
+    margin-top: 2rem;
+    text-align: center;
+  }
+</style>
+</head>
+<body>
+<main id="app"></main>
+
+<script>
+const ARCHETYPES = {
+  T: {
+    name: "Tactician",
+    tag: "Deliberate decisions, full information",
+    profile: "You enjoy problems where the information is in front of you and the difficulty is in computing the right move. Real-time pressure feels like noise; thinking time feels like fuel.",
+    games: ["Slay the Spire", "Into the Breach", "XCOM 2", "Inscryption", "FTL", "Civilization VI", "Tactics Ogre: Reborn", "Wildermyth", "Battle Brothers", "Cobalt Core"],
+    antiPattern: "Twitchy action games and purely linear narrative games."
+  },
+  R: {
+    name: "Reflexive Operator",
+    tag: "Fast input, mastery under pressure",
+    profile: "Your brain loves the present moment. Clean dopamine hits from execution under pressure; doing-it-better-this-time is the loop you crave.",
+    games: ["DOOM Eternal", "Hades", "Sekiro: Shadows Die Twice", "Celeste", "Devil May Cry 5", "Apex Legends", "Tetris Effect: Connected", "Beat Saber", "Street Fighter 6", "Returnal"],
+    antiPattern: "Turn-based games (waiting feels punitive); long cutscenes between fights."
+  },
+  Y: {
+    name: "Systems Architect",
+    tag: "Build machines that run themselves",
+    profile: "Deep satisfaction when complexity emerges from simple rules. You'd rather spend an hour optimizing a setup than playing through prebuilt content.",
+    games: ["Factorio", "Dwarf Fortress", "RimWorld", "Cities: Skylines", "Satisfactory", "Oxygen Not Included", "Opus Magnum", "Shenzhen I/O", "Dyson Sphere Program", "Workers & Resources: Soviet Republic"],
+    antiPattern: "Linear story games where you can't tinker; pure twitch."
+  },
+  E: {
+    name: "Explorer",
+    tag: "Novelty as the primary reward",
+    profile: "The map filling in is the main quest, regardless of what the actual main quest says. You quietly resent maps that fill themselves in.",
+    games: ["The Legend of Zelda: Breath of the Wild / Tears of the Kingdom", "Outer Wilds", "Subnautica", "Hollow Knight", "Tunic", "Elden Ring", "Sable", "Death Stranding", "No Man's Sky", "Prey (2017)"],
+    antiPattern: "On-rails experiences; quest markers that solve the game for you."
+  },
+  N: {
+    name: "Storyweaver",
+    tag: "Characters and choices over mechanics",
+    profile: "Characters and choices are the game; mechanics are the delivery system. You remember games as the protagonists you played.",
+    games: ["Disco Elysium", "Pentiment", "Citizen Sleeper", "Baldur's Gate 3", "Mass Effect Legendary Edition", "Planescape: Torment", "80 Days", "Norco", "What Remains of Edith Finch", "Pyre"],
+    antiPattern: "Mechanical sandboxes with no characters; thin-story grinds."
+  },
+  P: {
+    name: "Pattern Solver",
+    tag: "The dopamine of the 'aha' moment",
+    profile: "The 'aha' moment is the most addictive feeling in your brain. You'd rather think for an hour and act once than practice an action a hundred times.",
+    games: ["Return of the Obra Dinn", "The Case of the Golden Idol", "Baba Is You", "The Witness", "Tunic", "Outer Wilds", "Lorelei and the Laser Eyes", "The Talos Principle", "Patrick's Parabox", "Chants of Sennaar"],
+    antiPattern: "Skill-grinding games where the answer is 'execute better'."
+  },
+  S: {
+    name: "Social Player",
+    tag: "The people are the game",
+    profile: "Mechanics are the excuse; the people are the point. You'll happily play something mediocre with the right group and bounce off something brilliant alone.",
+    games: ["It Takes Two", "Helldivers 2", "Overcooked 2", "Among Us", "Final Fantasy XIV", "Sea of Thieves", "Jackbox Party Pack", "Deep Rock Galactic", "Lethal Company", "Mario Party Superstars"],
+    antiPattern: "Deeply lonely single-player; turn-based solo strategy."
+  }
+};
+
+const COMBOS = {
+  "T+P": "Competitive puzzlers, deckbuilders, tactics with deep theorycrafting.",
+  "T+Y": "Long-haul strategy: 4X, grand strategy, real-time-with-pause.",
+  "T+N": "Narrative tactics — choices with mechanical teeth.",
+  "T+E": "Tactics in open worlds; emergent strategy.",
+  "T+R": "Real-time tactics, fighting games with deep meta.",
+  "T+S": "Competitive strategy — MOBAs, social deduction.",
+  "R+E": "Action-adventure with skill expression (metroidvanias, soulslikes).",
+  "R+S": "Team shooters, fighting games, co-op action.",
+  "R+P": "Action puzzlers; rhythm-deduction hybrids.",
+  "R+N": "Cinematic action with story stakes.",
+  "R+Y": "Action games with build-craft layers.",
+  "Y+E": "Open-world survival/builders, colony sims with exploration.",
+  "Y+P": "Programming games, optimization puzzles, automation-with-puzzles.",
+  "Y+N": "Sims with deep narrative layers (Disco-meets-RimWorld territory).",
+  "Y+S": "Co-op base-builders, MMOs with crafting depth.",
+  "E+N": "Atmospheric/environmental storytelling.",
+  "E+P": "Mystery exploration — Outer Wilds territory.",
+  "E+S": "MMOs, shared open worlds, co-op exploration.",
+  "N+S": "Co-op narrative, tabletop-adjacent, social RPGs.",
+  "N+P": "Detective games, narrative mysteries.",
+  "P+S": "Co-op puzzlers (Keep Talking and Nobody Explodes, We Were Here)."
+};
+
+const QUESTIONS = [
+  { text: "You're given 30 minutes alone in a room with a Rubik's Cube you've never solved. What do you do?",
+    options: [
+      { letter: "A", text: "Try to figure out the algorithm from scratch — I want to understand why it works.", scores: { P: 3, Y: 1 } },
+      { letter: "B", text: "Look up a tutorial and grind the moves until I can do it consistently.", scores: { T: 2, R: 1 } },
+      { letter: "C", text: "Get bored quickly and look for something else to do.", scores: { E: 1, N: 2, S: 1 } },
+      { letter: "D", text: "Try a bit, then start thinking about how I'd design a better puzzle.", scores: { Y: 2, P: 1 } }
+    ]},
+  { text: "Your favorite kind of movie scene is...",
+    options: [
+      { letter: "A", text: "A heist plan unfolding with everything going just right.", scores: { T: 2, P: 1 } },
+      { letter: "B", text: "A fight choreographed so well you watch it twice.", scores: { R: 3 } },
+      { letter: "C", text: "A character making an impossible moral choice.", scores: { N: 3 } },
+      { letter: "D", text: "A wide shot revealing a strange new world.", scores: { E: 3 } },
+      { letter: "E", text: "Two people talking in a way that changes everything.", scores: { N: 2, S: 1 } }
+    ]},
+  { text: "When learning a new board game, you...",
+    options: [
+      { letter: "A", text: "Read the rules carefully before the first move.", scores: { T: 2, Y: 1 } },
+      { letter: "B", text: "Skim the rules, learn by playing, look up edge cases later.", scores: { E: 2, R: 1 } },
+      { letter: "C", text: "Want someone to teach me as we play.", scores: { S: 2 } },
+      { letter: "D", text: "Ask 'what's the optimal opening?' within three turns.", scores: { T: 2, P: 1 } }
+    ]},
+  { text: "You're stuck in traffic. What does your brain do?",
+    options: [
+      { letter: "A", text: "Try to figure out the pattern of light timing.", scores: { P: 2, Y: 2 } },
+      { letter: "B", text: "Get lost in a podcast or an imagined conversation.", scores: { N: 2, S: 1 } },
+      { letter: "C", text: "Drum on the wheel, fidget, get antsy.", scores: { R: 3 } },
+      { letter: "D", text: "Daydream about places I'd rather be.", scores: { E: 2 } }
+    ]},
+  { text: "Pick the chore you'd least mind doing:",
+    options: [
+      { letter: "A", text: "Reorganizing the pantry by category and labeling everything.", scores: { Y: 3 } },
+      { letter: "B", text: "Doing a 1000-piece jigsaw puzzle.", scores: { P: 3 } },
+      { letter: "C", text: "Going for a long walk in an unfamiliar neighborhood.", scores: { E: 3 } },
+      { letter: "D", text: "Hosting a dinner party (you cook).", scores: { S: 2, N: 1 } },
+      { letter: "E", text: "Practicing an instrument or sport for an hour.", scores: { R: 3 } }
+    ]},
+  { text: "A 'good day' of unstructured free time looks like...",
+    options: [
+      { letter: "A", text: "Deep focus on one project for six hours straight.", scores: { Y: 2, T: 1, P: 1 } },
+      { letter: "B", text: "Pickup sports / climbing / dance class.", scores: { R: 3 } },
+      { letter: "C", text: "Wandering a museum, hike, or new city.", scores: { E: 3 } },
+      { letter: "D", text: "A long meandering conversation with someone interesting.", scores: { N: 2, S: 2 } },
+      { letter: "E", text: "Bouncing between many small things as the mood strikes.", scores: { E: 2, R: 1 } }
+    ]},
+  { text: "When you cook, you...",
+    options: [
+      { letter: "A", text: "Follow the recipe precisely and weigh ingredients.", scores: { T: 2, P: 1 } },
+      { letter: "B", text: "Use the recipe as inspiration and improvise.", scores: { E: 2, Y: 1 } },
+      { letter: "C", text: "Want to perfect one dish so well it becomes legendary.", scores: { R: 2, T: 1 } },
+      { letter: "D", text: "Cook with people — the food is secondary.", scores: { S: 3 } },
+      { letter: "E", text: "Build elaborate multi-course things where timing matters.", scores: { T: 2, Y: 1 } }
+    ]},
+  { text: "You're given $1000 and one free weekend. You'd most enjoy...",
+    options: [
+      { letter: "A", text: "Spending it all on a flight to a city you've never been.", scores: { E: 3 } },
+      { letter: "B", text: "Buying a new instrument and learning one song on it.", scores: { R: 2, T: 1 } },
+      { letter: "C", text: "Hosting an elaborate dinner or event for friends.", scores: { S: 3, N: 1 } },
+      { letter: "D", text: "Sitting alone optimizing a hobby project or setup.", scores: { Y: 2, P: 1 } },
+      { letter: "E", text: "Going to a great theater performance and dissecting it after.", scores: { N: 3 } }
+    ]},
+  { text: "You enjoy a problem MORE when...",
+    options: [
+      { letter: "A", text: "I have all the information; it's just hard to compute.", scores: { T: 2, P: 2 } },
+      { letter: "B", text: "I have to gather information before I can even start solving.", scores: { E: 2, P: 1 } },
+      { letter: "C", text: "The 'right answer' depends on values I have to weigh.", scores: { N: 2 } },
+      { letter: "D", text: "Speed matters as much as correctness.", scores: { R: 3 } },
+      { letter: "E", text: "Other people's choices change my optimal move.", scores: { S: 2, T: 1 } }
+    ]},
+  { text: "Pick the metaphor that best describes your brain at its best:",
+    options: [
+      { letter: "A", text: "A clean spreadsheet.", scores: { Y: 2, T: 2 } },
+      { letter: "B", text: "A camera lens snapping into focus.", scores: { R: 2 } },
+      { letter: "C", text: "A library you can wander.", scores: { E: 2, N: 2 } },
+      { letter: "D", text: "A locked box with a key you almost have.", scores: { P: 3 } },
+      { letter: "E", text: "A campfire with friends around it.", scores: { S: 3, N: 1 } }
+    ]},
+  { text: "When you watch someone else play a game, you...",
+    options: [
+      { letter: "A", text: "Mentally critique their choices.", scores: { T: 2 } },
+      { letter: "B", text: "Feel the urge to grab the controller.", scores: { R: 2 } },
+      { letter: "C", text: "Get curious about the world they're in.", scores: { E: 2, N: 1 } },
+      { letter: "D", text: "Pay attention to the dialogue and characters.", scores: { N: 3 } },
+      { letter: "E", text: "Watch their reactions more than the screen.", scores: { S: 2 } }
+    ]},
+  { text: "Failure is...",
+    options: [
+      { letter: "A", text: "Information. Try again, refine the model.", scores: { T: 2, Y: 2 } },
+      { letter: "B", text: "A reflex tax. Run it back, do it cleaner.", scores: { R: 3 } },
+      { letter: "C", text: "A door I haven't opened yet.", scores: { E: 2, P: 1 } },
+      { letter: "D", text: "A story beat.", scores: { N: 3 } },
+      { letter: "E", text: "Frustrating; I want to talk it out with someone.", scores: { S: 2 } }
+    ]},
+  { text: "You're building with LEGO. You...",
+    options: [
+      { letter: "A", text: "Follow the instructions to a perfect replica.", scores: { T: 2 } },
+      { letter: "B", text: "Build my own thing without instructions.", scores: { E: 2, Y: 2 } },
+      { letter: "C", text: "Build elaborate scenes with characters and stories.", scores: { N: 3 } },
+      { letter: "D", text: "See how fast I can do the set.", scores: { R: 2 } },
+      { letter: "E", text: "Make a mechanism that does something — a crane, a clock, a chain reaction.", scores: { Y: 3, P: 1 } }
+    ]},
+  { text: "When you read fiction, what hooks you?",
+    options: [
+      { letter: "A", text: "A complex world with internal logic.", scores: { Y: 2, E: 1 } },
+      { letter: "B", text: "Characters whose decisions feel real.", scores: { N: 3 } },
+      { letter: "C", text: "A mystery I'm racing the author to solve.", scores: { P: 3 } },
+      { letter: "D", text: "Beautiful sentences I want to reread.", scores: { N: 2, E: 1 } },
+      { letter: "E", text: "I read mostly nonfiction / how-things-work.", scores: { Y: 2, P: 1 } }
+    ]},
+  { text: "A song comes on while you're driving. You're most likely to...",
+    options: [
+      { letter: "A", text: "Tap out a complicated rhythm on the wheel.", scores: { R: 3 } },
+      { letter: "B", text: "Listen for production details and instrumentation.", scores: { Y: 2, P: 1 } },
+      { letter: "C", text: "Get lost in the lyrics and what they mean.", scores: { N: 3 } },
+      { letter: "D", text: "Skip it if it's not the exact right vibe.", scores: { E: 1, N: 1 } },
+      { letter: "E", text: "Turn it up and wish someone were here to share this with.", scores: { S: 2 } }
+    ]},
+  { text: "The kind of 'winning' that feels best to you:",
+    options: [
+      { letter: "A", text: "Beating an opponent who was actually trying.", scores: { T: 2, S: 1, R: 1 } },
+      { letter: "B", text: "A clean solution to a problem nobody else could solve.", scores: { P: 3, T: 1 } },
+      { letter: "C", text: "Finishing something elaborate I built myself.", scores: { Y: 3 } },
+      { letter: "D", text: "Pulling off a moment of skill I couldn't have done a month ago.", scores: { R: 3 } },
+      { letter: "E", text: "Completing a journey or arc.", scores: { N: 2, E: 2 } }
+    ]},
+  { text: "When you imagine yourself 'in flow,' you're...",
+    options: [
+      { letter: "A", text: "Reacting to fast input without thinking.", scores: { R: 3 } },
+      { letter: "B", text: "Holding a complex system in your head, all parts visible.", scores: { Y: 3, T: 1 } },
+      { letter: "C", text: "Absorbed in a story or world where time disappears.", scores: { N: 2, E: 2 } },
+      { letter: "D", text: "Closing in on the answer to something hard.", scores: { P: 3 } },
+      { letter: "E", text: "Synced up with people doing something together.", scores: { S: 3 } }
+    ]},
+  { text: "A 4-hour escape-room–style experience. The best version is...",
+    options: [
+      { letter: "A", text: "Logic puzzles, ciphers, locks.", scores: { P: 3, T: 1 } },
+      { letter: "B", text: "Physical and hidden — explore the space.", scores: { E: 3 } },
+      { letter: "C", text: "Story-driven, with actors and stakes.", scores: { N: 3, S: 1 } },
+      { letter: "D", text: "Team-oriented with competing factions.", scores: { S: 3, T: 1 } },
+      { letter: "E", text: "Timed and hard — beat the clock.", scores: { R: 2, T: 1 } }
+    ]},
+  { text: "Pick the setting that excites you most:",
+    options: [
+      { letter: "A", text: "A vast unmapped wilderness.", scores: { E: 3 } },
+      { letter: "B", text: "An intricate political court.", scores: { N: 2, T: 2, S: 1 } },
+      { letter: "C", text: "A factory floor with humming machines.", scores: { Y: 3 } },
+      { letter: "D", text: "An empty arena, a worthy opponent, no excuses.", scores: { R: 2, T: 2 } },
+      { letter: "E", text: "A cozy room of friends arguing happily.", scores: { S: 3, N: 1 } },
+      { letter: "F", text: "A locked room with a single envelope on the table.", scores: { P: 3 } }
+    ]},
+  { text: "How do you feel about repetition / grinding?",
+    options: [
+      { letter: "A", text: "Love it — repetition is how mastery happens.", scores: { R: 2, T: 1 } },
+      { letter: "B", text: "Hate it — once I know the answer, I'm done.", scores: { P: 2, E: 2 } },
+      { letter: "C", text: "Tolerable if I'm building toward something visible.", scores: { Y: 2 } },
+      { letter: "D", text: "Tolerable if I'm with friends.", scores: { S: 2 } },
+      { letter: "E", text: "Tolerable if there's narrative reward.", scores: { N: 2 } }
+    ]}
+];
+
+const ARCHETYPE_ORDER = ["T", "R", "Y", "E", "N", "P", "S"];
+
+let answers = QUESTIONS.map(() => []); // array of selected option indices per question
+let current = 0;
+let showResults = false;
+
+const app = document.getElementById("app");
+
+function render() {
+  if (showResults) return renderResults();
+  renderQuestion();
+}
+
+function renderQuestion() {
+  const q = QUESTIONS[current];
+  const selected = answers[current];
+  const progress = ((current) / QUESTIONS.length) * 100;
+  app.innerHTML = `
+    <header>
+      <h1>Gaming Brain-Type Quiz</h1>
+      <p>Answer based on what's actually true for you, not what sounds cool.</p>
+    </header>
+    <div class="progress"><div class="progress-bar" style="width:${progress}%"></div></div>
+    <div class="card">
+      <div class="qmeta">Question ${current + 1} of ${QUESTIONS.length}</div>
+      <h2 class="qtext">${q.text}</h2>
+      <div class="hint">Pick one. If two feel equally true, pick both — points split evenly.</div>
+      <div class="options">
+        ${q.options.map((opt, i) => `
+          <label class="option ${selected.includes(i) ? "selected" : ""}">
+            <input type="checkbox" data-idx="${i}" ${selected.includes(i) ? "checked" : ""}>
+            <div><span class="option-letter">${opt.letter})</span>${escape(opt.text)}</div>
+          </label>
+        `).join("")}
+      </div>
+      <div class="controls">
+        <button id="back" ${current === 0 ? "disabled" : ""}>← Back</button>
+        <button id="next" class="primary" ${selected.length === 0 ? "disabled" : ""}>
+          ${current === QUESTIONS.length - 1 ? "See result →" : "Next →"}
+        </button>
+      </div>
+    </div>
+  `;
+
+  app.querySelectorAll("input[type=checkbox]").forEach(cb => {
+    cb.addEventListener("change", e => {
+      const idx = Number(e.target.dataset.idx);
+      const arr = answers[current];
+      const pos = arr.indexOf(idx);
+      if (pos === -1) arr.push(idx); else arr.splice(pos, 1);
+      render();
+    });
+  });
+  app.querySelector("#back").addEventListener("click", () => {
+    if (current > 0) { current--; render(); }
+  });
+  app.querySelector("#next").addEventListener("click", () => {
+    if (answers[current].length === 0) return;
+    if (current < QUESTIONS.length - 1) {
+      current++;
+      window.scrollTo({ top: 0, behavior: "smooth" });
+      render();
+    } else {
+      showResults = true;
+      window.scrollTo({ top: 0, behavior: "smooth" });
+      render();
+    }
+  });
+}
+
+function computeScores() {
+  const scores = Object.fromEntries(ARCHETYPE_ORDER.map(k => [k, 0]));
+  answers.forEach((selected, qi) => {
+    const q = QUESTIONS[qi];
+    const split = selected.length || 1;
+    selected.forEach(optIdx => {
+      const opt = q.options[optIdx];
+      for (const [k, v] of Object.entries(opt.scores)) {
+        scores[k] += v / split;
+      }
+    });
+  });
+  return scores;
+}
+
+function renderResults() {
+  const scores = computeScores();
+  const ranked = ARCHETYPE_ORDER
+    .map(k => ({ k, score: scores[k] }))
+    .sort((a, b) => b.score - a.score);
+  const max = ranked[0].score || 1;
+  const top = ranked[0];
+  const second = ranked[1];
+  const comboKey = [top.k, second.k].sort().join("+");
+  const comboText = COMBOS[comboKey] || COMBOS[[second.k, top.k].sort().join("+")] || "";
+  const dominantGap = top.score - second.score;
+  const dominanceNote = dominantGap >= 5
+    ? `${ARCHETYPES[top.k].name} is <strong>${dominantGap.toFixed(1)} points clear</strong> — that's a dominant primary. The others are flavor.`
+    : `${ARCHETYPES[top.k].name} and ${ARCHETYPES[second.k].name} are close — treat both as primary.`;
+
+  app.innerHTML = `
+    <header>
+      <h1>Your Gaming Brain Type</h1>
+      <p>Top two archetypes tell you more than top one. Combo matters.</p>
+    </header>
+
+    <div class="card">
+      <h2 style="margin-top:0">Scores</h2>
+      <div class="scores">
+        ${ranked.map((r, i) => `
+          <div class="score-name ${i === 0 ? "top" : ""}">${ARCHETYPES[r.k].name}</div>
+          <div class="score-bar-wrap">
+            <div class="score-bar ${i === 0 ? "top" : ""}" style="width:${(r.score/max)*100}%"></div>
+          </div>
+          <div class="score-val">${r.score.toFixed(1)}</div>
+        `).join("")}
+      </div>
+      <p style="color: var(--muted); font-size:.95rem">${dominanceNote}</p>
+
+      <h2>Your combo: ${ARCHETYPES[top.k].name} + ${ARCHETYPES[second.k].name}</h2>
+      ${comboText ? `<p><strong>${comboText}</strong></p>` : ""}
+
+      <div class="archetype-block">
+        <div class="archetype-tag">Primary</div>
+        <div class="archetype-name">${ARCHETYPES[top.k].name}</div>
+        <p>${ARCHETYPES[top.k].profile}</p>
+        <p class="games"><strong>Try:</strong> ${ARCHETYPES[top.k].games.slice(0, 8).join(", ")}.</p>
+        <p style="font-size:.9rem; color: var(--muted)"><strong>Bounces off:</strong> ${ARCHETYPES[top.k].antiPattern}</p>
+      </div>
+
+      <div class="archetype-block secondary">
+        <div class="archetype-tag">Secondary</div>
+        <div class="archetype-name">${ARCHETYPES[second.k].name}</div>
+        <p>${ARCHETYPES[second.k].profile}</p>
+        <p class="games"><strong>Try:</strong> ${ARCHETYPES[second.k].games.slice(0, 6).join(", ")}.</p>
+      </div>
+
+      <h3>Sweet-spot games (hit both archetypes)</h3>
+      <p>${sweetSpotGames(top.k, second.k)}</p>
+
+      <div class="footnote">
+        This is a wiring quiz, not a destiny quiz. Mood matters. "Bounces off" means more friction — not don't try. The best gaming experiences sometimes come from a genre fighting your wiring just hard enough to teach you something new.
+      </div>
+
+      <div class="restart">
+        <button id="restart">Take it again</button>
+      </div>
+    </div>
+  `;
+
+  app.querySelector("#restart").addEventListener("click", () => {
+    answers = QUESTIONS.map(() => []);
+    current = 0;
+    showResults = false;
+    window.scrollTo({ top: 0, behavior: "smooth" });
+    render();
+  });
+}
+
+function sweetSpotGames(a, b) {
+  const overlaps = {
+    "P+E": "Outer Wilds, Tunic, Return of the Obra Dinn",
+    "P+Y": "Opus Magnum, Shenzhen I/O, Factorio (with mods)",
+    "P+T": "Slay the Spire, Inscryption, Cobalt Core",
+    "P+N": "Pentiment, The Case of the Golden Idol, Disco Elysium",
+    "P+R": "Hades, Patrick's Parabox, Tetris Effect",
+    "P+S": "Keep Talking and Nobody Explodes, We Were Here, Escape Simulator",
+    "Y+E": "Valheim, Terraria, Minecraft, Subnautica",
+    "Y+T": "Civilization VI, Stellaris, Crusader Kings III",
+    "Y+R": "RimWorld + combat focus, Noita, Children of Morta",
+    "Y+N": "RimWorld, Frostpunk, Dwarf Fortress (the stories)",
+    "Y+S": "Final Fantasy XIV, V Rising, Valheim co-op",
+    "T+E": "Battle Brothers, Wildermyth, Mount & Blade: Bannerlord",
+    "T+R": "StarCraft II, Total War: Warhammer III, Street Fighter 6",
+    "T+N": "Baldur's Gate 3, Fire Emblem: Three Houses, Pentiment",
+    "T+S": "League of Legends, Dota 2, Among Us",
+    "E+N": "Outer Wilds, Citizen Sleeper, Disco Elysium",
+    "E+R": "Hollow Knight, Hades, Returnal, Elden Ring",
+    "E+S": "Sea of Thieves, FFXIV, Deep Rock Galactic",
+    "N+R": "Hades, NieR: Automata, Bayonetta",
+    "N+S": "Baldur's Gate 3 co-op, It Takes Two, Sea of Thieves",
+    "R+S": "Apex Legends, Helldivers 2, Overcooked 2"
+  };
+  const key1 = [a, b].sort().join("+");
+  return overlaps[key1] || `${ARCHETYPES[a].games[0]}, ${ARCHETYPES[b].games[0]} — try one game from each archetype's list above.`;
+}
+
+function escape(s) {
+  return s.replace(/[<>&"']/g, c => ({ "<":"&lt;", ">":"&gt;", "&":"&amp;", '"':"&quot;", "'":"&#39;" }[c]));
+}
+
+render();
+</script>
+</body>
+</html>

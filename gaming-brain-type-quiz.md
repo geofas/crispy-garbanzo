@@ -9,6 +9,10 @@ nav_order: 99
 A 20-question assessment to figure out what kinds of games your brain is
 naturally wired for — *before* you spend $70 finding out the hard way.
 
+> **Prefer to take it interactively?** Open
+> [`gaming-brain-type-quiz.html`](gaming-brain-type-quiz.html) — same quiz,
+> auto-scores, no tallying.
+
 ## How this works
 
 Most "what kind of gamer are you" quizzes just ask which games you already
