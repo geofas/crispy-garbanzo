@@ -69,6 +69,13 @@ final class SchedulerTests: XCTestCase {
         XCTAssertTrue(s.isFinished(at: s.endDate))
     }
 
+    func testExpiryAfterGracePeriod() {
+        let s = ActiveSession.start(SessionPreset(name: "M", durationMinutes: 30, nudgeMinutesBeforeEnd: [0]), at: start)
+        XCTAssertFalse(s.isExpired(at: s.endDate))
+        XCTAssertFalse(s.isExpired(at: s.endDate.addingTimeInterval(3600)))
+        XCTAssertTrue(s.isExpired(at: s.endDate.addingTimeInterval(3601)))
+    }
+
     func testDueNudgesSkipsStaleAndDelivered() {
         let s = ActiveSession.start(SessionPreset(name: "M", durationMinutes: 30, nudgeMinutesBeforeEnd: [10, 5, 0]), at: start)
         let at10 = s.nudges[0].fireDate

@@ -21,7 +21,23 @@ final class NotificationScheduler: NSObject, UNUserNotificationCenterDelegate {
         center.requestAuthorization(options: [.alert, .sound]) { _, _ in }
     }
 
-    func scheduleBackups(for session: ActiveSession, now: Date = Date()) {
+    /// Session whose backups are wanted. Main thread only.
+    private var wantedSessionID: UUID?
+
+    /// Asks for permission if needed, then schedules. Nothing is scheduled before the
+    /// user has answered the prompt, or if the session was stopped in the meantime.
+    func scheduleBackups(for session: ActiveSession) {
+        wantedSessionID = session.id
+        center.requestAuthorization(options: [.alert, .sound]) { [weak self] granted, _ in
+            guard granted else { return }
+            DispatchQueue.main.async {
+                guard let self, self.wantedSessionID == session.id else { return }
+                self.addBackups(for: session, now: Date())
+            }
+        }
+    }
+
+    private func addBackups(for session: ActiveSession, now: Date) {
         for nudge in session.nudges where nudge.fireDate > now {
             let content = UNMutableNotificationContent()
             content.title = nudge.message
@@ -44,7 +60,14 @@ final class NotificationScheduler: NSObject, UNUserNotificationCenterDelegate {
         center.removePendingNotificationRequests(withIdentifiers: [id])
     }
 
+    /// Removes backups that have not fired yet (used when delivery moves to the other device).
+    func cancelPending(for session: ActiveSession) {
+        wantedSessionID = nil
+        center.removePendingNotificationRequests(withIdentifiers: session.nudges.map(\.id))
+    }
+
     func cancelAll(for session: ActiveSession) {
+        wantedSessionID = nil
         let ids = session.nudges.map(\.id)
         center.removePendingNotificationRequests(withIdentifiers: ids)
         center.removeDeliveredNotifications(withIdentifiers: ids)

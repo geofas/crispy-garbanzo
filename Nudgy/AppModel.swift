@@ -15,6 +15,8 @@ final class AppModel: ObservableObject {
 
     private var tracker = NudgeTracker()
     private var phoneDelivers = false
+    /// Whether the Watch has been told about the current session.
+    private var watchInformed = false
     private var timer: Timer?
 
     private let notifier = NotificationScheduler()
@@ -28,11 +30,16 @@ final class AppModel: ObservableObject {
         connectivity.onActivated = { [weak self] in
             guard let self else { return }
             self.connectivity.pushPresets(self.presets)
+            self.reconcileDelivery()
         }
         connectivity.activate()
 
         if let saved = SessionStore.loadActive() {
-            resume(saved)
+            if saved.isExpired(at: Date()) {
+                SessionStore.saveActive(nil)
+            } else {
+                resume(saved)
+            }
         }
     }
 
@@ -54,7 +61,6 @@ final class AppModel: ObservableObject {
     // MARK: Session lifecycle
 
     func start(_ preset: SessionPreset) {
-        notifier.requestAuthorization()
         begin(ActiveSession.start(preset, at: Date()), originatedHere: true)
     }
 
@@ -93,16 +99,39 @@ final class AppModel: ObservableObject {
         active = session
         tracker.begin(session, now: Date())
         SessionStore.saveActive(session)
+        SessionStore.savePhoneDelivers(plan.phone)
 
         if plan.phone { notifier.scheduleBackups(for: session) }
         if originatedHere && plan.watch { connectivity.send(.start(session)) }
+        watchInformed = !originatedHere || plan.watch
         startTicking()
+    }
+
+    /// The Watch connection activates shortly after launch, so the first delivery decision
+    /// can be made without knowing about the Watch. This corrects it once the facts are in.
+    private func reconcileDelivery() {
+        guard let session = active, !session.isFinished(at: Date()) else { return }
+        let plan = DeliveryPlan.resolve(target: session.target, watchAvailable: connectivity.watchAvailable)
+        if plan.phone != phoneDelivers {
+            phoneDelivers = plan.phone
+            SessionStore.savePhoneDelivers(plan.phone)
+            if plan.phone {
+                notifier.scheduleBackups(for: session)
+            } else {
+                notifier.cancelPending(for: session)
+            }
+        }
+        if plan.watch && !watchInformed {
+            connectivity.send(.start(session))
+            watchInformed = true
+        }
     }
 
     /// Restores a session after the app was terminated and relaunched.
     private func resume(_ session: ActiveSession) {
-        let plan = DeliveryPlan.resolve(target: session.target, watchAvailable: connectivity.watchAvailable)
-        phoneDelivers = plan.phone
+        // Use the decision saved when the session started; `reconcileDelivery` corrects it if needed.
+        phoneDelivers = SessionStore.loadPhoneDelivers() ?? true
+        watchInformed = false
         active = session
         tracker.begin(session, now: Date())
         startTicking()
@@ -142,6 +171,11 @@ final class AppModel: ObservableObject {
 
     private func tick() {
         now = Date()
+        if let session = active, session.isExpired(at: now) {
+            notifier.cancelAll(for: session)
+            clear()
+            return
+        }
         guard phoneDelivers else { return }
         for nudge in tracker.takeDue(at: now) {
             notifier.cancelBackup(id: nudge.id)

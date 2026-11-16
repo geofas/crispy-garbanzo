@@ -29,7 +29,7 @@ final class WatchModel: ObservableObject {
         connectivity.activate()
 
         if let saved = SessionStore.loadActive() {
-            if saved.endDate.addingTimeInterval(3600) > Date() {
+            if !saved.isExpired(at: Date()) {
                 restore(saved)
             } else {
                 SessionStore.saveActive(nil)
@@ -40,7 +40,6 @@ final class WatchModel: ObservableObject {
     // MARK: Session lifecycle
 
     func start(_ preset: SessionPreset) {
-        notifier.requestAuthorization()
         let session = ActiveSession.start(preset, at: Date())
         begin(session)
         connectivity.send(.start(session))
@@ -131,6 +130,11 @@ final class WatchModel: ObservableObject {
     private func tick() {
         now = Date()
         guard let session = active else { return }
+        if session.isExpired(at: now) {
+            notifier.cancelAll(for: session)
+            clear()
+            return
+        }
         if watchDelivers {
             for nudge in tracker.takeDue(at: now) {
                 notifier.cancelBackup(id: nudge.id)

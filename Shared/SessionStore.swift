@@ -17,6 +17,17 @@ enum SessionStore {
         defaults.set(try? JSONEncoder().encode(presets), forKey: presetsKey)
     }
 
+    private static let phoneDeliversKey = "nudgy.phoneDelivers.v1"
+
+    /// Whether the iPhone delivers nudges for the saved session (nil if never saved).
+    static func loadPhoneDelivers() -> Bool? {
+        defaults.object(forKey: phoneDeliversKey) as? Bool
+    }
+
+    static func savePhoneDelivers(_ value: Bool) {
+        defaults.set(value, forKey: phoneDeliversKey)
+    }
+
     static func loadActive() -> ActiveSession? {
         guard let data = defaults.data(forKey: activeKey) else { return nil }
         return try? JSONDecoder().decode(ActiveSession.self, from: data)

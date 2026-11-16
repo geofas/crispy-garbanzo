@@ -63,6 +63,14 @@ public struct ActiveSession: Codable, Identifiable, Hashable, Sendable {
         date >= endDate
     }
 
+    /// How long a session may overrun before the apps discard it automatically.
+    public static let overrunGracePeriod: TimeInterval = 3600
+
+    /// True once the session has overrun by more than `overrunGracePeriod`.
+    public func isExpired(at date: Date) -> Bool {
+        date.timeIntervalSince(endDate) > Self.overrunGracePeriod
+    }
+
     /// Nudges whose fire date is strictly after `date`, earliest first.
     public func upcomingNudges(after date: Date) -> [ScheduledNudge] {
         nudges.filter { $0.fireDate > date }.sorted { $0.fireDate < $1.fireDate }

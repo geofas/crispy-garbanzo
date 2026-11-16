@@ -70,5 +70,5 @@ cd NudgyKit && swift test
 
 ## Verification status
 
-- `NudgyKit`: 19 unit tests pass (Swift 6.0, Linux).
+- `NudgyKit`: 20 unit tests pass (Swift 6.0, Linux).
 - iPhone and Watch app code: syntax-checked only. It has **not** been compiled against the iOS/watchOS SDKs or run on a device; the first Xcode build may surface errors.
