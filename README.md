@@ -15,7 +15,15 @@ Not built yet: paid/freemium (StoreKit), agenda segments, calendar import, compl
 
 ## Build
 
-Requires a Mac with Xcode 15 or later and [XcodeGen](https://github.com/yonaskolb/XcodeGen).
+Requires a Mac with Xcode. The automated build uses Xcode 16.4; older versions are untested.
+
+Open `Nudgy.xcodeproj` in Xcode. Select your team under Signing & Capabilities for both targets (`Nudgy`, `NudgyWatch`), then run the `Nudgy` scheme on your iPhone. The Watch app installs with it.
+
+Bundle IDs are `com.georgfasching.nudgy` and `com.georgfasching.nudgy.watchkitapp`.
+
+### Changing the project
+
+`Nudgy.xcodeproj` and the `Info.plist` / entitlements files are generated from `project.yml` by [XcodeGen](https://github.com/yonaskolb/XcodeGen). Do not edit them by hand: change `project.yml` instead. On any push to a non-main branch that touches `project.yml` or the app sources, the "Generate Xcode project" workflow regenerates the project on a Mac runner and commits it to that branch. To regenerate locally:
 
 ```bash
 brew install xcodegen
@@ -24,14 +32,6 @@ brew install xcodegen
 ```bash
 xcodegen generate
 ```
-
-```bash
-open Nudgy.xcodeproj
-```
-
-In Xcode: select your team under Signing & Capabilities for both targets (`Nudgy`, `NudgyWatch`), then run the `Nudgy` scheme on your iPhone. The Watch app installs with it.
-
-Bundle IDs are `com.georgfasching.nudgy` and `com.georgfasching.nudgy.watchkitapp`; change them in `project.yml` if needed.
 
 ## How nudges are delivered
 
@@ -58,8 +58,8 @@ Known limits:
 - `NudgyKit/` — platform-neutral logic (presets, scheduling, de-duplication, sync messages) with unit tests.
 - `Nudgy/` — iPhone app (SwiftUI).
 - `NudgyWatch/` — Watch app (SwiftUI).
-- `Shared/` — notification scheduling and storage used by both apps.
-- `project.yml` — XcodeGen project definition.
+- `Shared/` — session engine, iPhone ↔ Watch sync, notification scheduling and storage, used by both apps.
+- `project.yml` — XcodeGen project definition; `Nudgy.xcodeproj` is generated from it.
 - `archive/harness-engineering-trainer/` — the repository's previous content, kept for reference.
 
 ## Tests
@@ -70,6 +70,6 @@ cd NudgyKit && swift test
 
 ## Verification status
 
-- `NudgyKit`: 20 unit tests pass (Swift 6.0, Linux).
+- `NudgyKit`: 23 unit tests pass (Swift 6.0, Linux).
 - iPhone and Watch apps: compile for the iOS and watchOS simulators in GitHub Actions (Xcode 16.4, unsigned), on every push.
 - Not yet verified: running on real devices (haptics, wrist-down behaviour, iPhone ↔ Watch sync, notifications) and code signing.

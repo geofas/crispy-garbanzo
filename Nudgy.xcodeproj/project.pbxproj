@@ -1,0 +1,546 @@
+// !$*UTF8*$!
+{
+	archiveVersion = 1;
+	classes = {
+	};
+	objectVersion = 77;
+	objects = {
+
+/* Begin PBXBuildFile section */
+		00B17A87C555430CEC49BCA6 /* SessionStore.swift in Sources */ = {isa = PBXBuildFile; fileRef = F9B9F3AB87620D12550EAFD6 /* SessionStore.swift */; };
+		0D8804E580127280DB1DE8C1 /* PhoneHaptics.swift in Sources */ = {isa = PBXBuildFile; fileRef = E113E0A67B914C8B5BFC63B0 /* PhoneHaptics.swift */; };
+		19B753254AB619A39D6D9877 /* AppModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9A9F129880631F1D1DDEA2A3 /* AppModel.swift */; };
+		367742C01942EA61C415C795 /* NotificationScheduler.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7CFFFEA9B454239A31EDA5EE /* NotificationScheduler.swift */; };
+		3F84F65B297349F71611D048 /* RunningSessionView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4809F2E79C9AA633FD5F6308 /* RunningSessionView.swift */; };
+		418C47860B8A0CE432D1EB06 /* SessionStore.swift in Sources */ = {isa = PBXBuildFile; fileRef = F9B9F3AB87620D12550EAFD6 /* SessionStore.swift */; };
+		43DD3CF0EAE079DE8CFEB5B6 /* WatchModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 85079714F41FD983F9DF5195 /* WatchModel.swift */; };
+		7565140566C10318981BB19A /* PresetListView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7C3BAE7F3A4481054DBDA63A /* PresetListView.swift */; };
+		8E4E48345B6D8E4EF2FEB6CF /* NudgyKit in Frameworks */ = {isa = PBXBuildFile; productRef = 6A5D3DEDA899A0800F1B94AE /* NudgyKit */; };
+		93C4B812A0D8FE3BE0CE7297 /* SessionEngine.swift in Sources */ = {isa = PBXBuildFile; fileRef = 57FAF456ABA14EDECADED52E /* SessionEngine.swift */; };
+		97931C451465766A59AC96AF /* WatchSupport.swift in Sources */ = {isa = PBXBuildFile; fileRef = 52AEC2AF27E0D63515039C09 /* WatchSupport.swift */; };
+		AD8EF8AEBAB4BAB5A1ECB4F4 /* NudgyWatchApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = FEE661C3E69E1C0D987B0248 /* NudgyWatchApp.swift */; };
+		B0679B269BD13CBC07848E9D /* silence.wav in Resources */ = {isa = PBXBuildFile; fileRef = 35A0CDC8526F50FD011066E2 /* silence.wav */; };
+		B424A42B121EF283B61AFF16 /* SessionEngine.swift in Sources */ = {isa = PBXBuildFile; fileRef = 57FAF456ABA14EDECADED52E /* SessionEngine.swift */; };
+		BD761E443108C2222BE31F5E /* PresetEditorView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2BEF783FA141CB80FF29CAFD /* PresetEditorView.swift */; };
+		C6DF6A2421A4CF32A989C795 /* NudgyKit in Frameworks */ = {isa = PBXBuildFile; productRef = 7E99AED4B217136638C8B3A0 /* NudgyKit */; };
+		D0E1C20F7CA9FB0C9CDE3B63 /* NotificationScheduler.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7CFFFEA9B454239A31EDA5EE /* NotificationScheduler.swift */; };
+		D742D9AE6EF0092F00550028 /* PeerConnectivity.swift in Sources */ = {isa = PBXBuildFile; fileRef = D11B2B189BF09738D7685469 /* PeerConnectivity.swift */; };
+		F0410094EFA4D33B7C13046E /* NudgyWatch.app in Embed Watch Content */ = {isa = PBXBuildFile; fileRef = BD908CA3B7C9BE81DDA8E28C /* NudgyWatch.app */; settings = {ATTRIBUTES = (RemoveHeadersOnCopy, ); }; };
+		F20EB5622CD9C8FF5D6ED814 /* PeerConnectivity.swift in Sources */ = {isa = PBXBuildFile; fileRef = D11B2B189BF09738D7685469 /* PeerConnectivity.swift */; };
+		F6DFFCA8D918A4E208E228A8 /* NudgyApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4E64A7BA229780DC8821199 /* NudgyApp.swift */; };
+/* End PBXBuildFile section */
+
+/* Begin PBXContainerItemProxy section */
+		A13CECA13478F1B95A74E7CA /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 5ABFEFB689B385F7AEE568DA /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 36BC3437544293359EFA56D4;
+			remoteInfo = NudgyWatch;
+		};
+/* End PBXContainerItemProxy section */
+
+/* Begin PBXCopyFilesBuildPhase section */
+		29A507EDE1143453002A1698 /* Embed Watch Content */ = {
+			isa = PBXCopyFilesBuildPhase;
+			buildActionMask = 2147483647;
+			dstPath = "$(CONTENTS_FOLDER_PATH)/Watch";
+			dstSubfolderSpec = 16;
+			files = (
+				F0410094EFA4D33B7C13046E /* NudgyWatch.app in Embed Watch Content */,
+			);
+			name = "Embed Watch Content";
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXCopyFilesBuildPhase section */
+
+/* Begin PBXFileReference section */
+		2BEF783FA141CB80FF29CAFD /* PresetEditorView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PresetEditorView.swift; sourceTree = "<group>"; };
+		35A0CDC8526F50FD011066E2 /* silence.wav */ = {isa = PBXFileReference; lastKnownFileType = audio.wav; path = silence.wav; sourceTree = "<group>"; };
+		4809F2E79C9AA633FD5F6308 /* RunningSessionView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RunningSessionView.swift; sourceTree = "<group>"; };
+		52AEC2AF27E0D63515039C09 /* WatchSupport.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WatchSupport.swift; sourceTree = "<group>"; };
+		57FAF456ABA14EDECADED52E /* SessionEngine.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SessionEngine.swift; sourceTree = "<group>"; };
+		741BE4EB6F9F8995933635CC /* Nudgy.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = Nudgy.entitlements; sourceTree = "<group>"; };
+		7C3BAE7F3A4481054DBDA63A /* PresetListView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PresetListView.swift; sourceTree = "<group>"; };
+		7CFFFEA9B454239A31EDA5EE /* NotificationScheduler.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NotificationScheduler.swift; sourceTree = "<group>"; };
+		85079714F41FD983F9DF5195 /* WatchModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WatchModel.swift; sourceTree = "<group>"; };
+		86CBAE6285C368DE04D5DD45 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist; path = Info.plist; sourceTree = "<group>"; };
+		8D61DF1AEF2CBBC3F58FD0C5 /* Nudgy.app */ = {isa = PBXFileReference; includeInIndex = 0; lastKnownFileType = wrapper.application; path = Nudgy.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		9A9F129880631F1D1DDEA2A3 /* AppModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppModel.swift; sourceTree = "<group>"; };
+		A73136CE736E25F8A6D30BF8 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist; path = Info.plist; sourceTree = "<group>"; };
+		BD908CA3B7C9BE81DDA8E28C /* NudgyWatch.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = NudgyWatch.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		D11B2B189BF09738D7685469 /* PeerConnectivity.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PeerConnectivity.swift; sourceTree = "<group>"; };
+		D4E64A7BA229780DC8821199 /* NudgyApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NudgyApp.swift; sourceTree = "<group>"; };
+		E113E0A67B914C8B5BFC63B0 /* PhoneHaptics.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PhoneHaptics.swift; sourceTree = "<group>"; };
+		F9B9F3AB87620D12550EAFD6 /* SessionStore.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SessionStore.swift; sourceTree = "<group>"; };
+		FA0B4977AB5E5E706CCA0A90 /* NudgyKit */ = {isa = PBXFileReference; lastKnownFileType = folder; name = NudgyKit; path = NudgyKit; sourceTree = SOURCE_ROOT; };
+		FEE661C3E69E1C0D987B0248 /* NudgyWatchApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NudgyWatchApp.swift; sourceTree = "<group>"; };
+/* End PBXFileReference section */
+
+/* Begin PBXFrameworksBuildPhase section */
+		34F5DD67A14AA1A9A0FF49FC /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				8E4E48345B6D8E4EF2FEB6CF /* NudgyKit in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		69CBC0E70ABB85BE3C587DAB /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				C6DF6A2421A4CF32A989C795 /* NudgyKit in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXFrameworksBuildPhase section */
+
+/* Begin PBXGroup section */
+		296F605938B43F0ABC0516D3 /* Nudgy */ = {
+			isa = PBXGroup;
+			children = (
+				9A9F129880631F1D1DDEA2A3 /* AppModel.swift */,
+				A73136CE736E25F8A6D30BF8 /* Info.plist */,
+				741BE4EB6F9F8995933635CC /* Nudgy.entitlements */,
+				D4E64A7BA229780DC8821199 /* NudgyApp.swift */,
+				E113E0A67B914C8B5BFC63B0 /* PhoneHaptics.swift */,
+				2BEF783FA141CB80FF29CAFD /* PresetEditorView.swift */,
+				7C3BAE7F3A4481054DBDA63A /* PresetListView.swift */,
+				4809F2E79C9AA633FD5F6308 /* RunningSessionView.swift */,
+				35A0CDC8526F50FD011066E2 /* silence.wav */,
+			);
+			path = Nudgy;
+			sourceTree = "<group>";
+		};
+		7C9C78498F3F5930C344BE02 /* Shared */ = {
+			isa = PBXGroup;
+			children = (
+				7CFFFEA9B454239A31EDA5EE /* NotificationScheduler.swift */,
+				D11B2B189BF09738D7685469 /* PeerConnectivity.swift */,
+				57FAF456ABA14EDECADED52E /* SessionEngine.swift */,
+				F9B9F3AB87620D12550EAFD6 /* SessionStore.swift */,
+			);
+			path = Shared;
+			sourceTree = "<group>";
+		};
+		8AB531F45A3F53E3E14B801E /* Packages */ = {
+			isa = PBXGroup;
+			children = (
+				FA0B4977AB5E5E706CCA0A90 /* NudgyKit */,
+			);
+			name = Packages;
+			sourceTree = "<group>";
+		};
+		BE958506FE93340C45D8C485 /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				8D61DF1AEF2CBBC3F58FD0C5 /* Nudgy.app */,
+				BD908CA3B7C9BE81DDA8E28C /* NudgyWatch.app */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
+		EB1A3DE85FD6C7C62A6115A6 /* NudgyWatch */ = {
+			isa = PBXGroup;
+			children = (
+				86CBAE6285C368DE04D5DD45 /* Info.plist */,
+				FEE661C3E69E1C0D987B0248 /* NudgyWatchApp.swift */,
+				85079714F41FD983F9DF5195 /* WatchModel.swift */,
+				52AEC2AF27E0D63515039C09 /* WatchSupport.swift */,
+			);
+			path = NudgyWatch;
+			sourceTree = "<group>";
+		};
+		FF09917309770D3B635CB2EF = {
+			isa = PBXGroup;
+			children = (
+				296F605938B43F0ABC0516D3 /* Nudgy */,
+				EB1A3DE85FD6C7C62A6115A6 /* NudgyWatch */,
+				8AB531F45A3F53E3E14B801E /* Packages */,
+				7C9C78498F3F5930C344BE02 /* Shared */,
+				BE958506FE93340C45D8C485 /* Products */,
+			);
+			sourceTree = "<group>";
+		};
+/* End PBXGroup section */
+
+/* Begin PBXNativeTarget section */
+		36BC3437544293359EFA56D4 /* NudgyWatch */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = D42567501E428DE354054120 /* Build configuration list for PBXNativeTarget "NudgyWatch" */;
+			buildPhases = (
+				5B2E73011B0C7A418D333664 /* Sources */,
+				69CBC0E70ABB85BE3C587DAB /* Frameworks */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = NudgyWatch;
+			packageProductDependencies = (
+				7E99AED4B217136638C8B3A0 /* NudgyKit */,
+			);
+			productName = NudgyWatch;
+			productReference = BD908CA3B7C9BE81DDA8E28C /* NudgyWatch.app */;
+			productType = "com.apple.product-type.application";
+		};
+		B713FECF7F4BC92B3DBC831F /* Nudgy */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 9F948CBBEF05FD2F7063AF29 /* Build configuration list for PBXNativeTarget "Nudgy" */;
+			buildPhases = (
+				FF8FDBD1ABDA194F89F508B5 /* Sources */,
+				960071471DE3F06D5C7450AC /* Resources */,
+				34F5DD67A14AA1A9A0FF49FC /* Frameworks */,
+				29A507EDE1143453002A1698 /* Embed Watch Content */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				B660A925A43123EC2E09857D /* PBXTargetDependency */,
+			);
+			name = Nudgy;
+			packageProductDependencies = (
+				6A5D3DEDA899A0800F1B94AE /* NudgyKit */,
+			);
+			productName = Nudgy;
+			productReference = 8D61DF1AEF2CBBC3F58FD0C5 /* Nudgy.app */;
+			productType = "com.apple.product-type.application";
+		};
+/* End PBXNativeTarget section */
+
+/* Begin PBXProject section */
+		5ABFEFB689B385F7AEE568DA /* Project object */ = {
+			isa = PBXProject;
+			attributes = {
+				BuildIndependentTargetsInParallel = YES;
+				LastUpgradeCheck = 1430;
+				TargetAttributes = {
+					36BC3437544293359EFA56D4 = {
+						DevelopmentTeam = "";
+						ProvisioningStyle = Automatic;
+					};
+					B713FECF7F4BC92B3DBC831F = {
+						DevelopmentTeam = "";
+						ProvisioningStyle = Automatic;
+					};
+				};
+			};
+			buildConfigurationList = 322E2962BD873D572D1849DB /* Build configuration list for PBXProject "Nudgy" */;
+			developmentRegion = en;
+			hasScannedForEncodings = 0;
+			knownRegions = (
+				Base,
+				en,
+			);
+			mainGroup = FF09917309770D3B635CB2EF;
+			minimizedProjectReferenceProxies = 1;
+			packageReferences = (
+				72647D196B2C4AF9EBDBD6AB /* XCLocalSwiftPackageReference "NudgyKit" */,
+			);
+			preferredProjectObjectVersion = 77;
+			productRefGroup = BE958506FE93340C45D8C485 /* Products */;
+			projectDirPath = "";
+			projectRoot = "";
+			targets = (
+				B713FECF7F4BC92B3DBC831F /* Nudgy */,
+				36BC3437544293359EFA56D4 /* NudgyWatch */,
+			);
+		};
+/* End PBXProject section */
+
+/* Begin PBXResourcesBuildPhase section */
+		960071471DE3F06D5C7450AC /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				B0679B269BD13CBC07848E9D /* silence.wav in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXResourcesBuildPhase section */
+
+/* Begin PBXSourcesBuildPhase section */
+		5B2E73011B0C7A418D333664 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				D0E1C20F7CA9FB0C9CDE3B63 /* NotificationScheduler.swift in Sources */,
+				AD8EF8AEBAB4BAB5A1ECB4F4 /* NudgyWatchApp.swift in Sources */,
+				F20EB5622CD9C8FF5D6ED814 /* PeerConnectivity.swift in Sources */,
+				B424A42B121EF283B61AFF16 /* SessionEngine.swift in Sources */,
+				418C47860B8A0CE432D1EB06 /* SessionStore.swift in Sources */,
+				43DD3CF0EAE079DE8CFEB5B6 /* WatchModel.swift in Sources */,
+				97931C451465766A59AC96AF /* WatchSupport.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		FF8FDBD1ABDA194F89F508B5 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				19B753254AB619A39D6D9877 /* AppModel.swift in Sources */,
+				367742C01942EA61C415C795 /* NotificationScheduler.swift in Sources */,
+				F6DFFCA8D918A4E208E228A8 /* NudgyApp.swift in Sources */,
+				D742D9AE6EF0092F00550028 /* PeerConnectivity.swift in Sources */,
+				0D8804E580127280DB1DE8C1 /* PhoneHaptics.swift in Sources */,
+				BD761E443108C2222BE31F5E /* PresetEditorView.swift in Sources */,
+				7565140566C10318981BB19A /* PresetListView.swift in Sources */,
+				3F84F65B297349F71611D048 /* RunningSessionView.swift in Sources */,
+				93C4B812A0D8FE3BE0CE7297 /* SessionEngine.swift in Sources */,
+				00B17A87C555430CEC49BCA6 /* SessionStore.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXSourcesBuildPhase section */
+
+/* Begin PBXTargetDependency section */
+		B660A925A43123EC2E09857D /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = 36BC3437544293359EFA56D4 /* NudgyWatch */;
+			targetProxy = A13CECA13478F1B95A74E7CA /* PBXContainerItemProxy */;
+		};
+/* End PBXTargetDependency section */
+
+/* Begin XCBuildConfiguration section */
+		0EA19F7FEB3A16C8D7DE1C09 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++14";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_ENABLE_OBJC_WEAK = YES;
+				CLANG_WARN_BLOCK_CAPTURE_AUTORELEASING = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_COMMA = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DEPRECATED_OBJC_IMPLEMENTATIONS = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
+				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
+				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_QUOTED_INCLUDE_IN_FRAMEWORK_HEADER = YES;
+				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
+				CLANG_WARN_STRICT_PROTOTYPES = YES;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
+				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				CODE_SIGN_STYLE = Automatic;
+				COPY_PHASE_STRIP = NO;
+				CURRENT_PROJECT_VERSION = 1;
+				DEBUG_INFORMATION_FORMAT = dwarf;
+				DEVELOPMENT_TEAM = "";
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				ENABLE_TESTABILITY = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu11;
+				GCC_DYNAMIC_NO_PIC = NO;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"$(inherited)",
+					"DEBUG=1",
+				);
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 17.0;
+				MARKETING_VERSION = 0.1.0;
+				MTL_ENABLE_DEBUG_INFO = INCLUDE_SOURCE;
+				MTL_FAST_MATH = YES;
+				ONLY_ACTIVE_ARCH = YES;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_ACTIVE_COMPILATION_CONDITIONS = DEBUG;
+				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
+				SWIFT_VERSION = 5.0;
+				WATCHOS_DEPLOYMENT_TARGET = 10.0;
+			};
+			name = Debug;
+		};
+		3ADFA073468F6152BB91F3CD /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CODE_SIGN_ENTITLEMENTS = Nudgy/Nudgy.entitlements;
+				CODE_SIGN_IDENTITY = "iPhone Developer";
+				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_FILE = Nudgy/Info.plist;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+				);
+				PRODUCT_BUNDLE_IDENTIFIER = com.georgfasching.nudgy;
+				SDKROOT = iphoneos;
+				TARGETED_DEVICE_FAMILY = 1;
+			};
+			name = Debug;
+		};
+		7CF320A7B7B8556E168E449C /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++14";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_ENABLE_OBJC_WEAK = YES;
+				CLANG_WARN_BLOCK_CAPTURE_AUTORELEASING = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_COMMA = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DEPRECATED_OBJC_IMPLEMENTATIONS = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
+				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
+				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_QUOTED_INCLUDE_IN_FRAMEWORK_HEADER = YES;
+				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
+				CLANG_WARN_STRICT_PROTOTYPES = YES;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
+				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				CODE_SIGN_STYLE = Automatic;
+				COPY_PHASE_STRIP = NO;
+				CURRENT_PROJECT_VERSION = 1;
+				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				DEVELOPMENT_TEAM = "";
+				ENABLE_NS_ASSERTIONS = NO;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu11;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 17.0;
+				MARKETING_VERSION = 0.1.0;
+				MTL_ENABLE_DEBUG_INFO = NO;
+				MTL_FAST_MATH = YES;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_COMPILATION_MODE = wholemodule;
+				SWIFT_OPTIMIZATION_LEVEL = "-O";
+				SWIFT_VERSION = 5.0;
+				WATCHOS_DEPLOYMENT_TARGET = 10.0;
+			};
+			name = Release;
+		};
+		BF06FF501401C4C70F5ACD00 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CODE_SIGN_ENTITLEMENTS = Nudgy/Nudgy.entitlements;
+				CODE_SIGN_IDENTITY = "iPhone Developer";
+				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_FILE = Nudgy/Info.plist;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+				);
+				PRODUCT_BUNDLE_IDENTIFIER = com.georgfasching.nudgy;
+				SDKROOT = iphoneos;
+				TARGETED_DEVICE_FAMILY = 1;
+			};
+			name = Release;
+		};
+		CBC3873227E829CC8FF55892 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_FILE = NudgyWatch/Info.plist;
+				PRODUCT_BUNDLE_IDENTIFIER = com.georgfasching.nudgy.watchkitapp;
+				SDKROOT = watchos;
+				SKIP_INSTALL = YES;
+				TARGETED_DEVICE_FAMILY = 4;
+			};
+			name = Release;
+		};
+		E9791A5E79EE89BF78F53718 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_FILE = NudgyWatch/Info.plist;
+				PRODUCT_BUNDLE_IDENTIFIER = com.georgfasching.nudgy.watchkitapp;
+				SDKROOT = watchos;
+				SKIP_INSTALL = YES;
+				TARGETED_DEVICE_FAMILY = 4;
+			};
+			name = Debug;
+		};
+/* End XCBuildConfiguration section */
+
+/* Begin XCConfigurationList section */
+		322E2962BD873D572D1849DB /* Build configuration list for PBXProject "Nudgy" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				0EA19F7FEB3A16C8D7DE1C09 /* Debug */,
+				7CF320A7B7B8556E168E449C /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Debug;
+		};
+		9F948CBBEF05FD2F7063AF29 /* Build configuration list for PBXNativeTarget "Nudgy" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				3ADFA073468F6152BB91F3CD /* Debug */,
+				BF06FF501401C4C70F5ACD00 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Debug;
+		};
+		D42567501E428DE354054120 /* Build configuration list for PBXNativeTarget "NudgyWatch" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				E9791A5E79EE89BF78F53718 /* Debug */,
+				CBC3873227E829CC8FF55892 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Debug;
+		};
+/* End XCConfigurationList section */
+
+/* Begin XCLocalSwiftPackageReference section */
+		72647D196B2C4AF9EBDBD6AB /* XCLocalSwiftPackageReference "NudgyKit" */ = {
+			isa = XCLocalSwiftPackageReference;
+			relativePath = NudgyKit;
+		};
+/* End XCLocalSwiftPackageReference section */
+
+/* Begin XCSwiftPackageProductDependency section */
+		6A5D3DEDA899A0800F1B94AE /* NudgyKit */ = {
+			isa = XCSwiftPackageProductDependency;
+			productName = NudgyKit;
+		};
+		7E99AED4B217136638C8B3A0 /* NudgyKit */ = {
+			isa = XCSwiftPackageProductDependency;
+			productName = NudgyKit;
+		};
+/* End XCSwiftPackageProductDependency section */
+	};
+	rootObject = 5ABFEFB689B385F7AEE568DA /* Project object */;
+}

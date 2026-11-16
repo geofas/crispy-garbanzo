@@ -9,19 +9,20 @@ struct NudgyApp: App {
         WindowGroup {
             ContentView()
                 .environmentObject(model)
+                .environmentObject(model.engine)
         }
         .onChange(of: scenePhase) { _, phase in
-            if phase == .active { model.didBecomeActive() }
+            if phase == .active { model.engine.didBecomeActive() }
         }
     }
 }
 
 struct ContentView: View {
-    @EnvironmentObject private var model: AppModel
+    @EnvironmentObject private var engine: SessionEngine
 
     var body: some View {
-        if model.active != nil {
-            RunningSessionView()
+        if let session = engine.active {
+            RunningSessionView(session: session)
         } else {
             PresetListView()
         }

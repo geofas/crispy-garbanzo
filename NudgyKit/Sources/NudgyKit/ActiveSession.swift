@@ -66,9 +66,14 @@ public struct ActiveSession: Codable, Identifiable, Hashable, Sendable {
     /// How long a session may overrun before the apps discard it automatically.
     public static let overrunGracePeriod: TimeInterval = 3600
 
+    /// A nudge more than this many seconds late is skipped instead of played.
+    public static let staleNudgeInterval: TimeInterval = 30
+
+    public var expiryDate: Date { endDate.addingTimeInterval(Self.overrunGracePeriod) }
+
     /// True once the session has overrun by more than `overrunGracePeriod`.
     public func isExpired(at date: Date) -> Bool {
-        date.timeIntervalSince(endDate) > Self.overrunGracePeriod
+        date > expiryDate
     }
 
     /// Nudges whose fire date is strictly after `date`, earliest first.
@@ -83,7 +88,7 @@ public struct ActiveSession: Codable, Identifiable, Hashable, Sendable {
     /// Nudges that are due at `date` (fire date reached) and not in `delivered`.
     /// Nudges more than `staleAfter` seconds late are skipped, so reopening the app
     /// long after a nudge does not replay it.
-    public func dueNudges(at date: Date, delivered: Set<String>, staleAfter: TimeInterval = 30) -> [ScheduledNudge] {
+    public func dueNudges(at date: Date, delivered: Set<String>, staleAfter: TimeInterval = ActiveSession.staleNudgeInterval) -> [ScheduledNudge] {
         nudges
             .filter { !delivered.contains($0.id) }
             .filter { $0.fireDate <= date && date.timeIntervalSince($0.fireDate) <= staleAfter }

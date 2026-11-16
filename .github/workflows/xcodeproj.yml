@@ -1,0 +1,35 @@
+name: Generate Xcode project
+
+# Regenerates Nudgy.xcodeproj from project.yml on a Mac runner and commits it to the
+# branch, so the project opens in Xcode without installing XcodeGen.
+on:
+  workflow_dispatch:
+  push:
+    branches-ignore: [main]
+    paths: ["project.yml", ".github/workflows/xcodeproj.yml", "Nudgy/**", "NudgyWatch/**", "Shared/**"]
+
+permissions:
+  contents: read
+
+jobs:
+  generate:
+    runs-on: macos-15
+    permissions:
+      contents: write # commits the generated project back to the branch
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: ${{ github.ref_name }}
+      - run: brew install xcodegen
+      - run: rm -rf Nudgy.xcodeproj && xcodegen generate
+      - name: Commit the project if it changed
+        run: |
+          git add Nudgy.xcodeproj Nudgy/Info.plist Nudgy/Nudgy.entitlements NudgyWatch/Info.plist
+          if git diff --cached --quiet; then
+            echo "Project is up to date."
+            exit 0
+          fi
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git commit -m "Regenerate Xcode project from project.yml"
+          git push origin "HEAD:${{ github.ref_name }}"

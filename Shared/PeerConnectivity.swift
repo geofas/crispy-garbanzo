@@ -2,9 +2,10 @@ import Foundation
 import WatchConnectivity
 import NudgyKit
 
-/// iPhone side of iPhone ↔ Watch sync.
-final class PhoneConnectivity: NSObject, WCSessionDelegate {
+/// iPhone ↔ Watch sync, used by both apps.
+final class PeerConnectivity: NSObject, WCSessionDelegate {
     var onMessage: (@MainActor (SyncMessage) -> Void)?
+    /// Called when the connection becomes active or the paired-watch state changes.
     var onActivated: (@MainActor () -> Void)?
 
     private var session: WCSession? { WCSession.isSupported() ? WCSession.default : nil }
@@ -14,15 +15,18 @@ final class PhoneConnectivity: NSObject, WCSessionDelegate {
         session?.activate()
     }
 
-    /// A paired Apple Watch with Nudgy installed.
-    var watchAvailable: Bool {
+    /// The other device has Nudgy installed (and, on iPhone, a Watch is paired).
+    var peerAvailable: Bool {
         guard let s = session, s.activationState == .activated else { return false }
+        #if os(iOS)
         return s.isPaired && s.isWatchAppInstalled
+        #else
+        return s.isCompanionAppInstalled
+        #endif
     }
 
     func send(_ message: SyncMessage) {
-        guard let s = session, s.activationState == .activated, s.isPaired, s.isWatchAppInstalled,
-              let payload = try? message.encoded() else { return }
+        guard peerAvailable, let s = session, let payload = try? message.encoded() else { return }
         if s.isReachable {
             s.sendMessage(payload, replyHandler: nil) { _ in
                 // Fall back to queued delivery if the live message fails.
@@ -33,8 +37,9 @@ final class PhoneConnectivity: NSObject, WCSessionDelegate {
         }
     }
 
+    /// Latest-value sync: the Watch receives the current presets whenever it next connects.
     func pushPresets(_ presets: [SessionPreset]) {
-        guard let s = session, s.activationState == .activated, s.isPaired, s.isWatchAppInstalled,
+        guard peerAvailable, let s = session,
               let payload = try? SyncMessage.presets(presets).encoded() else { return }
         try? s.updateApplicationContext(payload)
     }
@@ -43,9 +48,11 @@ final class PhoneConnectivity: NSObject, WCSessionDelegate {
 
     func session(_ session: WCSession, activationDidCompleteWith activationState: WCSessionActivationState, error: Error?) {
         guard activationState == .activated else { return }
+        deliver(session.receivedApplicationContext)
         Task { @MainActor in self.onActivated?() }
     }
 
+    #if os(iOS)
     func sessionWatchStateDidChange(_ session: WCSession) {
         Task { @MainActor in self.onActivated?() }
     }
@@ -56,6 +63,7 @@ final class PhoneConnectivity: NSObject, WCSessionDelegate {
         // Required when the user switches to a different watch.
         session.activate()
     }
+    #endif
 
     func session(_ session: WCSession, didReceiveMessage message: [String: Any]) {
         deliver(message)
@@ -63,6 +71,10 @@ final class PhoneConnectivity: NSObject, WCSessionDelegate {
 
     func session(_ session: WCSession, didReceiveUserInfo userInfo: [String: Any] = [:]) {
         deliver(userInfo)
+    }
+
+    func session(_ session: WCSession, didReceiveApplicationContext applicationContext: [String: Any]) {
+        deliver(applicationContext)
     }
 
     private func deliver(_ dictionary: [String: Any]) {
