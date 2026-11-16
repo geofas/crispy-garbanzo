@@ -19,12 +19,14 @@
 		93C4B812A0D8FE3BE0CE7297 /* SessionEngine.swift in Sources */ = {isa = PBXBuildFile; fileRef = 57FAF456ABA14EDECADED52E /* SessionEngine.swift */; };
 		97931C451465766A59AC96AF /* WatchSupport.swift in Sources */ = {isa = PBXBuildFile; fileRef = 52AEC2AF27E0D63515039C09 /* WatchSupport.swift */; };
 		AD8EF8AEBAB4BAB5A1ECB4F4 /* NudgyWatchApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = FEE661C3E69E1C0D987B0248 /* NudgyWatchApp.swift */; };
+		AFC8FFAFE6C4FC6FBBC25EC1 /* Store.swift in Sources */ = {isa = PBXBuildFile; fileRef = D141A2403AAA9086AAD50A37 /* Store.swift */; };
 		B0679B269BD13CBC07848E9D /* silence.wav in Resources */ = {isa = PBXBuildFile; fileRef = 35A0CDC8526F50FD011066E2 /* silence.wav */; };
 		B424A42B121EF283B61AFF16 /* SessionEngine.swift in Sources */ = {isa = PBXBuildFile; fileRef = 57FAF456ABA14EDECADED52E /* SessionEngine.swift */; };
 		BD761E443108C2222BE31F5E /* PresetEditorView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2BEF783FA141CB80FF29CAFD /* PresetEditorView.swift */; };
 		C6DF6A2421A4CF32A989C795 /* NudgyKit in Frameworks */ = {isa = PBXBuildFile; productRef = 7E99AED4B217136638C8B3A0 /* NudgyKit */; };
 		D0E1C20F7CA9FB0C9CDE3B63 /* NotificationScheduler.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7CFFFEA9B454239A31EDA5EE /* NotificationScheduler.swift */; };
 		D742D9AE6EF0092F00550028 /* PeerConnectivity.swift in Sources */ = {isa = PBXBuildFile; fileRef = D11B2B189BF09738D7685469 /* PeerConnectivity.swift */; };
+		EA485E635EFA982A169E0BB7 /* UpgradeView.swift in Sources */ = {isa = PBXBuildFile; fileRef = A6F6CBB80885354CDD09A3E5 /* UpgradeView.swift */; };
 		F0410094EFA4D33B7C13046E /* NudgyWatch.app in Embed Watch Content */ = {isa = PBXBuildFile; fileRef = BD908CA3B7C9BE81DDA8E28C /* NudgyWatch.app */; settings = {ATTRIBUTES = (RemoveHeadersOnCopy, ); }; };
 		F20EB5622CD9C8FF5D6ED814 /* PeerConnectivity.swift in Sources */ = {isa = PBXBuildFile; fileRef = D11B2B189BF09738D7685469 /* PeerConnectivity.swift */; };
 		F6DFFCA8D918A4E208E228A8 /* NudgyApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4E64A7BA229780DC8821199 /* NudgyApp.swift */; };
@@ -67,9 +69,11 @@
 		86CBAE6285C368DE04D5DD45 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist; path = Info.plist; sourceTree = "<group>"; };
 		8D61DF1AEF2CBBC3F58FD0C5 /* Nudgy.app */ = {isa = PBXFileReference; includeInIndex = 0; lastKnownFileType = wrapper.application; path = Nudgy.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		9A9F129880631F1D1DDEA2A3 /* AppModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppModel.swift; sourceTree = "<group>"; };
+		A6F6CBB80885354CDD09A3E5 /* UpgradeView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UpgradeView.swift; sourceTree = "<group>"; };
 		A73136CE736E25F8A6D30BF8 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist; path = Info.plist; sourceTree = "<group>"; };
 		BD908CA3B7C9BE81DDA8E28C /* NudgyWatch.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = NudgyWatch.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		D11B2B189BF09738D7685469 /* PeerConnectivity.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PeerConnectivity.swift; sourceTree = "<group>"; };
+		D141A2403AAA9086AAD50A37 /* Store.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Store.swift; sourceTree = "<group>"; };
 		D4E64A7BA229780DC8821199 /* NudgyApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NudgyApp.swift; sourceTree = "<group>"; };
 		E113E0A67B914C8B5BFC63B0 /* PhoneHaptics.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PhoneHaptics.swift; sourceTree = "<group>"; };
 		F9B9F3AB87620D12550EAFD6 /* SessionStore.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SessionStore.swift; sourceTree = "<group>"; };
@@ -109,6 +113,8 @@
 				7C3BAE7F3A4481054DBDA63A /* PresetListView.swift */,
 				4809F2E79C9AA633FD5F6308 /* RunningSessionView.swift */,
 				35A0CDC8526F50FD011066E2 /* silence.wav */,
+				D141A2403AAA9086AAD50A37 /* Store.swift */,
+				A6F6CBB80885354CDD09A3E5 /* UpgradeView.swift */,
 			);
 			path = Nudgy;
 			sourceTree = "<group>";
@@ -289,6 +295,8 @@
 				3F84F65B297349F71611D048 /* RunningSessionView.swift in Sources */,
 				93C4B812A0D8FE3BE0CE7297 /* SessionEngine.swift in Sources */,
 				00B17A87C555430CEC49BCA6 /* SessionStore.swift in Sources */,
+				AFC8FFAFE6C4FC6FBBC25EC1 /* Store.swift in Sources */,
+				EA485E635EFA982A169E0BB7 /* UpgradeView.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
