@@ -92,11 +92,13 @@ struct WatchRunningView: View {
             }
 
             Button("End", role: .destructive) { confirmStop = true }
+                .confirmationDialog("End this session?", isPresented: $confirmStop, titleVisibility: .visible) {
+                    Button("End session", role: .destructive) { engine.stop() }
+                    Button("Keep running", role: .cancel) {}
+                }
                 .padding(.top, 4)
         }
-        .confirmationDialog("End this session?", isPresented: $confirmStop, titleVisibility: .visible) {
-            Button("End session", role: .destructive) { engine.stop() }
-            Button("Keep running", role: .cancel) {}
-        }
+        .frame(maxWidth: .infinity, maxHeight: .infinity)
+        .nudgeFlash(engine.nudgeFlash)
     }
 }

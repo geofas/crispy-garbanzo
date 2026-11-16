@@ -20,6 +20,8 @@ final class SessionEngine: ObservableObject {
     @Published private(set) var active: ActiveSession?
     /// Whether this device is the one delivering nudges for `active`.
     @Published private(set) var delivering = false
+    /// Goes up by one each time this device plays a nudge. The screen flashes white on change.
+    @Published private(set) var nudgeFlash = 0
 
     var onSessionBegan: (() -> Void)?
     var onSessionEnded: (() -> Void)?
@@ -160,6 +162,7 @@ final class SessionEngine: ObservableObject {
             for nudge in tracker.takeDue(at: now) {
                 notifier.cancelBackup(id: nudge.id)
                 platform.play(nudge.taps)
+                nudgeFlash += 1
             }
         }
         if session.upcomingNudges(after: now).isEmpty { onNudgesFinished?() }
@@ -183,6 +186,7 @@ final class SessionEngine: ObservableObject {
         guard let nudge = active?.nudges.first(where: { $0.id == id }) else { return }
         if tracker.claim(nudgeID: id) {
             platform.play(nudge.taps)
+            nudgeFlash += 1
         }
     }
 }

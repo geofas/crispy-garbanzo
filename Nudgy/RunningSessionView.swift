@@ -47,13 +47,16 @@ struct RunningSessionView: View {
             }
             .buttonStyle(.bordered)
             .controlSize(.large)
+            // Attached to the button so the confirmation appears from it.
+            .confirmationDialog("End this session?", isPresented: $confirmStop, titleVisibility: .visible) {
+                Button("End session", role: .destructive) { engine.stop() }
+                Button("Keep running", role: .cancel) {}
+            }
             .padding(.top, 24)
         }
         .padding(32)
-        .confirmationDialog("End this session?", isPresented: $confirmStop, titleVisibility: .visible) {
-            Button("End session", role: .destructive) { engine.stop() }
-            Button("Keep running", role: .cancel) {}
-        }
+        .frame(maxWidth: .infinity, maxHeight: .infinity)
+        .nudgeFlash(engine.nudgeFlash)
     }
 
     private func status(at now: Date) -> String {
