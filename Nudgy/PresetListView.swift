@@ -3,6 +3,7 @@ import NudgyKit
 
 struct PresetListView: View {
     @EnvironmentObject private var model: AppModel
+    @EnvironmentObject private var engine: SessionEngine
     @State private var editing: SessionPreset?
 
     var body: some View {
@@ -11,7 +12,7 @@ struct PresetListView: View {
                 Section {
                     ForEach(model.presets) { preset in
                         Button {
-                            model.start(preset)
+                            engine.start(preset)
                         } label: {
                             PresetRow(preset: preset)
                         }

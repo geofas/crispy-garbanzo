@@ -129,6 +129,29 @@ final class TrackerTests: XCTestCase {
         XCTAssertEqual(tracker.delivered, [s.nudges[0].id])
     }
 
+    func testNextWakeDateWalksNudgesThenExpiry() {
+        var tracker = NudgeTracker()
+        XCTAssertNil(tracker.nextWakeDate(after: start))
+        let s = ActiveSession.start(SessionPreset(name: "M", durationMinutes: 10, nudgeMinutesBeforeEnd: [5, 0]), at: start)
+        tracker.begin(s, now: start)
+        XCTAssertEqual(tracker.nextWakeDate(after: start), s.nudges[0].fireDate)
+        _ = tracker.takeDue(at: s.nudges[0].fireDate)
+        XCTAssertEqual(tracker.nextWakeDate(after: s.nudges[0].fireDate), s.endDate)
+        _ = tracker.takeDue(at: s.endDate)
+        let wake = tracker.nextWakeDate(after: s.endDate)
+        XCTAssertEqual(wake, s.expiryDate.addingTimeInterval(1))
+        XCTAssertTrue(s.isExpired(at: wake!))
+        XCTAssertNil(tracker.nextWakeDate(after: wake!))
+    }
+
+    func testNextWakeDateSkipsNudgesClaimedByBackup() {
+        var tracker = NudgeTracker()
+        let s = ActiveSession.start(SessionPreset(name: "M", durationMinutes: 10, nudgeMinutesBeforeEnd: [5, 0]), at: start)
+        tracker.begin(s, now: start)
+        XCTAssertTrue(tracker.claim(nudgeID: s.nudges[0].id))
+        XCTAssertEqual(tracker.nextWakeDate(after: start), s.endDate)
+    }
+
     func testEndClearsState() {
         var tracker = NudgeTracker()
         tracker.begin(ActiveSession.start(SessionPreset(name: "M", durationMinutes: 1, nudgeMinutesBeforeEnd: [0]), at: start), now: start)
@@ -145,6 +168,12 @@ final class DeliveryAndFormatTests: XCTestCase {
         XCTAssertEqual(DeliveryPlan.resolve(target: .phone, watchAvailable: true), DeliveryPlan(phone: true, watch: false))
         XCTAssertEqual(DeliveryPlan.resolve(target: .both, watchAvailable: true), DeliveryPlan(phone: true, watch: true))
         XCTAssertEqual(DeliveryPlan.resolve(target: .both, watchAvailable: false), DeliveryPlan(phone: true, watch: false))
+    }
+
+    func testDeliveryLabel() {
+        XCTAssertEqual(DeliveryPlan(phone: true, watch: true).label, "Watch + iPhone")
+        XCTAssertEqual(DeliveryPlan(phone: false, watch: true).label, "Apple Watch")
+        XCTAssertEqual(DeliveryPlan(phone: true, watch: false).label, "iPhone")
     }
 
     func testCountdown() {

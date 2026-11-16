@@ -24,6 +24,17 @@ public struct DeliveryPlan: Equatable, Sendable {
     }
 }
 
+extension DeliveryPlan {
+    /// Text for "Nudging on: …".
+    public var label: String {
+        switch (phone, watch) {
+        case (true, true): return "Watch + iPhone"
+        case (false, true): return "Apple Watch"
+        default: return "iPhone"
+        }
+    }
+}
+
 /// Seconds a backup notification fires after its nominal time. The in-app timer fires on
 /// time and cancels the backup; the backup only appears if the app was suspended.
 public let backupNotificationDelay: TimeInterval = 2

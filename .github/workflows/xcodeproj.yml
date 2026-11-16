@@ -1,0 +1,25 @@
+name: Generate Xcode project
+
+# Regenerates Nudgy.xcodeproj from project.yml and offers it as a download.
+# The result is committed to the repository so the project opens without XcodeGen.
+on:
+  workflow_dispatch:
+  push:
+    branches-ignore: [main]
+    paths: ["project.yml", ".github/workflows/xcodeproj.yml", "Nudgy/**", "NudgyWatch/**", "Shared/**"]
+
+permissions:
+  contents: read
+
+jobs:
+  generate:
+    runs-on: macos-15
+    steps:
+      - uses: actions/checkout@v4
+      - run: brew install xcodegen
+      - run: rm -rf Nudgy.xcodeproj && xcodegen generate
+      - run: tar czf xcodeproj.tgz Nudgy.xcodeproj Nudgy/Info.plist Nudgy/Nudgy.entitlements NudgyWatch/Info.plist
+      - uses: actions/upload-artifact@v4
+        with:
+          name: xcodeproj
+          path: xcodeproj.tgz

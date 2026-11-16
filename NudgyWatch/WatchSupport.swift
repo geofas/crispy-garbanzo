@@ -1,6 +1,5 @@
 import Foundation
 import WatchKit
-import WatchConnectivity
 import NudgyKit
 
 /// Distinct tap patterns on the wrist.
@@ -52,50 +51,5 @@ final class RuntimeSession: NSObject, WKExtendedRuntimeSessionDelegate {
             if self.session === extendedRuntimeSession { self.session = nil }
             self.onStateChange?(false)
         }
-    }
-}
-
-/// Watch side of iPhone ↔ Watch sync.
-final class WatchConnectivity: NSObject, WCSessionDelegate {
-    var onMessage: (@MainActor (SyncMessage) -> Void)?
-    private var session: WCSession { WCSession.default }
-
-    func activate() {
-        session.delegate = self
-        session.activate()
-    }
-
-    func send(_ message: SyncMessage) {
-        guard session.activationState == .activated, let payload = try? message.encoded() else { return }
-        let s = session
-        if s.isReachable {
-            s.sendMessage(payload, replyHandler: nil) { _ in
-                s.transferUserInfo(payload)
-            }
-        } else {
-            s.transferUserInfo(payload)
-        }
-    }
-
-    func session(_ session: WCSession, activationDidCompleteWith activationState: WCSessionActivationState, error: Error?) {
-        guard activationState == .activated else { return }
-        deliver(session.receivedApplicationContext)
-    }
-
-    func session(_ session: WCSession, didReceiveMessage message: [String: Any]) {
-        deliver(message)
-    }
-
-    func session(_ session: WCSession, didReceiveUserInfo userInfo: [String: Any] = [:]) {
-        deliver(userInfo)
-    }
-
-    func session(_ session: WCSession, didReceiveApplicationContext applicationContext: [String: Any]) {
-        deliver(applicationContext)
-    }
-
-    private func deliver(_ dictionary: [String: Any]) {
-        guard let message = SyncMessage.decode(dictionary) else { return }
-        Task { @MainActor in self.onMessage?(message) }
     }
 }
