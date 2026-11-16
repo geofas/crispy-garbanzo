@@ -71,4 +71,5 @@ cd NudgyKit && swift test
 ## Verification status
 
 - `NudgyKit`: 20 unit tests pass (Swift 6.0, Linux).
-- iPhone and Watch app code: syntax-checked only. It has **not** been compiled against the iOS/watchOS SDKs or run on a device; the first Xcode build may surface errors.
+- iPhone and Watch apps: compile for the iOS and watchOS simulators in GitHub Actions (Xcode 16.4, unsigned), on every push.
+- Not yet verified: running on real devices (haptics, wrist-down behaviour, iPhone ↔ Watch sync, notifications) and code signing.
