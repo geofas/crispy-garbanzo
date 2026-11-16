@@ -1,0 +1,82 @@
+# XcodeGen spec. Generate the Xcode project with:  xcodegen generate
+name: Nudgy
+options:
+  bundleIdPrefix: com.georgfasching
+  deploymentTarget:
+    iOS: "17.0"
+    watchOS: "10.0"
+  createIntermediateGroups: true
+
+settings:
+  base:
+    SWIFT_VERSION: "5.0"
+    MARKETING_VERSION: "0.1.0"
+    CURRENT_PROJECT_VERSION: "1"
+    CODE_SIGN_STYLE: Automatic
+    # Set your Apple Developer Team ID here (or pick the team once in Xcode).
+    DEVELOPMENT_TEAM: ""
+
+packages:
+  NudgyKit:
+    path: NudgyKit
+
+targets:
+  Nudgy:
+    type: application
+    platform: iOS
+    sources:
+      - Nudgy
+      - Shared
+    dependencies:
+      - package: NudgyKit
+      - target: NudgyWatch
+    settings:
+      base:
+        PRODUCT_BUNDLE_IDENTIFIER: com.georgfasching.nudgy
+        TARGETED_DEVICE_FAMILY: "1"
+        GENERATE_INFOPLIST_FILE: YES
+    info:
+      path: Nudgy/Info.plist
+      properties:
+        CFBundleDisplayName: Nudgy
+        CFBundleShortVersionString: $(MARKETING_VERSION)
+        CFBundleVersion: $(CURRENT_PROJECT_VERSION)
+        UILaunchScreen: {}
+        UISupportedInterfaceOrientations:
+          - UIInterfaceOrientationPortrait
+        ITSAppUsesNonExemptEncryption: false
+    entitlements:
+      path: Nudgy/Nudgy.entitlements
+      properties:
+        com.apple.developer.usernotifications.time-sensitive: true
+
+  NudgyWatch:
+    type: application
+    platform: watchOS
+    sources:
+      - NudgyWatch
+      - Shared
+    dependencies:
+      - package: NudgyKit
+    settings:
+      base:
+        PRODUCT_BUNDLE_IDENTIFIER: com.georgfasching.nudgy.watchkitapp
+        GENERATE_INFOPLIST_FILE: YES
+    info:
+      path: NudgyWatch/Info.plist
+      properties:
+        CFBundleDisplayName: Nudgy
+        CFBundleShortVersionString: $(MARKETING_VERSION)
+        CFBundleVersion: $(CURRENT_PROJECT_VERSION)
+        WKApplication: true
+        WKCompanionAppBundleIdentifier: com.georgfasching.nudgy
+        WKBackgroundModes:
+          - mindfulness
+
+schemes:
+  Nudgy:
+    build:
+      targets:
+        Nudgy: all
+    test:
+      targets: []
