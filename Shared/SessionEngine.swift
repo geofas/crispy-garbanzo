@@ -11,8 +11,8 @@ final class SessionEngine: ObservableObject {
         var delivers: @MainActor (ActiveSession) -> Bool
         /// Should the other device be told about the session?
         var peerShouldKnow: @MainActor (ActiveSession) -> Bool
-        /// Play a pattern of `taps` on this device.
-        var play: @MainActor (Int) -> Void
+        /// Play one nudge (sound and vibration) on this device.
+        var play: @MainActor () -> Void
         /// Send a message to the other device.
         var send: @MainActor (SyncMessage) -> Void
     }
@@ -161,7 +161,7 @@ final class SessionEngine: ObservableObject {
         if delivering {
             for nudge in tracker.takeDue(at: now) {
                 notifier.cancelBackup(id: nudge.id)
-                platform.play(nudge.taps)
+                platform.play()
                 nudgeFlash += 1
             }
         }
@@ -183,9 +183,9 @@ final class SessionEngine: ObservableObject {
     }
 
     private func playFromBackup(id: String) {
-        guard let nudge = active?.nudges.first(where: { $0.id == id }) else { return }
+        guard active?.nudges.contains(where: { $0.id == id }) == true else { return }
         if tracker.claim(nudgeID: id) {
-            platform.play(nudge.taps)
+            platform.play()
             nudgeFlash += 1
         }
     }

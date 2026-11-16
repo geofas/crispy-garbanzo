@@ -96,7 +96,6 @@ final class SchedulerTests: XCTestCase {
         XCTAssertEqual(s.cycles, 1)
         XCTAssertFalse(s.repeats)
         XCTAssertEqual(s.nudges.map(\.secondsLeft), [600, 300, 0])
-        XCTAssertEqual(s.nudges.map(\.taps), [1, 2, 3])
         XCTAssertEqual(s.nudges[0].fireDate, start.addingTimeInterval(50 * 60))
         XCTAssertEqual(s.nudges.map(\.message), ["10 min left", "5 min left", "Time's up"])
     }
@@ -104,18 +103,12 @@ final class SchedulerTests: XCTestCase {
     func testFifteenMinuteFreeTimer() {
         let s = ActiveSession.start(Catalog.fifteenMinutes, at: start)
         XCTAssertEqual(s.nudges.map { $0.fireDate.timeIntervalSince(start) }, [450, 600, 780, 900])
-        XCTAssertEqual(s.nudges.map(\.taps), [1, 1, 2, 3])
         XCTAssertEqual(s.nudges.map(\.message), ["7:30 left", "5 min left", "2 min left", "Time's up"])
-    }
-
-    func testSingleNonZeroNudgeIsFinalWarning() {
-        let s = ActiveSession.start(SessionPreset(name: "M", durationMinutes: 20, nudgeMinutesBeforeEnd: [3]), at: start)
-        XCTAssertEqual(s.nudges.map(\.taps), [2])
     }
 
     func testNoZeroNudge() {
         let s = ActiveSession.start(SessionPreset(name: "M", durationMinutes: 45, nudgeMinutesBeforeEnd: [15, 10, 5]), at: start)
-        XCTAssertEqual(s.nudges.map(\.taps), [1, 1, 2])
+        XCTAssertEqual(s.nudges.map(\.secondsLeft), [900, 600, 300])
     }
 
     func testNudgeAtSessionStartIsAllowed() {
@@ -167,7 +160,6 @@ final class RepeatTests: XCTestCase {
         XCTAssertEqual(s.cycles, 60)
         XCTAssertEqual(s.nudges.count, 60)
         XCTAssertEqual(s.endDate, start.addingTimeInterval(60 * 300))
-        XCTAssertEqual(s.nudges.map(\.taps), Array(repeating: 3, count: 60))
         XCTAssertEqual(s.nudges[0].fireDate, start.addingTimeInterval(300))
         XCTAssertEqual(s.nudges[1].fireDate, start.addingTimeInterval(600))
         XCTAssertEqual(Set(s.nudges.map(\.id)).count, 60)
@@ -179,7 +171,6 @@ final class RepeatTests: XCTestCase {
         XCTAssertEqual(s.cycles, 30, "two nudges per round, 60 nudges at most")
         XCTAssertEqual(s.endDate, start.addingTimeInterval(600))
         XCTAssertEqual(Array(s.nudges.prefix(4)).map { $0.fireDate.timeIntervalSince(start) }, [10, 20, 30, 40])
-        XCTAssertEqual(Array(s.nudges.prefix(2)).map(\.taps), [2, 3])
         XCTAssertEqual(Array(s.nudges.prefix(2)).map(\.message), ["10 sec left", "Time's up"])
         XCTAssertEqual(s.remaining(at: start.addingTimeInterval(25)), 15)
     }
@@ -199,10 +190,9 @@ final class RepeatTests: XCTestCase {
         XCTAssertEqual(s.cycles, 16)
         XCTAssertEqual(s.endDate, start.addingTimeInterval(8 * 3600))
         XCTAssertEqual(s.nudges.count, 32)
-        // Round 1: work ends at 25:00 (2 taps), break ends at 30:00 (3 taps).
+        // Round 1: work ends at 25:00, break ends at 30:00.
         XCTAssertEqual(s.nudges[0].fireDate, start.addingTimeInterval(25 * 60))
         XCTAssertEqual(s.nudges[1].fireDate, start.addingTimeInterval(30 * 60))
-        XCTAssertEqual(Array(s.nudges.prefix(2)).map(\.taps), [2, 3])
     }
 
     func testScheduledNudgesNeverExceedTheLimit() {

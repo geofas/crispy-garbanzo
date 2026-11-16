@@ -26,7 +26,7 @@ final class AppModel: ObservableObject {
         engine = SessionEngine(platform: .init(
             delivers: { DeliveryPlan.resolve(target: $0.target, watchAvailable: connectivity.peerAvailable).phone },
             peerShouldKnow: { DeliveryPlan.resolve(target: $0.target, watchAvailable: connectivity.peerAvailable).watch },
-            play: { PhoneHaptics.play(taps: $0) },
+            play: { PhoneAlert.play() },
             send: { connectivity.send($0) }
         ))
 
@@ -87,9 +87,9 @@ final class AppModel: ObservableObject {
         persist()
     }
 
-    /// Lets the user feel a pattern on the iPhone.
-    func preview(taps: Int) {
-        PhoneHaptics.play(taps: taps)
+    /// Lets the user hear and feel a nudge on the iPhone.
+    func previewNudge() {
+        PhoneAlert.play()
     }
 
     // MARK: Private

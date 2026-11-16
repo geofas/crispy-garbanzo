@@ -7,14 +7,10 @@ public struct ScheduledNudge: Codable, Identifiable, Hashable, Sendable {
     public var fireDate: Date
     /// Seconds left in the round when this nudge fires. 0 = time's up.
     public var secondsLeft: Int
-    /// Number of haptic taps: 1 = early warning, 2 = final warning, 3 = time's up.
-    public var taps: Int
-
-    public init(id: String, fireDate: Date, secondsLeft: Int, taps: Int) {
+    public init(id: String, fireDate: Date, secondsLeft: Int) {
         self.id = id
         self.fireDate = fireDate
         self.secondsLeft = secondsLeft
-        self.taps = taps
     }
 
     /// Short, discreet text for a notification banner.
@@ -152,25 +148,14 @@ public struct ActiveSession: Codable, Identifiable, Hashable, Sendable {
 
 public enum NudgeScheduler {
     /// Builds the nudges of one round for the given offsets (seconds before the round ends).
-    /// Tap rule: 0 → 3 taps (time's up); the smallest non-zero offset → 2 taps
-    /// (final warning); every earlier nudge → 1 tap.
+    /// Every nudge is the same: one flash, one sound, one vibration.
     public static func nudges(secondsBeforeEnd: [Int], cycleEnd: Date, sessionID: UUID, cycle: Int = 0) -> [ScheduledNudge] {
         let offsets = Array(Set(secondsBeforeEnd.filter { $0 >= 0 })).sorted(by: >)
-        let smallestNonZero = offsets.filter { $0 > 0 }.min()
         return offsets.map { seconds in
-            let taps: Int
-            if seconds == 0 {
-                taps = 3
-            } else if seconds == smallestNonZero {
-                taps = 2
-            } else {
-                taps = 1
-            }
-            return ScheduledNudge(
+            ScheduledNudge(
                 id: "nudgy.\(sessionID.uuidString).\(cycle).\(seconds)",
                 fireDate: cycleEnd.addingTimeInterval(TimeInterval(-seconds)),
-                secondsLeft: seconds,
-                taps: taps
+                secondsLeft: seconds
             )
         }
     }

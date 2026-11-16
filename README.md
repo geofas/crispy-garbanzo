@@ -5,11 +5,11 @@ For meeting chairs, facilitators, trainers and teachers.
 
 ## What it does
 
-- **Timers** with discreet nudges before the end: earlier nudges = 1 tap, last warning = 2 taps, end = 3 taps.
+- **Timers** with nudges before the end. Every nudge is the same: one white screen flash, one ding and one strong vibration. The ding follows Silent Mode on each device; the vibration does not.
 - **Free timers:** "Quick test" (20 seconds, nudges at 10 seconds left and at the end, repeating; for trying things out), "5 min" (repeat on by default) and "15 min" (nudges at 7:30, 5:00 and 2:00 left, and at the end).
 - **Paid timers**, shown under "Upgrade to Access" until unlocked: Meeting 30 and 60 min, Lesson 50 min, Workshop 90 min, Pomodoro 25 + 5, and timers of your own (any length, up to 6 nudges, Watch, iPhone or both).
 - **Repeat:** the loop button makes a timer restart by itself until you end it. Rounds are planned in advance, up to 60 nudges or 8 hours, because iOS allows 64 scheduled notifications per app.
-- **Pomodoro:** 2 taps when the 25 minutes of work end, 3 taps when the 5-minute break ends, then the next round. There is no long break.
+- **Pomodoro:** a nudge when the 25 minutes of work end and when the 5-minute break ends, then the next round. There is no long break.
 - Start a timer from the iPhone or the Watch. Both show the countdown; either can end it.
 - No account, no server. Data stays on the devices.
 
@@ -43,23 +43,21 @@ xcodegen generate
 
 ## How nudges are delivered
 
-| Situation | What you feel |
+| Situation | What you get |
 |---|---|
-| Watch, Nudgy open when the session starts, session ≤ 1 hour | Distinct patterns (1/2/3 taps), wrist down |
-| Watch, after 1 hour, or after pressing the crown / opening another app | A standard notification tap with "5 min left" |
-| Watch, session started from the iPhone and Nudgy not opened on the Watch | A standard notification tap |
-| iPhone, Nudgy on screen | Distinct patterns |
-| iPhone, locked or in another app | A notification vibration (silent sound file) |
-
-The Watch screen shows "Standard taps only" whenever the distinct patterns are not active.
+| Watch, Nudgy open when the session starts, session ≤ 1 hour | Nudgy plays the nudge itself, wrist down: strong haptic with sound, and a white flash if the screen is on |
+| Watch, after 1 hour, or after pressing the crown / opening another app | A notification: the system's haptic and sound, with "5 min left" |
+| Watch, session started from the iPhone and Nudgy not opened on the Watch | A notification, as above |
+| iPhone, Nudgy on screen | Ding, vibration and a white flash |
+| iPhone, locked or in another app | A notification with the same ding and a vibration |
 
 Why: watchOS suspends apps when the wrist drops. Nudgy uses a Mindfulness extended runtime session to stay running, which Apple limits to 1 hour and ends when the user leaves the app. Every nudge also has a backup notification scheduled 2 seconds later; the app cancels it when it plays the nudge itself.
 
 Known limits:
 
-- Watch haptics also make a sound unless the Watch is in Silent Mode. Turn Silent Mode on.
-- iPhone vibration needs "Play Haptics in Silent Mode" enabled in iOS Settings, and a Focus that allows Nudgy (nudges are marked Time Sensitive).
-- **App Review risk:** Apple's documentation says to choose the session type "based on the app's intended use". Nudgy is not a meditation app, so the Mindfulness mode may be rejected. Fallback: remove `WKBackgroundModes` from `project.yml`; the backup notifications then deliver every nudge as a standard tap.
+- The ding follows Silent Mode: with the iPhone's ring switch or the Watch's Silent Mode on, there is only the vibration.
+- A Focus must allow Nudgy for locked-phone nudges (they are marked Time Sensitive).
+- **App Review risk:** Apple's documentation says to choose the session type "based on the app's intended use". Nudgy is not a meditation app, so the Mindfulness mode may be rejected. Fallback: remove `WKBackgroundModes` from `project.yml`; the backup notifications then deliver every nudge on the Watch.
 
 ## Layout
 
@@ -78,6 +76,6 @@ cd NudgyKit && swift test
 
 ## Verification status
 
-- `NudgyKit`: 37 unit tests pass (Swift 6.0, Linux).
+- `NudgyKit`: 36 unit tests pass (Swift 6.0, Linux).
 - iPhone and Watch apps: compile for the iOS and watchOS simulators in GitHub Actions (Xcode 16.4, unsigned), on every push.
 - Not yet verified: running on real devices (haptics, wrist-down behaviour, iPhone ↔ Watch sync, notifications), the purchase flow, and code signing.

@@ -61,7 +61,7 @@ struct RunningSessionView: View {
 
     private func status(at now: Date) -> String {
         if let next = session.nextNudge(after: now) {
-            return "Next nudge: \(next.message) · \(next.taps) tap\(next.taps == 1 ? "" : "s")"
+            return "Next nudge: \(next.message)"
         }
         return session.isFinished(at: now) ? "Over time" : "No more nudges"
     }

@@ -2,17 +2,11 @@ import Foundation
 import WatchKit
 import NudgyKit
 
-/// Distinct tap patterns on the wrist.
+/// One nudge on the wrist: the strongest standard haptic, which also plays a sound
+/// unless the Watch is in Silent Mode.
 enum WatchHaptics {
-    static func play(taps: Int) {
-        Task { @MainActor in
-            for i in 0..<max(1, taps) {
-                WKInterfaceDevice.current().play(.notification)
-                if i < taps - 1 {
-                    try? await Task.sleep(nanoseconds: 900_000_000)
-                }
-            }
-        }
+    static func play() {
+        WKInterfaceDevice.current().play(.notification)
     }
 }
 

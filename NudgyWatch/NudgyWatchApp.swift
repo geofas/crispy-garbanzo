@@ -81,12 +81,6 @@ struct WatchRunningView: View {
                         Text("Next: \(next.message)")
                             .font(.caption2)
                             .foregroundStyle(.secondary)
-
-                        if engine.delivering && !model.patternsActive {
-                            Text("Standard taps only")
-                                .font(.caption2)
-                                .foregroundStyle(.orange)
-                        }
                     }
                 }
             }

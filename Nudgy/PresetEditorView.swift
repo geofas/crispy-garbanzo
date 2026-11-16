@@ -40,7 +40,7 @@ struct PresetEditorView: View {
                 } header: {
                     Text("Nudges")
                 } footer: {
-                    Text("Up to \(SessionPreset.maxNudges) nudges. Last warning = 2 taps, end = 3 taps, earlier = 1 tap.")
+                    Text("Up to \(SessionPreset.maxNudges) nudges. Each nudge is one flash, one ding and one vibration.")
                 }
 
                 Section {
@@ -53,13 +53,8 @@ struct PresetEditorView: View {
                     }
                 }
 
-                Section("Try the patterns on this iPhone") {
-                    HStack {
-                        ForEach(1...3, id: \.self) { taps in
-                            Button("\(taps) tap\(taps == 1 ? "" : "s")") { model.preview(taps: taps) }
-                                .buttonStyle(.bordered)
-                        }
-                    }
+                Section {
+                    Button("Try a nudge on this iPhone") { model.previewNudge() }
                 }
             }
             .navigationTitle("Timer")

@@ -44,8 +44,8 @@ final class NotificationScheduler: NSObject, UNUserNotificationCenterDelegate {
             content.body = session.presetName
             content.threadIdentifier = session.id.uuidString
             #if os(iOS)
-            // A silent sound file: the iPhone vibrates without making a noise.
-            content.sound = UNNotificationSound(named: UNNotificationSoundName("silence.wav"))
+            // Same ding as in the app. In Silent Mode the iPhone only vibrates.
+            content.sound = UNNotificationSound(named: UNNotificationSoundName("ding.wav"))
             content.interruptionLevel = .timeSensitive
             #else
             content.sound = .default

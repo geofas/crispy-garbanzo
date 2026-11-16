@@ -7,7 +7,7 @@ enum SessionStore {
     // v2: nudges are stored in seconds and timers can repeat.
     private static let presetsKey = "nudgy.presets.v2"
     private static let templatesKey = "nudgy.templates.v1"
-    private static let activeKey = "nudgy.activeSession.v2"
+    private static let activeKey = "nudgy.activeSession.v3"
     private static var defaults: UserDefaults { .standard }
 
     /// iPhone: the timers the user created. Watch: the timers the iPhone last sent.
