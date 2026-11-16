@@ -30,6 +30,17 @@ enum SessionStore {
         defaults.set(try? JSONEncoder().encode(templates), forKey: templatesKey)
     }
 
+    private static let themeKey = "nudgy.theme.v1"
+
+    /// iPhone: the theme the user picked. Watch: the theme the iPhone last sent.
+    static func loadTheme() -> Theme {
+        defaults.string(forKey: themeKey).flatMap(Theme.init(rawValue:)) ?? .basic
+    }
+
+    static func saveTheme(_ theme: Theme) {
+        defaults.set(theme.rawValue, forKey: themeKey)
+    }
+
     private static let deliversKey = "nudgy.delivers.v1"
 
     /// Whether this device delivers nudges for the saved session (nil if never saved).

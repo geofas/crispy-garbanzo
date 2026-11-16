@@ -35,6 +35,9 @@ targets:
         PRODUCT_BUNDLE_IDENTIFIER: com.georgfasching.nudgy
         TARGETED_DEVICE_FAMILY: "1"
         GENERATE_INFOPLIST_FILE: YES
+        ASSETCATALOG_COMPILER_APPICON_NAME: AppIcon
+        # Theme icons; names must match Theme.alternateIconName in NudgyKit.
+        ASSETCATALOG_COMPILER_ALTERNATE_APPICON_NAMES: "AppIcon-QuietSignal AppIcon-FriendlyTap"
     info:
       path: Nudgy/Info.plist
       properties:
@@ -44,6 +47,9 @@ targets:
         UILaunchScreen: {}
         UISupportedInterfaceOrientations:
           - UIInterfaceOrientationPortrait
+        UIAppFonts:
+          - SpaceGrotesk.ttf
+          - Figtree.ttf
         ITSAppUsesNonExemptEncryption: false
     entitlements:
       path: Nudgy/Nudgy.entitlements
@@ -62,6 +68,7 @@ targets:
       base:
         PRODUCT_BUNDLE_IDENTIFIER: com.georgfasching.nudgy.watchkitapp
         GENERATE_INFOPLIST_FILE: YES
+        ASSETCATALOG_COMPILER_APPICON_NAME: AppIcon
     info:
       path: NudgyWatch/Info.plist
       properties:
@@ -72,6 +79,9 @@ targets:
         WKCompanionAppBundleIdentifier: com.georgfasching.nudgy
         WKBackgroundModes:
           - mindfulness
+        UIAppFonts:
+          - SpaceGrotesk.ttf
+          - Figtree.ttf
 
 schemes:
   Nudgy:

@@ -11,6 +11,7 @@ struct UpgradeView: View {
                 Section {
                     Label("All built-in timers, including Pomodoro", systemImage: "timer")
                     Label("Unlimited timers of your own", systemImage: "slider.horizontal.3")
+                    Label("Two themes: Quiet Signal and Friendly Tap", systemImage: "paintpalette")
                     Label("On iPhone and Apple Watch", systemImage: "applewatch")
                     Label("Pay once. No subscription.", systemImage: "checkmark.seal")
                 } header: {

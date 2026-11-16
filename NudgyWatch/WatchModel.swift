@@ -8,6 +8,8 @@ import NudgyKit
 @MainActor
 final class WatchModel: ObservableObject {
     @Published private(set) var presets: [SessionPreset]
+    /// The theme the iPhone last sent; Basic until it has sent one.
+    @Published private(set) var theme: Theme
     /// True while the extended runtime session is running, i.e. Nudgy plays nudges itself
     /// with the wrist down. False means only the backup notifications are active.
     @Published private(set) var patternsActive = false
@@ -21,6 +23,7 @@ final class WatchModel: ObservableObject {
         self.connectivity = connectivity
         // Until the iPhone has sent its list, offer the free timers.
         presets = SessionStore.loadPresets() ?? Catalog.available(templates: Catalog.templates, custom: [], unlocked: false)
+        theme = SessionStore.loadTheme()
         engine = SessionEngine(platform: .init(
             delivers: { $0.target != .phone },
             peerShouldKnow: { _ in true },
@@ -31,6 +34,10 @@ final class WatchModel: ObservableObject {
         engine.onPresets = { [weak self] list in
             self?.presets = list
             SessionStore.savePresets(list)
+        }
+        engine.onTheme = { [weak self] theme in
+            self?.theme = theme
+            SessionStore.saveTheme(theme)
         }
         engine.onSessionBegan = { [weak self] in self?.startRuntimeIfNeeded() }
         engine.onSessionEnded = { [weak self] in self?.runtime.stop() }

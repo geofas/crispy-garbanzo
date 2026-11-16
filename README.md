@@ -7,9 +7,11 @@ For meeting chairs, facilitators, trainers and teachers.
 
 - **Timers** with nudges before the end. Every nudge is the same: one white screen flash, one ding and one strong vibration. The ding follows Silent Mode on each device; the vibration does not.
 - **Free timers:** "Quick test" (20 seconds, nudges at 10 seconds left and at the end, repeating; for trying things out), "5 min" (repeat on by default) and "15 min" (nudges at 7:30, 5:00 and 2:00 left, and at the end).
-- **Paid timers**, shown under "Upgrade to Access" until unlocked: Meeting 30 and 60 min, Lesson 50 min, Workshop 90 min, Pomodoro 25 + 5, and timers of your own (any length, up to 6 nudges, Watch, iPhone or both).
+- **Paid timers**, shown under "Unlock with the one-time purchase" until unlocked: Meeting 30 and 60 min, Lesson 50 min, Workshop 90 min, Pomodoro 25 + 5, and timers of your own (any length, up to 6 nudges, Watch, iPhone or both).
 - **Repeat:** the loop button makes a timer restart by itself until you end it. Rounds are planned in advance, up to 60 nudges or 8 hours, because iOS allows 64 scheduled notifications per app.
 - **Pomodoro:** a nudge when the 25 minutes of work end and when the 5-minute break ends, then the next round. There is no long break.
+- **Running screen:** the countdown, the next nudge, and every nudge of the round in words, marked Done, Next or still to come.
+- **Themes:** Basic (the standard iOS look) is free and the default. The unlock adds Quiet Signal (dark, amber) and Friendly Tap (light, violet), from the design canvas boards A2 and B2. Pick one with the palette button on the timer list. The iPhone app icon changes with the theme; the Watch follows the theme but keeps one icon.
 - Start a timer from the iPhone or the Watch. Both show the countdown; either can end it.
 - No account, no server. Data stays on the devices.
 
@@ -17,9 +19,17 @@ Not built yet: agenda segments, calendar import, complications, App Store assets
 
 ## The one-time unlock
 
-- Sold on the iPhone only (StoreKit 2). The iPhone sends the Watch the timers the user may start, so the Watch needs no purchase logic.
+- Sold on the iPhone only (StoreKit 2). The iPhone sends the Watch the timers the user may start and the theme to show, so the Watch needs no purchase logic.
+- It unlocks the paid timers, timers of your own and the two themes. If the unlock is lost (for example after a refund), the app falls back to Basic and the primary icon.
 - Product ID: `com.georgfasching.nudgy.unlock`. Create it in App Store Connect as a **non-consumable** in-app purchase. Until it exists, the upgrade screen says "The purchase isn't available yet."
 - Builds run from Xcode (debug builds) show an "Unlock for testing" switch on the upgrade screen. It is not compiled into App Store builds.
+
+## Themes
+
+- `NudgyKit/Sources/NudgyKit/Theme.swift` — the three themes and the free/paid rule.
+- `Shared/ThemeStyle.swift` — colours and type per theme, for iPhone and Watch. Basic leaves everything to the system.
+- Typefaces: Space Grotesk (Quiet Signal countdown and headings) and Figtree (Friendly Tap), in `Shared/Fonts/`, under the SIL Open Font License (licence files beside them). If a font fails to load, the system font is used.
+- App icons: `Nudgy/Assets.xcassets` holds `AppIcon` (Basic) and the alternate icons `AppIcon-QuietSignal` and `AppIcon-FriendlyTap`. Their names must match `Theme.alternateIconName` and `ASSETCATALOG_COMPILER_ALTERNATE_APPICON_NAMES` in `project.yml`. The Watch has one icon (`NudgyWatch/Assets.xcassets`).
 
 ## Build
 

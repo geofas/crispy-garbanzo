@@ -28,6 +28,7 @@ final class SessionEngine: ObservableObject {
     /// Called whenever the engine wakes and no nudges remain.
     var onNudgesFinished: (() -> Void)?
     var onPresets: (([SessionPreset]) -> Void)?
+    var onTheme: ((Theme) -> Void)?
 
     private let platform: Platform
     private let notifier = NotificationScheduler()
@@ -112,6 +113,9 @@ final class SessionEngine: ObservableObject {
             clear()
         case .presets(let list):
             onPresets?(list)
+        case .appState(let list, let theme):
+            onPresets?(list)
+            onTheme?(theme)
         }
     }
 

@@ -3,8 +3,11 @@ import NudgyKit
 
 struct PresetListView: View {
     @EnvironmentObject private var model: AppModel
+    @EnvironmentObject private var store: Store
+    @Environment(\.themeStyle) private var style
     @State private var editing: SessionPreset?
     @State private var showingUpgrade = false
+    @State private var showingThemes = false
 
     var body: some View {
         NavigationStack {
@@ -12,6 +15,7 @@ struct PresetListView: View {
                 Section {
                     ForEach(model.availableTemplates) { preset in
                         TimerRow(preset: preset)
+                            .themedRow(style)
                     }
                 } footer: {
                     Text("Tap a timer to start it. The loop button makes it restart by itself until you end it.")
@@ -21,6 +25,7 @@ struct PresetListView: View {
                     Section {
                         ForEach(model.custom) { preset in
                             TimerRow(preset: preset)
+                                .themedRow(style)
                                 .swipeActions(edge: .leading) {
                                     Button("Edit") { editing = preset }.tint(.blue)
                                 }
@@ -32,6 +37,7 @@ struct PresetListView: View {
                         } label: {
                             Label("New timer", systemImage: "plus")
                         }
+                        .themedRow(style)
                     } header: {
                         Text("Your timers")
                     } footer: {
@@ -45,34 +51,67 @@ struct PresetListView: View {
                             LockedRow(title: preset.name, subtitle: TimerRow.summary(for: preset)) {
                                 showingUpgrade = true
                             }
+                            .themedRow(style)
                         }
-                        LockedRow(title: "Your own timers", subtitle: "Any length, your own nudges") {
+                        LockedRow(title: "Your own timers", subtitle: "Any length, nudges wherever you want them") {
                             showingUpgrade = true
                         }
+                        .themedRow(style)
+                        LockedRow(title: "Themes", subtitle: "Quiet Signal and Friendly Tap") {
+                            showingUpgrade = true
+                        }
+                        .themedRow(style)
                     } header: {
-                        Text("Upgrade to Access")
+                        Text("Unlock with the one-time purchase")
                     } footer: {
-                        Button("Upgrade") { showingUpgrade = true }
+                        VStack(spacing: 6) {
+                            Button { showingUpgrade = true } label: {
+                                Text(unlockTitle).frame(maxWidth: .infinity)
+                            }
                             .buttonStyle(.borderedProminent)
-                            .frame(maxWidth: .infinity)
-                            .padding(.top, 8)
+                            .foregroundStyle(style.onAccent)
+                            .controlSize(.large)
+                            Text("Pay once. No subscription.")
+                                .font(style.text(.footnote))
+                                .foregroundStyle(style.secondaryText)
+                        }
+                        .padding(.top, 8)
                     }
                 }
             }
+            .themedListBackground(style)
             .navigationTitle("Nudgy")
+            .toolbar {
+                ToolbarItem(placement: .topBarTrailing) {
+                    Button { showingThemes = true } label: {
+                        Image(systemName: "paintpalette")
+                    }
+                    .accessibilityLabel("Theme")
+                }
+            }
             .sheet(item: $editing) { preset in
-                PresetEditorView(preset: preset)
+                PresetEditorView(preset: preset).themed(model.theme)
             }
             .sheet(isPresented: $showingUpgrade) {
-                UpgradeView()
+                UpgradeView().themed(model.theme)
+            }
+            .sheet(isPresented: $showingThemes) {
+                ThemePickerView().themed(model.theme)
             }
         }
+    }
+
+    /// "Unlock all · €4.99" once the App Store has returned the price; "Unlock all" before that.
+    private var unlockTitle: String {
+        if let price = store.product?.displayPrice { return "Unlock all · \(price)" }
+        return "Unlock all"
     }
 }
 
 /// A timer the user may start.
 struct TimerRow: View {
     @EnvironmentObject private var model: AppModel
+    @Environment(\.themeStyle) private var style
     let preset: SessionPreset
 
     var body: some View {
@@ -82,8 +121,8 @@ struct TimerRow: View {
             } label: {
                 HStack {
                     VStack(alignment: .leading, spacing: 4) {
-                        Text(preset.name).font(.headline)
-                        Text(Self.summary(for: preset)).font(.subheadline).foregroundStyle(.secondary)
+                        Text(preset.name).font(style.text(.headline, weight: .semibold))
+                        Text(Self.summary(for: preset)).font(style.text(.subheadline)).foregroundStyle(style.secondaryText)
                     }
                     Spacer()
                     Image(systemName: "play.circle.fill")
@@ -99,9 +138,9 @@ struct TimerRow: View {
             } label: {
                 Image(systemName: "repeat")
                     .font(.body.weight(.semibold))
-                    .foregroundStyle(preset.repeats ? Color.white : Color.secondary)
+                    .foregroundStyle(preset.repeats ? style.onAccent : style.secondaryText)
                     .padding(8)
-                    .background(preset.repeats ? Color.accentColor : Color.secondary.opacity(0.15), in: Circle())
+                    .background(preset.repeats ? style.accent : style.secondaryText.opacity(0.15), in: Circle())
             }
             .buttonStyle(.plain)
             .accessibilityLabel("Repeat")
@@ -119,6 +158,7 @@ struct TimerRow: View {
 
 /// A timer shown under "Upgrade to Access": visible, dimmed, and not startable.
 struct LockedRow: View {
+    @Environment(\.themeStyle) private var style
     let title: String
     let subtitle: String
     let action: () -> Void
@@ -127,12 +167,12 @@ struct LockedRow: View {
         Button(action: action) {
             HStack {
                 VStack(alignment: .leading, spacing: 4) {
-                    Text(title).font(.headline)
-                    Text(subtitle).font(.subheadline).foregroundStyle(.secondary)
+                    Text(title).font(style.text(.headline, weight: .semibold))
+                    Text(subtitle).font(style.text(.subheadline)).foregroundStyle(style.secondaryText)
                 }
                 Spacer()
                 Image(systemName: "lock.fill")
-                    .foregroundStyle(.secondary)
+                    .foregroundStyle(style.secondaryText)
             }
             .contentShape(Rectangle())
         }

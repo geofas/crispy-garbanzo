@@ -115,7 +115,7 @@
         <div>
           <p class="eyebrow">For iPhone and Apple Watch · Coming soon</p>
           <h1>Finish on time without watching the clock.</h1>
-          <p class="lede">Nudgy Timer taps your wrist at the points you choose before a session ends. One tap, then two, then three at the end. You keep your eyes on the room.</p>
+          <p class="lede">Nudgy Timer taps your wrist at the points you choose before a session ends, such as five minutes left, two minutes left and time. You keep your eyes on the room.</p>
 
           <form class="waitlist" id="waitlist" action="/api/waitlist" method="post" data-source="hero">
             <label for="email-hero">Get one email when it reaches the App Store</label>
@@ -134,7 +134,7 @@
 
         <div class="hero-art">
           <svg viewBox="0 0 320 420" role="img" aria-labelledby="watch-title">
-            <title id="watch-title">Illustration of a watch showing five minutes left, with two tap marks.</title>
+            <title id="watch-title">Illustration of a watch showing five minutes left.</title>
             <rect class="pulse" x="46" y="96" width="228" height="228" rx="64" fill="none" stroke="var(--accent)" stroke-width="6"/>
             <rect class="pulse p2" x="46" y="96" width="228" height="228" rx="64" fill="none" stroke="var(--accent)" stroke-width="6"/>
             <path d="M106 108 L114 14 Q115 4 125 4 H195 Q205 4 206 14 L214 108 Z" fill="var(--surface-2)" stroke="var(--line)" stroke-width="2"/>
@@ -145,8 +145,6 @@
             <text x="160" y="176" text-anchor="middle" font-family="-apple-system, 'Segoe UI', Roboto, sans-serif" font-size="14" font-weight="600" fill="#a9b3bf" letter-spacing="1">WORKSHOP</text>
             <text x="160" y="228" text-anchor="middle" font-family="-apple-system, 'Segoe UI', Roboto, sans-serif" font-size="50" font-weight="700" fill="#f6f1e8">5:00</text>
             <text x="160" y="252" text-anchor="middle" font-family="-apple-system, 'Segoe UI', Roboto, sans-serif" font-size="14" fill="#a9b3bf">left</text>
-            <circle cx="150" cy="274" r="5" fill="#f5a04a"/>
-            <circle cx="170" cy="274" r="5" fill="#f5a04a"/>
           </svg>
         </div>
       </div>
@@ -188,30 +186,40 @@
       </div>
     </section>
 
-    <section class="band" aria-labelledby="taps-title">
+    <section class="band" id="themes" aria-labelledby="themes-title">
       <div class="wrap">
         <div class="section-head">
-          <p class="eyebrow">The tap pattern</p>
-          <h2 id="taps-title">You know where you are by the count.</h2>
-          <p class="muted">Each kind of nudge feels different, so you never need to look.</p>
+          <p class="eyebrow">Themes</p>
+          <h2 id="themes-title">Two looks to choose from.</h2>
+          <p class="muted">Nudgy Timer starts in the standard iPhone look. The one-time unlock adds two themes, each with its own app icon. Your Apple Watch follows the theme you pick.</p>
         </div>
-        <div class="taps">
-          <div class="card">
-            <div class="dots" aria-hidden="true"><span></span></div>
-            <h3>One tap</h3>
-            <p class="muted">An earlier nudge. Time to start steering towards the close.</p>
-          </div>
-          <div class="card">
-            <div class="dots" aria-hidden="true"><span></span><span></span></div>
-            <h3>Two taps</h3>
-            <p class="muted">The last warning. Wrap up the point you are on.</p>
-          </div>
-          <div class="card">
-            <div class="dots" aria-hidden="true"><span></span><span></span><span></span></div>
-            <h3>Three taps</h3>
-            <p class="muted">Time's up.</p>
-          </div>
+        <div class="themes">
+          <figure class="card theme-card">
+            <div class="theme-screen theme-quiet" role="img" aria-label="Quiet Signal theme: a dark running-session screen with 6:12 left and the next nudge at 5 minutes left, in amber.">
+              <span class="theme-label">15 min</span>
+              <span class="theme-count">6:12</span>
+              <span class="theme-next">Next nudge: 5 min left</span>
+              <span class="theme-row theme-row-done">7:30 left <em>Done</em></span>
+              <span class="theme-row theme-row-next">5 min left <em>Next</em></span>
+              <span class="theme-row">2 min left</span>
+              <span class="theme-row">Time's up</span>
+            </div>
+            <figcaption><h3>Quiet Signal</h3><p class="muted">Dark, with an amber accent. Calm on a table in a dim room.</p></figcaption>
+          </figure>
+          <figure class="card theme-card">
+            <div class="theme-screen theme-friendly" role="img" aria-label="Friendly Tap theme: a light running-session screen with 6:12 left and the next nudge at 5 minutes left, in violet.">
+              <span class="theme-label">15 min</span>
+              <span class="theme-count">6:12</span>
+              <span class="theme-next">Next nudge: 5 min left</span>
+              <span class="theme-row theme-row-done">7:30 left <em>Done</em></span>
+              <span class="theme-row theme-row-next">5 min left <em>Next</em></span>
+              <span class="theme-row">2 min left</span>
+              <span class="theme-row">Time's up</span>
+            </div>
+            <figcaption><h3>Friendly Tap</h3><p class="muted">Light, with a violet accent. Clear and warm in daylight.</p></figcaption>
+          </figure>
         </div>
+        <p class="muted theme-note">Both themes come with the one-time unlock.</p>
       </div>
     </section>
 
@@ -244,6 +252,7 @@
             <ul>
               <li><strong>5 minutes</strong>, repeating until you stop it.</li>
               <li><strong>15 minutes</strong>, with nudges at 7:30, 5:00 and 2:00 left, and at the end.</li>
+              <li>The standard iPhone look.</li>
               <li>iPhone and Apple Watch.</li>
             </ul>
           </div>
@@ -256,6 +265,7 @@
               <li><strong>Workshop</strong>: 90 minutes.</li>
               <li><strong>Pomodoro</strong>: 25 minutes of work, 5 of break, repeating.</li>
               <li><strong>Your own timers</strong>, with up to six nudges each.</li>
+              <li><strong>Two themes</strong>, Quiet Signal and Friendly Tap, with matching app icons.</li>
               <li>Bought once on the iPhone; your Apple Watch follows.</li>
             </ul>
           </div>
@@ -274,8 +284,8 @@
           <p class="eyebrow">Good to know</p>
           <h3>What Apple's rules mean in practice</h3>
           <ul class="plain-list muted">
-            <li>The one, two and three-tap patterns play on Apple Watch when Nudgy Timer is open as the session starts, for sessions of up to one hour.</li>
-            <li>After an hour, or if you switch to another Watch app, each nudge arrives as a standard notification tap with the time left.</li>
+            <li>On Apple Watch, Nudgy Timer plays each nudge itself when it is open as the session starts, for sessions of up to one hour.</li>
+            <li>After an hour, or if you switch to another Watch app, each nudge arrives as a notification with the time left.</li>
             <li>Put your Apple Watch in Silent Mode. Otherwise it plays a sound with each tap.</li>
             <li>The app is still in development, so details may change before release.</li>
           </ul>
