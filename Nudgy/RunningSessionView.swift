@@ -17,6 +17,12 @@ struct RunningSessionView: View {
             TimelineView(.periodic(from: session.startDate, by: 1)) { context in
                 let now = context.date
                 VStack(spacing: 24) {
+                    if session.repeats {
+                        Label("Round \(session.cycleIndex(at: now) + 1) · repeats until you end it", systemImage: "repeat")
+                            .font(.subheadline)
+                            .foregroundStyle(.secondary)
+                    }
+
                     Text(CountdownFormatter.string(session.remaining(at: now)))
                         .font(.system(size: 76, weight: .semibold, design: .rounded))
                         .monospacedDigit()

@@ -15,7 +15,7 @@ public enum NudgeTarget: String, Codable, CaseIterable, Hashable, Sendable {
     }
 }
 
-/// A reusable session template, e.g. "Weekly team meeting, 45 min, nudges at 10/5/0".
+/// A reusable timer, e.g. "Weekly team meeting, 45 min, nudges at 10/5/0".
 public struct SessionPreset: Codable, Identifiable, Hashable, Sendable {
     public static let minDurationMinutes = 1
     public static let maxDurationMinutes = 480
@@ -24,23 +24,48 @@ public struct SessionPreset: Codable, Identifiable, Hashable, Sendable {
     public var id: UUID
     public var name: String
     public var durationMinutes: Int
-    /// Minutes *before the end* at which to nudge. 0 means "time's up".
-    public var nudgeMinutesBeforeEnd: [Int]
+    /// Seconds *before the end* at which to nudge. 0 means "time's up".
+    public var nudgeSecondsBeforeEnd: [Int]
     public var target: NudgeTarget
+    /// Restart automatically when the time is up, until the user ends the session.
+    public var repeats: Bool
 
     public init(
         id: UUID = UUID(),
         name: String,
         durationMinutes: Int,
-        nudgeMinutesBeforeEnd: [Int],
-        target: NudgeTarget = .watch
+        nudgeSecondsBeforeEnd: [Int],
+        target: NudgeTarget = .watch,
+        repeats: Bool = false
     ) {
         self.id = id
         self.name = name
         self.durationMinutes = durationMinutes
-        self.nudgeMinutesBeforeEnd = nudgeMinutesBeforeEnd
+        self.nudgeSecondsBeforeEnd = nudgeSecondsBeforeEnd
         self.target = target
+        self.repeats = repeats
     }
+
+    /// Convenience for whole-minute nudges.
+    public init(
+        id: UUID = UUID(),
+        name: String,
+        durationMinutes: Int,
+        nudgeMinutesBeforeEnd: [Int],
+        target: NudgeTarget = .watch,
+        repeats: Bool = false
+    ) {
+        self.init(
+            id: id,
+            name: name,
+            durationMinutes: durationMinutes,
+            nudgeSecondsBeforeEnd: nudgeMinutesBeforeEnd.map { $0 * 60 },
+            target: target,
+            repeats: repeats
+        )
+    }
+
+    public var durationSeconds: Int { durationMinutes * 60 }
 
     /// A copy with duration clamped to the allowed range and nudges de-duplicated,
     /// limited to 0...duration, sorted from earliest (largest) to latest (0),
@@ -50,17 +75,27 @@ public struct SessionPreset: Codable, Identifiable, Hashable, Sendable {
         copy.name = name.trimmingCharacters(in: .whitespacesAndNewlines)
         if copy.name.isEmpty { copy.name = "Session" }
         copy.durationMinutes = min(max(durationMinutes, Self.minDurationMinutes), Self.maxDurationMinutes)
-        let valid = Set(nudgeMinutesBeforeEnd.filter { $0 >= 0 && $0 <= copy.durationMinutes })
-        let sortedAscending = valid.sorted()
-        let capped = Array(sortedAscending.prefix(Self.maxNudges))
-        copy.nudgeMinutesBeforeEnd = capped.sorted(by: >)
+        let valid = Set(nudgeSecondsBeforeEnd.filter { $0 >= 0 && $0 <= copy.durationSeconds })
+        let capped = Array(valid.sorted().prefix(Self.maxNudges))
+        copy.nudgeSecondsBeforeEnd = capped.sorted(by: >)
         return copy
     }
 
-    public static let defaults: [SessionPreset] = [
-        SessionPreset(name: "Meeting · 30 min", durationMinutes: 30, nudgeMinutesBeforeEnd: [5, 0]),
-        SessionPreset(name: "Meeting · 60 min", durationMinutes: 60, nudgeMinutesBeforeEnd: [10, 5, 0]),
-        SessionPreset(name: "Lesson · 50 min", durationMinutes: 50, nudgeMinutesBeforeEnd: [10, 5, 0]),
-        SessionPreset(name: "Workshop · 90 min", durationMinutes: 90, nudgeMinutesBeforeEnd: [15, 5, 0])
-    ]
+    /// "7.5 · 5 · 2 · end", or nil when there are no nudges.
+    public var nudgeSummary: String? {
+        guard !nudgeSecondsBeforeEnd.isEmpty else { return nil }
+        return nudgeSecondsBeforeEnd
+            .sorted(by: >)
+            .map { $0 == 0 ? "end" : NudgeFormat.minutes($0) }
+            .joined(separator: " · ")
+    }
+}
+
+public enum NudgeFormat {
+    /// Seconds as minutes for display: 300 → "5", 450 → "7.5", 100 → "1:40".
+    public static func minutes(_ seconds: Int) -> String {
+        if seconds % 60 == 0 { return "\(seconds / 60)" }
+        if seconds % 30 == 0 { return "\(seconds / 60).5" }
+        return String(format: "%d:%02d", seconds / 60, seconds % 60)
+    }
 }

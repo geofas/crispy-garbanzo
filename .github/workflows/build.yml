@@ -25,11 +25,10 @@ jobs:
     runs-on: macos-15
     steps:
       - uses: actions/checkout@v4
-      - name: Generate the project only if it is not committed yet
-        run: |
-          if [ ! -d Nudgy.xcodeproj ]; then
-            brew install xcodegen && xcodegen generate
-          fi
+      # Always build from a freshly generated project, so a new source file never
+      # depends on the committed project having been regenerated first.
+      - run: brew install xcodegen
+      - run: xcodegen generate
       - name: Build for simulator (no signing)
         run: |
           set -o pipefail
