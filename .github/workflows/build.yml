@@ -1,0 +1,35 @@
+name: Build
+
+on:
+  push:
+    branches-ignore: [main]
+    paths-ignore: ["archive/**"]
+  pull_request:
+    paths-ignore: ["archive/**"]
+
+permissions:
+  contents: read
+
+jobs:
+  kit-tests:
+    name: NudgyKit tests
+    runs-on: ubuntu-latest
+    container: swift:6.0-jammy
+    steps:
+      - uses: actions/checkout@v4
+      - run: swift test
+        working-directory: NudgyKit
+
+  apps:
+    name: Build iPhone + Watch apps
+    runs-on: macos-15
+    steps:
+      - uses: actions/checkout@v4
+      - run: brew install xcodegen
+      - run: xcodegen generate
+      - name: Build for simulator (no signing)
+        run: |
+          set -o pipefail
+          xcodebuild -project Nudgy.xcodeproj -scheme Nudgy \
+            -destination 'generic/platform=iOS Simulator' \
+            CODE_SIGNING_ALLOWED=NO build | tail -n 200
