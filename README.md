@@ -45,19 +45,18 @@ xcodegen generate
 
 | Situation | What you get |
 |---|---|
-| Watch, Nudgy open when the session starts, session ≤ 1 hour | Nudgy plays the nudge itself, wrist down: strong haptic with sound, and a white flash if the screen is on |
-| Watch, after 1 hour, or after pressing the crown / opening another app | A notification: the system's haptic and sound, with "5 min left" |
-| Watch, session started from the iPhone and Nudgy not opened on the Watch | A notification, as above |
+| Watch, Nudgy on screen | Strong haptic with sound, and a white flash |
+| Watch, wrist down or another app in front | A notification: the system's haptic and sound, with "5 min left" |
 | iPhone, Nudgy on screen | Ding, vibration and a white flash |
 | iPhone, locked or in another app | A notification with the same ding and a vibration |
 
-Why: watchOS suspends apps when the wrist drops. Nudgy uses a Mindfulness extended runtime session to stay running, which Apple limits to 1 hour and ends when the user leaves the app. Every nudge also has a backup notification scheduled 2 seconds later; the app cancels it when it plays the nudge itself.
+How: each nudge is scheduled as a local notification when the session starts, so it arrives even when Nudgy is not running. While Nudgy is on screen, it plays the nudge itself and cancels that notification. Backup notifications fire 2 seconds after the nudge time, which gives the app time to cancel them.
 
 Known limits:
 
 - The ding follows Silent Mode: with the iPhone's ring switch or the Watch's Silent Mode on, there is only the vibration.
-- A Focus must allow Nudgy for locked-phone nudges (they are marked Time Sensitive).
-- **App Review risk:** Apple's documentation says to choose the session type "based on the app's intended use". Nudgy is not a meditation app, so the Mindfulness mode may be rejected. Fallback: remove `WKBackgroundModes` from `project.yml`; the backup notifications then deliver every nudge on the Watch.
+- A Focus must allow Nudgy for nudges on a locked iPhone (they are marked Time Sensitive).
+- With the wrist down, Watch nudges come 2 seconds after the nudge time and show the notification text.
 
 ## Layout
 

@@ -5,7 +5,7 @@ import NudgyKit
 /// Schedules *backup* notifications for nudges (iPhone and Watch).
 ///
 /// The in-app timer plays each nudge on time and cancels its backup. A backup only
-/// reaches the user if the app was suspended (or, on the watch, the runtime session ended).
+/// reaches the user if the app was suspended, which on the Watch is whenever the wrist is down.
 final class NotificationScheduler: NSObject, UNUserNotificationCenterDelegate {
     /// Called on the main actor when a backup notification arrives while the app is in the foreground.
     var onForegroundNudge: (@MainActor (String) -> Void)?

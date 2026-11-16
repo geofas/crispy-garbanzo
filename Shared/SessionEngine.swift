@@ -23,10 +23,6 @@ final class SessionEngine: ObservableObject {
     /// Goes up by one each time this device plays a nudge. The screen flashes white on change.
     @Published private(set) var nudgeFlash = 0
 
-    var onSessionBegan: (() -> Void)?
-    var onSessionEnded: (() -> Void)?
-    /// Called whenever the engine wakes and no nudges remain.
-    var onNudgesFinished: (() -> Void)?
     var onPresets: (([SessionPreset]) -> Void)?
 
     private let platform: Platform
@@ -136,7 +132,6 @@ final class SessionEngine: ObservableObject {
             peerInformed = true
         }
         scheduleWake()
-        onSessionBegan?()
     }
 
     private func clear() {
@@ -146,7 +141,6 @@ final class SessionEngine: ObservableObject {
         delivering = false
         tracker.end()
         SessionStore.saveActive(nil)
-        onSessionEnded?()
     }
 
     /// Plays whatever is due, then sleeps until the next nudge (or expiry).
@@ -165,7 +159,6 @@ final class SessionEngine: ObservableObject {
                 nudgeFlash += 1
             }
         }
-        if session.upcomingNudges(after: now).isEmpty { onNudgesFinished?() }
         scheduleWake()
     }
 

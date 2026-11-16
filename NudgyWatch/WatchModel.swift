@@ -1,20 +1,16 @@
 import Foundation
 import SwiftUI
-import WatchKit
 import NudgyKit
 
-/// Watch app state: the timers the iPhone allows (it applies the free/paid rule), the shared session engine, and the runtime session
-/// that keeps Nudgy running with the wrist down.
+/// Watch app state: the timers the iPhone allows (it applies the free/paid rule) and the
+/// shared session engine. With the wrist down, nudges arrive as scheduled notifications;
+/// while Nudgy is on screen it plays them itself, with the white flash.
 @MainActor
 final class WatchModel: ObservableObject {
     @Published private(set) var presets: [SessionPreset]
-    /// True while the extended runtime session is running, i.e. Nudgy plays nudges itself
-    /// with the wrist down. False means only the backup notifications are active.
-    @Published private(set) var patternsActive = false
 
     let engine: SessionEngine
     private let connectivity: PeerConnectivity
-    private let runtime = RuntimeSession()
 
     init() {
         let connectivity = PeerConnectivity()
@@ -32,10 +28,6 @@ final class WatchModel: ObservableObject {
             self?.presets = list
             SessionStore.savePresets(list)
         }
-        engine.onSessionBegan = { [weak self] in self?.startRuntimeIfNeeded() }
-        engine.onSessionEnded = { [weak self] in self?.runtime.stop() }
-        engine.onNudgesFinished = { [weak self] in self?.releaseRuntimeSoon() }
-        runtime.onStateChange = { [weak self] running in self?.patternsActive = running }
         connectivity.onMessage = { [weak self] message in self?.engine.handle(message) }
         connectivity.activate()
     }
@@ -43,26 +35,5 @@ final class WatchModel: ObservableObject {
     func didBecomeActive() {
         engine.requestNotificationPermission()
         engine.didBecomeActive()
-        startRuntimeIfNeeded()
-    }
-
-    /// The runtime session can only start while the app is active on screen.
-    private func startRuntimeIfNeeded() {
-        guard let session = engine.active, engine.delivering,
-              session.nextNudge(after: Date()) != nil else { return }
-        guard WKApplication.shared().applicationState == .active else { return }
-        runtime.start()
-    }
-
-    /// Releases the runtime session shortly after the last nudge, to save battery.
-    /// The delay lets the last nudge finish first.
-    private func releaseRuntimeSoon() {
-        Task { [weak self] in
-            try? await Task.sleep(nanoseconds: 5_000_000_000)
-            guard let self else { return }
-            if self.engine.active?.nextNudge(after: Date()) == nil {
-                self.runtime.stop()
-            }
-        }
     }
 }
