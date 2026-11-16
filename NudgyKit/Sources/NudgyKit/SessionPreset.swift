@@ -15,31 +15,88 @@ public enum NudgeTarget: String, Codable, CaseIterable, Hashable, Sendable {
     }
 }
 
-/// A reusable session template, e.g. "Weekly team meeting, 45 min, nudges at 10/5/0".
+/// A reusable timer, e.g. "Weekly team meeting, 45 min, nudges at 10/5/0".
 public struct SessionPreset: Codable, Identifiable, Hashable, Sendable {
     public static let minDurationMinutes = 1
+    /// Shortest timer the app will run (built-in timers can be shorter than a minute).
+    public static let minDurationSeconds = 10
     public static let maxDurationMinutes = 480
     public static let maxNudges = 6
 
     public var id: UUID
     public var name: String
-    public var durationMinutes: Int
-    /// Minutes *before the end* at which to nudge. 0 means "time's up".
-    public var nudgeMinutesBeforeEnd: [Int]
+    public var durationSeconds: Int
+    /// Seconds *before the end* at which to nudge. 0 means "time's up".
+    public var nudgeSecondsBeforeEnd: [Int]
     public var target: NudgeTarget
+    /// Restart automatically when the time is up, until the user ends the session.
+    public var repeats: Bool
 
+    public init(
+        id: UUID = UUID(),
+        name: String,
+        durationSeconds: Int,
+        nudgeSecondsBeforeEnd: [Int],
+        target: NudgeTarget = .watch,
+        repeats: Bool = false
+    ) {
+        self.id = id
+        self.name = name
+        self.durationSeconds = durationSeconds
+        self.nudgeSecondsBeforeEnd = nudgeSecondsBeforeEnd
+        self.target = target
+        self.repeats = repeats
+    }
+
+    /// Convenience for a length in whole minutes.
+    public init(
+        id: UUID = UUID(),
+        name: String,
+        durationMinutes: Int,
+        nudgeSecondsBeforeEnd: [Int],
+        target: NudgeTarget = .watch,
+        repeats: Bool = false
+    ) {
+        self.init(
+            id: id,
+            name: name,
+            durationSeconds: durationMinutes * 60,
+            nudgeSecondsBeforeEnd: nudgeSecondsBeforeEnd,
+            target: target,
+            repeats: repeats
+        )
+    }
+
+    /// Convenience for a length and nudges in whole minutes.
     public init(
         id: UUID = UUID(),
         name: String,
         durationMinutes: Int,
         nudgeMinutesBeforeEnd: [Int],
-        target: NudgeTarget = .watch
+        target: NudgeTarget = .watch,
+        repeats: Bool = false
     ) {
-        self.id = id
-        self.name = name
-        self.durationMinutes = durationMinutes
-        self.nudgeMinutesBeforeEnd = nudgeMinutesBeforeEnd
-        self.target = target
+        self.init(
+            id: id,
+            name: name,
+            durationSeconds: durationMinutes * 60,
+            nudgeSecondsBeforeEnd: nudgeMinutesBeforeEnd.map { $0 * 60 },
+            target: target,
+            repeats: repeats
+        )
+    }
+
+    /// Length in whole minutes (rounded down). Setting it makes the timer a whole number of minutes.
+    public var durationMinutes: Int {
+        get { durationSeconds / 60 }
+        set { durationSeconds = newValue * 60 }
+    }
+
+    /// "20 sec", "15 min", or "1:30" for a length that is neither.
+    public var durationLabel: String {
+        if durationSeconds < 60 { return "\(durationSeconds) sec" }
+        if durationSeconds % 60 == 0 { return "\(durationSeconds / 60) min" }
+        return String(format: "%d:%02d", durationSeconds / 60, durationSeconds % 60)
     }
 
     /// A copy with duration clamped to the allowed range and nudges de-duplicated,
@@ -49,18 +106,29 @@ public struct SessionPreset: Codable, Identifiable, Hashable, Sendable {
         var copy = self
         copy.name = name.trimmingCharacters(in: .whitespacesAndNewlines)
         if copy.name.isEmpty { copy.name = "Session" }
-        copy.durationMinutes = min(max(durationMinutes, Self.minDurationMinutes), Self.maxDurationMinutes)
-        let valid = Set(nudgeMinutesBeforeEnd.filter { $0 >= 0 && $0 <= copy.durationMinutes })
-        let sortedAscending = valid.sorted()
-        let capped = Array(sortedAscending.prefix(Self.maxNudges))
-        copy.nudgeMinutesBeforeEnd = capped.sorted(by: >)
+        copy.durationSeconds = min(max(durationSeconds, Self.minDurationSeconds), Self.maxDurationMinutes * 60)
+        let valid = Set(nudgeSecondsBeforeEnd.filter { $0 >= 0 && $0 <= copy.durationSeconds })
+        let capped = Array(valid.sorted().prefix(Self.maxNudges))
+        copy.nudgeSecondsBeforeEnd = capped.sorted(by: >)
         return copy
     }
 
-    public static let defaults: [SessionPreset] = [
-        SessionPreset(name: "Meeting · 30 min", durationMinutes: 30, nudgeMinutesBeforeEnd: [5, 0]),
-        SessionPreset(name: "Meeting · 60 min", durationMinutes: 60, nudgeMinutesBeforeEnd: [10, 5, 0]),
-        SessionPreset(name: "Lesson · 50 min", durationMinutes: 50, nudgeMinutesBeforeEnd: [10, 5, 0]),
-        SessionPreset(name: "Workshop · 90 min", durationMinutes: 90, nudgeMinutesBeforeEnd: [15, 5, 0])
-    ]
+    /// "7.5 · 5 · 2 · end", or nil when there are no nudges.
+    public var nudgeSummary: String? {
+        guard !nudgeSecondsBeforeEnd.isEmpty else { return nil }
+        return nudgeSecondsBeforeEnd
+            .sorted(by: >)
+            .map { $0 == 0 ? "end" : NudgeFormat.minutes($0) }
+            .joined(separator: " · ")
+    }
+}
+
+public enum NudgeFormat {
+    /// Seconds as minutes for display: 300 → "5", 450 → "7.5", 100 → "1:40", 10 → "10 sec".
+    public static func minutes(_ seconds: Int) -> String {
+        if seconds < 60 { return "\(seconds) sec" }
+        if seconds % 60 == 0 { return "\(seconds / 60)" }
+        if seconds % 30 == 0 { return "\(seconds / 60).5" }
+        return String(format: "%d:%02d", seconds / 60, seconds % 60)
+    }
 }

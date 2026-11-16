@@ -42,7 +42,7 @@ struct WatchPresetListView: View {
                 } label: {
                     VStack(alignment: .leading, spacing: 2) {
                         Text(preset.name).font(.headline)
-                        Text("\(preset.durationMinutes) min")
+                        Text(preset.repeats ? "\(preset.durationLabel) · repeats" : preset.durationLabel)
                             .font(.caption)
                             .foregroundStyle(.secondary)
                     }
@@ -61,7 +61,7 @@ struct WatchRunningView: View {
 
     var body: some View {
         VStack(spacing: 6) {
-            Text(session.presetName)
+            Label(session.presetName, systemImage: session.repeats ? "repeat" : "timer")
                 .font(.caption)
                 .foregroundStyle(.secondary)
                 .lineLimit(1)
@@ -81,22 +81,18 @@ struct WatchRunningView: View {
                         Text("Next: \(next.message)")
                             .font(.caption2)
                             .foregroundStyle(.secondary)
-
-                        if engine.delivering && !model.patternsActive {
-                            Text("Standard taps only")
-                                .font(.caption2)
-                                .foregroundStyle(.orange)
-                        }
                     }
                 }
             }
 
             Button("End", role: .destructive) { confirmStop = true }
+                .confirmationDialog("End this session?", isPresented: $confirmStop, titleVisibility: .visible) {
+                    Button("End session", role: .destructive) { engine.stop() }
+                    Button("Keep running", role: .cancel) {}
+                }
                 .padding(.top, 4)
         }
-        .confirmationDialog("End this session?", isPresented: $confirmStop, titleVisibility: .visible) {
-            Button("End session", role: .destructive) { engine.stop() }
-            Button("Keep running", role: .cancel) {}
-        }
+        .frame(maxWidth: .infinity, maxHeight: .infinity)
+        .nudgeFlash(engine.nudgeFlash)
     }
 }

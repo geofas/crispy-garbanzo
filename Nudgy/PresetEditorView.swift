@@ -1,11 +1,13 @@
 import SwiftUI
 import NudgyKit
 
+/// Editor for a timer the user created.
 struct PresetEditorView: View {
     @EnvironmentObject private var model: AppModel
     @Environment(\.dismiss) private var dismiss
     @State var preset: SessionPreset
 
+    /// Minutes before the end that can be switched on.
     private static let nudgeChoices = [30, 20, 15, 10, 5, 3, 2, 1, 0]
 
     private var availableChoices: [Int] {
@@ -19,13 +21,16 @@ struct PresetEditorView: View {
                     TextField("e.g. Weekly team meeting", text: $preset.name)
                 }
 
-                Section("Length") {
+                Section {
                     Stepper(
                         "\(preset.durationMinutes) min",
                         value: $preset.durationMinutes,
                         in: SessionPreset.minDurationMinutes...SessionPreset.maxDurationMinutes,
                         step: 5
                     )
+                    Toggle("Repeat until I end it", isOn: $preset.repeats)
+                } header: {
+                    Text("Length")
                 }
 
                 Section {
@@ -35,7 +40,7 @@ struct PresetEditorView: View {
                 } header: {
                     Text("Nudges")
                 } footer: {
-                    Text("Up to \(SessionPreset.maxNudges) nudges. Last warning = 2 taps, end = 3 taps, earlier = 1 tap.")
+                    Text("Up to \(SessionPreset.maxNudges) nudges. Each nudge is one flash, one ding and one vibration.")
                 }
 
                 Section {
@@ -48,16 +53,11 @@ struct PresetEditorView: View {
                     }
                 }
 
-                Section("Try the patterns on this iPhone") {
-                    HStack {
-                        ForEach(1...3, id: \.self) { taps in
-                            Button("\(taps) tap\(taps == 1 ? "" : "s")") { model.preview(taps: taps) }
-                                .buttonStyle(.bordered)
-                        }
-                    }
+                Section {
+                    Button("Try a nudge on this iPhone") { model.previewNudge() }
                 }
             }
-            .navigationTitle("Session")
+            .navigationTitle("Timer")
             .navigationBarTitleDisplayMode(.inline)
             .toolbar {
                 ToolbarItem(placement: .cancellationAction) {
@@ -71,20 +71,21 @@ struct PresetEditorView: View {
                 }
             }
             .onChange(of: preset.durationMinutes) { _, duration in
-                preset.nudgeMinutesBeforeEnd.removeAll { $0 > duration }
+                preset.nudgeSecondsBeforeEnd.removeAll { $0 > duration * 60 }
             }
         }
     }
 
     private func binding(for minutes: Int) -> Binding<Bool> {
-        Binding(
-            get: { preset.nudgeMinutesBeforeEnd.contains(minutes) },
+        let seconds = minutes * 60
+        return Binding(
+            get: { preset.nudgeSecondsBeforeEnd.contains(seconds) },
             set: { on in
                 if on {
-                    guard preset.nudgeMinutesBeforeEnd.count < SessionPreset.maxNudges else { return }
-                    preset.nudgeMinutesBeforeEnd.append(minutes)
+                    guard preset.nudgeSecondsBeforeEnd.count < SessionPreset.maxNudges else { return }
+                    preset.nudgeSecondsBeforeEnd.append(seconds)
                 } else {
-                    preset.nudgeMinutesBeforeEnd.removeAll { $0 == minutes }
+                    preset.nudgeSecondsBeforeEnd.removeAll { $0 == seconds }
                 }
             }
         )

@@ -2,17 +2,11 @@ import Foundation
 import WatchKit
 import NudgyKit
 
-/// Distinct tap patterns on the wrist.
+/// One nudge on the wrist: the strongest standard haptic, which also plays a sound
+/// unless the Watch is in Silent Mode.
 enum WatchHaptics {
-    static func play(taps: Int) {
-        Task { @MainActor in
-            for i in 0..<max(1, taps) {
-                WKInterfaceDevice.current().play(.notification)
-                if i < taps - 1 {
-                    try? await Task.sleep(nanoseconds: 900_000_000)
-                }
-            }
-        }
+    static func play() {
+        WKInterfaceDevice.current().play(.notification)
     }
 }
 
@@ -24,7 +18,10 @@ final class RuntimeSession: NSObject, WKExtendedRuntimeSessionDelegate {
     private var session: WKExtendedRuntimeSession?
 
     func start() {
-        if let s = session, s.state == .running || s.state == .scheduled { return }
+        // Keep any session that has not ended. `start()` is asynchronous, so a session
+        // can still read as "not started" just after it was started; replacing it then
+        // would throw away a session that is about to run.
+        if let s = session, s.state != .invalid { return }
         let s = WKExtendedRuntimeSession()
         s.delegate = self
         session = s
@@ -37,7 +34,10 @@ final class RuntimeSession: NSObject, WKExtendedRuntimeSessionDelegate {
     }
 
     func extendedRuntimeSessionDidStart(_ extendedRuntimeSession: WKExtendedRuntimeSession) {
-        Task { @MainActor in self.onStateChange?(true) }
+        Task { @MainActor in
+            guard self.session === extendedRuntimeSession else { return }
+            self.onStateChange?(true)
+        }
     }
 
     func extendedRuntimeSessionWillExpire(_ extendedRuntimeSession: WKExtendedRuntimeSession) {}
@@ -48,7 +48,9 @@ final class RuntimeSession: NSObject, WKExtendedRuntimeSessionDelegate {
         error: Error?
     ) {
         Task { @MainActor in
-            if self.session === extendedRuntimeSession { self.session = nil }
+            // Only the current session changes the state shown on screen.
+            guard self.session === extendedRuntimeSession else { return }
+            self.session = nil
             self.onStateChange?(false)
         }
     }

@@ -80,3 +80,11 @@ schemes:
         Nudgy: all
     test:
       targets: []
+  # Runs the Watch app directly on the Watch from Xcode (more reliable than
+  # installing through the Watch app on the iPhone while developing).
+  NudgyWatch:
+    build:
+      targets:
+        NudgyWatch: all
+    run:
+      config: Debug

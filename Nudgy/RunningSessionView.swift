@@ -17,6 +17,12 @@ struct RunningSessionView: View {
             TimelineView(.periodic(from: session.startDate, by: 1)) { context in
                 let now = context.date
                 VStack(spacing: 24) {
+                    if session.repeats {
+                        Label("Round \(session.cycleIndex(at: now) + 1) · repeats until you end it", systemImage: "repeat")
+                            .font(.subheadline)
+                            .foregroundStyle(.secondary)
+                    }
+
                     Text(CountdownFormatter.string(session.remaining(at: now)))
                         .font(.system(size: 76, weight: .semibold, design: .rounded))
                         .monospacedDigit()
@@ -41,18 +47,21 @@ struct RunningSessionView: View {
             }
             .buttonStyle(.bordered)
             .controlSize(.large)
+            // Attached to the button so the confirmation appears from it.
+            .confirmationDialog("End this session?", isPresented: $confirmStop, titleVisibility: .visible) {
+                Button("End session", role: .destructive) { engine.stop() }
+                Button("Keep running", role: .cancel) {}
+            }
             .padding(.top, 24)
         }
         .padding(32)
-        .confirmationDialog("End this session?", isPresented: $confirmStop, titleVisibility: .visible) {
-            Button("End session", role: .destructive) { engine.stop() }
-            Button("Keep running", role: .cancel) {}
-        }
+        .frame(maxWidth: .infinity, maxHeight: .infinity)
+        .nudgeFlash(engine.nudgeFlash)
     }
 
     private func status(at now: Date) -> String {
         if let next = session.nextNudge(after: now) {
-            return "Next nudge: \(next.message) · \(next.taps) tap\(next.taps == 1 ? "" : "s")"
+            return "Next nudge: \(next.message)"
         }
         return session.isFinished(at: now) ? "Over time" : "No more nudges"
     }

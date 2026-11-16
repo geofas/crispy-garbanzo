@@ -10,9 +10,13 @@ struct NudgyApp: App {
             ContentView()
                 .environmentObject(model)
                 .environmentObject(model.engine)
+                .environmentObject(model.store)
         }
         .onChange(of: scenePhase) { _, phase in
-            if phase == .active { model.engine.didBecomeActive() }
+            if phase == .active {
+                model.engine.didBecomeActive()
+                Task { await model.store.refresh() }
+            }
         }
     }
 }

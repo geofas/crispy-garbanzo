@@ -11,8 +11,8 @@ final class SessionEngine: ObservableObject {
         var delivers: @MainActor (ActiveSession) -> Bool
         /// Should the other device be told about the session?
         var peerShouldKnow: @MainActor (ActiveSession) -> Bool
-        /// Play a pattern of `taps` on this device.
-        var play: @MainActor (Int) -> Void
+        /// Play one nudge (sound and vibration) on this device.
+        var play: @MainActor () -> Void
         /// Send a message to the other device.
         var send: @MainActor (SyncMessage) -> Void
     }
@@ -20,6 +20,8 @@ final class SessionEngine: ObservableObject {
     @Published private(set) var active: ActiveSession?
     /// Whether this device is the one delivering nudges for `active`.
     @Published private(set) var delivering = false
+    /// Goes up by one each time this device plays a nudge. The screen flashes white on change.
+    @Published private(set) var nudgeFlash = 0
 
     var onSessionBegan: (() -> Void)?
     var onSessionEnded: (() -> Void)?
@@ -70,8 +72,8 @@ final class SessionEngine: ObservableObject {
 
     func didBecomeActive() {
         // Nudges the system already showed while the app was suspended must not replay.
-        notifier.deliveredNudgeIDs { ids in
-            Task { @MainActor [weak self] in
+        notifier.deliveredNudgeIDs { [weak self] ids in
+            Task { @MainActor in
                 guard let self else { return }
                 for id in ids { _ = self.tracker.claim(nudgeID: id) }
                 self.processDue()
@@ -159,7 +161,8 @@ final class SessionEngine: ObservableObject {
         if delivering {
             for nudge in tracker.takeDue(at: now) {
                 notifier.cancelBackup(id: nudge.id)
-                platform.play(nudge.taps)
+                platform.play()
+                nudgeFlash += 1
             }
         }
         if session.upcomingNudges(after: now).isEmpty { onNudgesFinished?() }
@@ -180,9 +183,10 @@ final class SessionEngine: ObservableObject {
     }
 
     private func playFromBackup(id: String) {
-        guard let nudge = active?.nudges.first(where: { $0.id == id }) else { return }
+        guard active?.nudges.contains(where: { $0.id == id }) == true else { return }
         if tracker.claim(nudgeID: id) {
-            platform.play(nudge.taps)
+            platform.play()
+            nudgeFlash += 1
         }
     }
 }
