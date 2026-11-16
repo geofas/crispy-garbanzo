@@ -7,6 +7,9 @@ on:
   pull_request:
     paths-ignore: ["archive/**"]
 
+permissions:
+  contents: read
+
 jobs:
   kit-tests:
     name: NudgyKit tests
