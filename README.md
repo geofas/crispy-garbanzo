@@ -3,15 +3,23 @@
 Discreet haptic nudges at set points before a session ends, on iPhone and Apple Watch.
 For meeting chairs, facilitators, trainers and teachers.
 
-## What v0.1 does
+## What it does
 
-- Session presets: name, length, up to 6 nudges ("10 min before the end", "at the end"), and where to nudge (Watch, iPhone, or both).
-- Tap patterns: earlier nudges = 1 tap, last warning = 2 taps, end = 3 taps.
-- Start a session from the iPhone or the Watch. Both show the countdown; either can end it.
-- Presets are edited on the iPhone and synced to the Watch.
+- **Timers** with discreet nudges before the end: earlier nudges = 1 tap, last warning = 2 taps, end = 3 taps.
+- **Free timers:** "5 min" (repeat on by default) and "15 min" (nudges at 7:30, 5:00 and 2:00 left, and at the end).
+- **Paid timers**, shown under "Upgrade to Access" until unlocked: Meeting 30 and 60 min, Lesson 50 min, Workshop 90 min, Pomodoro 25 + 5, and timers of your own (any length, up to 6 nudges, Watch, iPhone or both).
+- **Repeat:** the loop button makes a timer restart by itself until you end it. Rounds are planned in advance, up to 60 nudges or 8 hours, because iOS allows 64 scheduled notifications per app.
+- **Pomodoro:** 2 taps when the 25 minutes of work end, 3 taps when the 5-minute break ends, then the next round. There is no long break.
+- Start a timer from the iPhone or the Watch. Both show the countdown; either can end it.
 - No account, no server. Data stays on the devices.
 
-Not built yet: paid/freemium (StoreKit), agenda segments, calendar import, complications, App Store assets.
+Not built yet: agenda segments, calendar import, complications, App Store assets.
+
+## The one-time unlock
+
+- Sold on the iPhone only (StoreKit 2). The iPhone sends the Watch the timers the user may start, so the Watch needs no purchase logic.
+- Product ID: `com.georgfasching.nudgy.unlock`. Create it in App Store Connect as a **non-consumable** in-app purchase. Until it exists, the upgrade screen says "The purchase isn't available yet."
+- Builds run from Xcode (debug builds) show an "Unlock for testing" switch on the upgrade screen. It is not compiled into App Store builds.
 
 ## Build
 
@@ -55,7 +63,7 @@ Known limits:
 
 ## Layout
 
-- `NudgyKit/` — platform-neutral logic (presets, scheduling, de-duplication, sync messages) with unit tests.
+- `NudgyKit/` — platform-neutral logic (timers, the free/paid rule, scheduling, repeat, de-duplication, sync messages) with unit tests.
 - `Nudgy/` — iPhone app (SwiftUI).
 - `NudgyWatch/` — Watch app (SwiftUI).
 - `Shared/` — session engine, iPhone ↔ Watch sync, notification scheduling and storage, used by both apps.
@@ -70,6 +78,6 @@ cd NudgyKit && swift test
 
 ## Verification status
 
-- `NudgyKit`: 23 unit tests pass (Swift 6.0, Linux).
+- `NudgyKit`: 35 unit tests pass (Swift 6.0, Linux).
 - iPhone and Watch apps: compile for the iOS and watchOS simulators in GitHub Actions (Xcode 16.4, unsigned), on every push.
-- Not yet verified: running on real devices (haptics, wrist-down behaviour, iPhone ↔ Watch sync, notifications) and code signing.
+- Not yet verified: running on real devices (haptics, wrist-down behaviour, iPhone ↔ Watch sync, notifications), the purchase flow, and code signing.
