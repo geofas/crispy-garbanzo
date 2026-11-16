@@ -70,8 +70,8 @@ final class SessionEngine: ObservableObject {
 
     func didBecomeActive() {
         // Nudges the system already showed while the app was suspended must not replay.
-        notifier.deliveredNudgeIDs { ids in
-            Task { @MainActor [weak self] in
+        notifier.deliveredNudgeIDs { [weak self] ids in
+            Task { @MainActor in
                 guard let self else { return }
                 for id in ids { _ = self.tracker.claim(nudgeID: id) }
                 self.processDue()
