@@ -8,7 +8,7 @@
 
 /* Begin PBXBuildFile section */
 		00B17A87C555430CEC49BCA6 /* SessionStore.swift in Sources */ = {isa = PBXBuildFile; fileRef = F9B9F3AB87620D12550EAFD6 /* SessionStore.swift */; };
-		0D8804E580127280DB1DE8C1 /* PhoneHaptics.swift in Sources */ = {isa = PBXBuildFile; fileRef = E113E0A67B914C8B5BFC63B0 /* PhoneHaptics.swift */; };
+		0D8804E580127280DB1DE8C1 /* PhoneAlert.swift in Sources */ = {isa = PBXBuildFile; fileRef = E113E0A67B914C8B5BFC63B0 /* PhoneAlert.swift */; };
 		19B753254AB619A39D6D9877 /* AppModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9A9F129880631F1D1DDEA2A3 /* AppModel.swift */; };
 		367742C01942EA61C415C795 /* NotificationScheduler.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7CFFFEA9B454239A31EDA5EE /* NotificationScheduler.swift */; };
 		3F84F65B297349F71611D048 /* RunningSessionView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4809F2E79C9AA633FD5F6308 /* RunningSessionView.swift */; };
@@ -21,7 +21,7 @@
 		97931C451465766A59AC96AF /* WatchSupport.swift in Sources */ = {isa = PBXBuildFile; fileRef = 52AEC2AF27E0D63515039C09 /* WatchSupport.swift */; };
 		AD8EF8AEBAB4BAB5A1ECB4F4 /* NudgyWatchApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = FEE661C3E69E1C0D987B0248 /* NudgyWatchApp.swift */; };
 		AFC8FFAFE6C4FC6FBBC25EC1 /* Store.swift in Sources */ = {isa = PBXBuildFile; fileRef = D141A2403AAA9086AAD50A37 /* Store.swift */; };
-		B0679B269BD13CBC07848E9D /* silence.wav in Resources */ = {isa = PBXBuildFile; fileRef = 35A0CDC8526F50FD011066E2 /* silence.wav */; };
+		B0679B269BD13CBC07848E9D /* ding.wav in Resources */ = {isa = PBXBuildFile; fileRef = 35A0CDC8526F50FD011066E2 /* ding.wav */; };
 		B424A42B121EF283B61AFF16 /* SessionEngine.swift in Sources */ = {isa = PBXBuildFile; fileRef = 57FAF456ABA14EDECADED52E /* SessionEngine.swift */; };
 		BD761E443108C2222BE31F5E /* PresetEditorView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2BEF783FA141CB80FF29CAFD /* PresetEditorView.swift */; };
 		C6DF6A2421A4CF32A989C795 /* NudgyKit in Frameworks */ = {isa = PBXBuildFile; productRef = 7E99AED4B217136638C8B3A0 /* NudgyKit */; };
@@ -61,7 +61,7 @@
 /* Begin PBXFileReference section */
 		04E62055372DC1F0032ECAF5 /* NudgeFlash.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NudgeFlash.swift; sourceTree = "<group>"; };
 		2BEF783FA141CB80FF29CAFD /* PresetEditorView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PresetEditorView.swift; sourceTree = "<group>"; };
-		35A0CDC8526F50FD011066E2 /* silence.wav */ = {isa = PBXFileReference; lastKnownFileType = audio.wav; path = silence.wav; sourceTree = "<group>"; };
+		35A0CDC8526F50FD011066E2 /* ding.wav */ = {isa = PBXFileReference; lastKnownFileType = audio.wav; path = ding.wav; sourceTree = "<group>"; };
 		4809F2E79C9AA633FD5F6308 /* RunningSessionView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RunningSessionView.swift; sourceTree = "<group>"; };
 		52AEC2AF27E0D63515039C09 /* WatchSupport.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WatchSupport.swift; sourceTree = "<group>"; };
 		57FAF456ABA14EDECADED52E /* SessionEngine.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SessionEngine.swift; sourceTree = "<group>"; };
@@ -78,7 +78,7 @@
 		D11B2B189BF09738D7685469 /* PeerConnectivity.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PeerConnectivity.swift; sourceTree = "<group>"; };
 		D141A2403AAA9086AAD50A37 /* Store.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Store.swift; sourceTree = "<group>"; };
 		D4E64A7BA229780DC8821199 /* NudgyApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NudgyApp.swift; sourceTree = "<group>"; };
-		E113E0A67B914C8B5BFC63B0 /* PhoneHaptics.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PhoneHaptics.swift; sourceTree = "<group>"; };
+		E113E0A67B914C8B5BFC63B0 /* PhoneAlert.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PhoneAlert.swift; sourceTree = "<group>"; };
 		F9B9F3AB87620D12550EAFD6 /* SessionStore.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SessionStore.swift; sourceTree = "<group>"; };
 		FA0B4977AB5E5E706CCA0A90 /* NudgyKit */ = {isa = PBXFileReference; lastKnownFileType = folder; name = NudgyKit; path = NudgyKit; sourceTree = SOURCE_ROOT; };
 		FEE661C3E69E1C0D987B0248 /* NudgyWatchApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NudgyWatchApp.swift; sourceTree = "<group>"; };
@@ -111,11 +111,11 @@
 				A73136CE736E25F8A6D30BF8 /* Info.plist */,
 				741BE4EB6F9F8995933635CC /* Nudgy.entitlements */,
 				D4E64A7BA229780DC8821199 /* NudgyApp.swift */,
-				E113E0A67B914C8B5BFC63B0 /* PhoneHaptics.swift */,
+				E113E0A67B914C8B5BFC63B0 /* PhoneAlert.swift */,
 				2BEF783FA141CB80FF29CAFD /* PresetEditorView.swift */,
 				7C3BAE7F3A4481054DBDA63A /* PresetListView.swift */,
 				4809F2E79C9AA633FD5F6308 /* RunningSessionView.swift */,
-				35A0CDC8526F50FD011066E2 /* silence.wav */,
+				35A0CDC8526F50FD011066E2 /* ding.wav */,
 				D141A2403AAA9086AAD50A37 /* Store.swift */,
 				A6F6CBB80885354CDD09A3E5 /* UpgradeView.swift */,
 			);
@@ -264,7 +264,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				B0679B269BD13CBC07848E9D /* silence.wav in Resources */,
+				B0679B269BD13CBC07848E9D /* ding.wav in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -295,7 +295,7 @@
 				DA39EB8F31DBC477B1835F22 /* NudgeFlash.swift in Sources */,
 				F6DFFCA8D918A4E208E228A8 /* NudgyApp.swift in Sources */,
 				D742D9AE6EF0092F00550028 /* PeerConnectivity.swift in Sources */,
-				0D8804E580127280DB1DE8C1 /* PhoneHaptics.swift in Sources */,
+				0D8804E580127280DB1DE8C1 /* PhoneAlert.swift in Sources */,
 				BD761E443108C2222BE31F5E /* PresetEditorView.swift in Sources */,
 				7565140566C10318981BB19A /* PresetListView.swift in Sources */,
 				3F84F65B297349F71611D048 /* RunningSessionView.swift in Sources */,
