@@ -110,7 +110,7 @@ struct TimerRow: View {
     }
 
     static func summary(for preset: SessionPreset) -> String {
-        var parts = ["\(preset.durationMinutes) min"]
+        var parts = [preset.durationLabel]
         parts.append(preset.nudgeSummary.map { "nudges at \($0)" } ?? "no nudges")
         if preset.repeats { parts.append("repeats") }
         return parts.joined(separator: " · ")

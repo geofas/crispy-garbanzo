@@ -20,6 +20,7 @@ public struct ScheduledNudge: Codable, Identifiable, Hashable, Sendable {
     /// Short, discreet text for a notification banner.
     public var message: String {
         if secondsLeft == 0 { return "Time's up" }
+        if secondsLeft < 60 { return "\(secondsLeft) sec left" }
         if secondsLeft % 60 == 0 { return "\(secondsLeft / 60) min left" }
         return String(format: "%d:%02d left", secondsLeft / 60, secondsLeft % 60)
     }

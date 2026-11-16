@@ -9,7 +9,7 @@ final class PresetTests: XCTestCase {
     }
 
     func testNormalizeClampsDurationAndNamesEmpty() {
-        XCTAssertEqual(SessionPreset(name: "", durationMinutes: 0, nudgeMinutesBeforeEnd: [0]).normalized().durationMinutes, 1)
+        XCTAssertEqual(SessionPreset(name: "", durationMinutes: 0, nudgeMinutesBeforeEnd: [0]).normalized().durationSeconds, 10)
         XCTAssertEqual(SessionPreset(name: "x", durationMinutes: 9999, nudgeMinutesBeforeEnd: []).normalized().durationMinutes, 480)
         XCTAssertEqual(SessionPreset(name: "   ", durationMinutes: 5, nudgeMinutesBeforeEnd: []).normalized().name, "Session")
     }
@@ -25,6 +25,19 @@ final class PresetTests: XCTestCase {
         XCTAssertEqual(p.nudgeSummary, "7.5 · 5 · 2 · end")
         XCTAssertNil(SessionPreset(name: "x", durationMinutes: 5, nudgeSecondsBeforeEnd: []).nudgeSummary)
         XCTAssertEqual(NudgeFormat.minutes(100), "1:40")
+        XCTAssertEqual(NudgeFormat.minutes(10), "10 sec")
+    }
+
+    func testDurationInSecondsAndMinutes() {
+        var p = SessionPreset(name: "x", durationSeconds: 20, nudgeSecondsBeforeEnd: [10, 0])
+        XCTAssertEqual(p.durationLabel, "20 sec")
+        XCTAssertEqual(p.durationMinutes, 0)
+        XCTAssertEqual(p.normalized().nudgeSecondsBeforeEnd, [10, 0])
+        XCTAssertEqual(p.nudgeSummary, "10 sec · end")
+        p.durationMinutes = 45
+        XCTAssertEqual(p.durationSeconds, 2700)
+        XCTAssertEqual(p.durationLabel, "45 min")
+        XCTAssertEqual(SessionPreset(name: "x", durationSeconds: 90, nudgeSecondsBeforeEnd: []).durationLabel, "1:30")
     }
 }
 
@@ -34,21 +47,24 @@ final class CatalogTests: XCTestCase {
         XCTAssertEqual(Set(Catalog.templates.map(\.id)).count, Catalog.templates.count)
     }
 
-    func testTheTwoFreeTimersAreAsSpecified() {
+    func testTheFreeTimersAreAsSpecified() {
         let free = Catalog.templates.filter(Catalog.isFree)
-        XCTAssertEqual(free.count, 2)
-        XCTAssertEqual(free[0].durationMinutes, 5)
+        XCTAssertEqual(free.map(\.id), Array(Catalog.templates.prefix(3)).map(\.id), "free timers come first")
+        XCTAssertEqual(free[0].durationSeconds, 20)
+        XCTAssertEqual(free[0].nudgeSecondsBeforeEnd, [10, 0])
         XCTAssertTrue(free[0].repeats)
-        XCTAssertEqual(free[1].durationMinutes, 15)
-        XCTAssertEqual(free[1].nudgeSecondsBeforeEnd, [450, 300, 120, 0])
-        XCTAssertFalse(free[1].repeats)
+        XCTAssertEqual(free[1].durationMinutes, 5)
+        XCTAssertTrue(free[1].repeats)
+        XCTAssertEqual(free[2].durationMinutes, 15)
+        XCTAssertEqual(free[2].nudgeSecondsBeforeEnd, [450, 300, 120, 0])
+        XCTAssertFalse(free[2].repeats)
     }
 
     func testLockedUntilUnlocked() {
         let custom = SessionPreset(name: "Mine", durationMinutes: 10, nudgeMinutesBeforeEnd: [0])
         let all = Catalog.templates
-        XCTAssertEqual(Catalog.available(templates: all, custom: [custom], unlocked: false).map(\.id), Array(all.prefix(2)).map(\.id))
-        XCTAssertEqual(Catalog.locked(templates: all, unlocked: false).count, all.count - 2)
+        XCTAssertEqual(Catalog.available(templates: all, custom: [custom], unlocked: false).map(\.id), Array(all.prefix(3)).map(\.id))
+        XCTAssertEqual(Catalog.locked(templates: all, unlocked: false).count, all.count - 3)
         XCTAssertFalse(Catalog.isAvailable(custom, unlocked: false), "own timers need the unlock")
         XCTAssertEqual(Catalog.available(templates: all, custom: [custom], unlocked: true).count, all.count + 1)
         XCTAssertTrue(Catalog.locked(templates: all, unlocked: true).isEmpty)
@@ -56,17 +72,18 @@ final class CatalogTests: XCTestCase {
     }
 
     func testSavedTemplatesKeepOnlyTheRepeatChoice() {
-        var saved = Catalog.templates[0]
+        var saved = Catalog.fiveMinutes
         saved.repeats = false
         saved.name = "Tampered"
         saved.durationMinutes = 99
         let stranger = SessionPreset(name: "Unknown", durationMinutes: 1, nudgeMinutesBeforeEnd: [])
         let merged = Catalog.templates(applying: [saved, stranger])
         XCTAssertEqual(merged.count, Catalog.templates.count)
-        XCTAssertFalse(merged[0].repeats)
-        XCTAssertEqual(merged[0].name, Catalog.templates[0].name)
-        XCTAssertEqual(merged[0].durationMinutes, 5)
-        XCTAssertEqual(Array(merged.dropFirst()), Array(Catalog.templates.dropFirst()))
+        let five = merged.first { $0.id == Catalog.fiveMinutes.id }!
+        XCTAssertFalse(five.repeats)
+        XCTAssertEqual(five.name, "5 min")
+        XCTAssertEqual(five.durationMinutes, 5)
+        XCTAssertEqual(merged.filter { $0.id != five.id }, Catalog.templates.filter { $0.id != five.id })
     }
 }
 
@@ -85,7 +102,7 @@ final class SchedulerTests: XCTestCase {
     }
 
     func testFifteenMinuteFreeTimer() {
-        let s = ActiveSession.start(Catalog.templates[1], at: start)
+        let s = ActiveSession.start(Catalog.fifteenMinutes, at: start)
         XCTAssertEqual(s.nudges.map { $0.fireDate.timeIntervalSince(start) }, [450, 600, 780, 900])
         XCTAssertEqual(s.nudges.map(\.taps), [1, 1, 2, 3])
         XCTAssertEqual(s.nudges.map(\.message), ["7:30 left", "5 min left", "2 min left", "Time's up"])
@@ -145,7 +162,7 @@ final class RepeatTests: XCTestCase {
     let start = Date(timeIntervalSince1970: 1_500_000)
 
     func testFiveMinuteRepeatPlansSixtyRounds() {
-        let s = ActiveSession.start(Catalog.templates[0], at: start)
+        let s = ActiveSession.start(Catalog.fiveMinutes, at: start)
         XCTAssertTrue(s.repeats)
         XCTAssertEqual(s.cycles, 60)
         XCTAssertEqual(s.nudges.count, 60)
@@ -156,8 +173,19 @@ final class RepeatTests: XCTestCase {
         XCTAssertEqual(Set(s.nudges.map(\.id)).count, 60)
     }
 
+    func testQuickTestTimer() {
+        let s = ActiveSession.start(Catalog.quickTest, at: start)
+        XCTAssertEqual(s.cycleSeconds, 20)
+        XCTAssertEqual(s.cycles, 30, "two nudges per round, 60 nudges at most")
+        XCTAssertEqual(s.endDate, start.addingTimeInterval(600))
+        XCTAssertEqual(Array(s.nudges.prefix(4)).map { $0.fireDate.timeIntervalSince(start) }, [10, 20, 30, 40])
+        XCTAssertEqual(Array(s.nudges.prefix(2)).map(\.taps), [2, 3])
+        XCTAssertEqual(Array(s.nudges.prefix(2)).map(\.message), ["10 sec left", "Time's up"])
+        XCTAssertEqual(s.remaining(at: start.addingTimeInterval(25)), 15)
+    }
+
     func testRepeatOffIsASingleRound() {
-        var p = Catalog.templates[0]
+        var p = Catalog.fiveMinutes
         p.repeats = false
         let s = ActiveSession.start(p, at: start)
         XCTAssertEqual(s.cycles, 1)
@@ -193,7 +221,7 @@ final class RepeatTests: XCTestCase {
     }
 
     func testCountdownRestartsEachRound() {
-        let s = ActiveSession.start(Catalog.templates[0], at: start)
+        let s = ActiveSession.start(Catalog.fiveMinutes, at: start)
         XCTAssertEqual(s.cycleIndex(at: start), 0)
         XCTAssertEqual(s.remaining(at: start), 300)
         XCTAssertEqual(s.remaining(at: start.addingTimeInterval(299)), 1)
@@ -207,7 +235,7 @@ final class RepeatTests: XCTestCase {
 
     func testEachRepeatedNudgePlaysExactlyOnce() {
         var tracker = NudgeTracker()
-        var p = Catalog.templates[0]
+        var p = Catalog.fiveMinutes
         p.durationMinutes = 1
         let s = ActiveSession.start(p, at: start)
         tracker.begin(s, now: start)
@@ -322,7 +350,7 @@ final class DeliveryAndFormatTests: XCTestCase {
     }
 
     func testSyncMessageRoundTrip() throws {
-        let s = ActiveSession.start(Catalog.templates[3], at: Date(timeIntervalSince1970: 3_000_000))
+        let s = ActiveSession.start(Catalog.templates[5], at: Date(timeIntervalSince1970: 3_000_000))
         for msg in [SyncMessage.start(s), .stop(sessionID: s.id), .presets(Catalog.templates)] {
             XCTAssertEqual(SyncMessage.decode(try msg.encoded()), msg)
         }

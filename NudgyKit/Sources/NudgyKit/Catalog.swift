@@ -6,10 +6,16 @@ public enum Catalog {
         UUID(uuidString: String(format: "00000000-0000-4000-8000-%012d", n))!
     }
 
-    /// Built-in timers. The first two are free; the rest need the one-time unlock.
+    /// A short timer for trying things out: a nudge at 10 seconds left and at the end, repeating.
+    public static let quickTest = SessionPreset(id: id(8), name: "Quick test", durationSeconds: 20, nudgeSecondsBeforeEnd: [10, 0], repeats: true)
+    public static let fiveMinutes = SessionPreset(id: id(1), name: "5 min", durationMinutes: 5, nudgeSecondsBeforeEnd: [0], repeats: true)
+    public static let fifteenMinutes = SessionPreset(id: id(2), name: "15 min", durationMinutes: 15, nudgeSecondsBeforeEnd: [450, 300, 120, 0])
+
+    /// Built-in timers. The first three are free; the rest need the one-time unlock.
     public static let templates: [SessionPreset] = [
-        SessionPreset(id: id(1), name: "5 min", durationMinutes: 5, nudgeSecondsBeforeEnd: [0], repeats: true),
-        SessionPreset(id: id(2), name: "15 min", durationMinutes: 15, nudgeSecondsBeforeEnd: [450, 300, 120, 0]),
+        quickTest,
+        fiveMinutes,
+        fifteenMinutes,
         SessionPreset(id: id(3), name: "Meeting · 30 min", durationMinutes: 30, nudgeMinutesBeforeEnd: [5, 0]),
         SessionPreset(id: id(4), name: "Meeting · 60 min", durationMinutes: 60, nudgeMinutesBeforeEnd: [10, 5, 0]),
         SessionPreset(id: id(5), name: "Lesson · 50 min", durationMinutes: 50, nudgeMinutesBeforeEnd: [10, 5, 0]),
@@ -18,7 +24,7 @@ public enum Catalog {
         SessionPreset(id: id(7), name: "Pomodoro · 25 + 5", durationMinutes: 30, nudgeMinutesBeforeEnd: [5, 0], repeats: true)
     ]
 
-    public static let freeIDs: Set<UUID> = [id(1), id(2)]
+    public static let freeIDs: Set<UUID> = [id(8), id(1), id(2)]
 
     public static func isFree(_ preset: SessionPreset) -> Bool {
         freeIDs.contains(preset.id)

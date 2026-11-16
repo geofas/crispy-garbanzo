@@ -42,7 +42,7 @@ struct WatchPresetListView: View {
                 } label: {
                     VStack(alignment: .leading, spacing: 2) {
                         Text(preset.name).font(.headline)
-                        Text(preset.repeats ? "\(preset.durationMinutes) min · repeats" : "\(preset.durationMinutes) min")
+                        Text(preset.repeats ? "\(preset.durationLabel) · repeats" : preset.durationLabel)
                             .font(.caption)
                             .foregroundStyle(.secondary)
                     }

@@ -6,7 +6,7 @@ For meeting chairs, facilitators, trainers and teachers.
 ## What it does
 
 - **Timers** with discreet nudges before the end: earlier nudges = 1 tap, last warning = 2 taps, end = 3 taps.
-- **Free timers:** "5 min" (repeat on by default) and "15 min" (nudges at 7:30, 5:00 and 2:00 left, and at the end).
+- **Free timers:** "Quick test" (20 seconds, nudges at 10 seconds left and at the end, repeating; for trying things out), "5 min" (repeat on by default) and "15 min" (nudges at 7:30, 5:00 and 2:00 left, and at the end).
 - **Paid timers**, shown under "Upgrade to Access" until unlocked: Meeting 30 and 60 min, Lesson 50 min, Workshop 90 min, Pomodoro 25 + 5, and timers of your own (any length, up to 6 nudges, Watch, iPhone or both).
 - **Repeat:** the loop button makes a timer restart by itself until you end it. Rounds are planned in advance, up to 60 nudges or 8 hours, because iOS allows 64 scheduled notifications per app.
 - **Pomodoro:** 2 taps when the 25 minutes of work end, 3 taps when the 5-minute break ends, then the next round. There is no long break.
@@ -78,6 +78,6 @@ cd NudgyKit && swift test
 
 ## Verification status
 
-- `NudgyKit`: 35 unit tests pass (Swift 6.0, Linux).
+- `NudgyKit`: 37 unit tests pass (Swift 6.0, Linux).
 - iPhone and Watch apps: compile for the iOS and watchOS simulators in GitHub Actions (Xcode 16.4, unsigned), on every push.
 - Not yet verified: running on real devices (haptics, wrist-down behaviour, iPhone ↔ Watch sync, notifications), the purchase flow, and code signing.
