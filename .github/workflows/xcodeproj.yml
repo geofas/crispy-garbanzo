@@ -19,6 +19,11 @@ jobs:
       - run: brew install xcodegen
       - run: rm -rf Nudgy.xcodeproj && xcodegen generate
       - run: tar czf xcodeproj.tgz Nudgy.xcodeproj Nudgy/Info.plist Nudgy/Nudgy.entitlements NudgyWatch/Info.plist
+      - name: Print archive (base64) so it can be read from the log
+        run: |
+          echo "-----BEGIN XCODEPROJ-----"
+          base64 -i xcodeproj.tgz | fold -w 100
+          echo "-----END XCODEPROJ-----"
       - uses: actions/upload-artifact@v4
         with:
           name: xcodeproj
