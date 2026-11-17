@@ -1,0 +1,368 @@
+<!doctype html>
+<html lang="en-GB">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Nudgy Timer — discreet wrist taps before your session ends</title>
+  <meta name="description" content="Nudgy Timer taps your wrist at the points you choose before a meeting, workshop or lesson ends. For iPhone and Apple Watch. Join the waitlist.">
+  <link rel="canonical" href="https://nudgytimer.app/">
+  <meta name="theme-color" content="#fbf8f3" media="(prefers-color-scheme: light)">
+  <meta name="theme-color" content="#10161d" media="(prefers-color-scheme: dark)">
+  <meta name="color-scheme" content="light dark">
+
+  <meta property="og:type" content="website">
+  <meta property="og:site_name" content="Nudgy Timer">
+  <meta property="og:title" content="Nudgy Timer — discreet wrist taps before your session ends">
+  <meta property="og:description" content="Finish on time without watching the clock. Quiet taps on your wrist before a meeting, workshop or lesson ends. For iPhone and Apple Watch.">
+  <meta property="og:url" content="https://nudgytimer.app/">
+  <meta property="og:image" content="https://nudgytimer.app/og.png">
+  <meta property="og:image:width" content="1200">
+  <meta property="og:image:height" content="630">
+  <meta property="og:image:alt" content="Nudgy Timer: finish on time without watching the clock.">
+  <meta property="og:locale" content="en_GB">
+  <meta name="twitter:card" content="summary_large_image">
+
+  <link rel="icon" href="/favicon.svg" type="image/svg+xml">
+  <link rel="apple-touch-icon" href="/apple-touch-icon.png">
+  <link rel="stylesheet" href="/styles.css">
+
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@graph": [
+      {
+        "@type": "WebSite",
+        "@id": "https://nudgytimer.app/#website",
+        "url": "https://nudgytimer.app/",
+        "name": "Nudgy Timer",
+        "inLanguage": "en-GB"
+      },
+      {
+        "@type": "SoftwareApplication",
+        "@id": "https://nudgytimer.app/#app",
+        "name": "Nudgy Timer",
+        "url": "https://nudgytimer.app/",
+        "description": "A timer for iPhone and Apple Watch that gives discreet haptic nudges at set points before a session ends. For meeting chairs, facilitators, trainers and teachers.",
+        "applicationCategory": "ProductivityApplication",
+        "operatingSystem": "iOS 17 or later, watchOS 10 or later"
+      },
+      {
+        "@type": "FAQPage",
+        "@id": "https://nudgytimer.app/#faq",
+        "mainEntity": [
+          {
+            "@type": "Question",
+            "name": "When can I get Nudgy Timer?",
+            "acceptedAnswer": { "@type": "Answer", "text": "Nudgy Timer is in development and is not on the App Store yet. Join the waitlist and you will get one email when it is available." }
+          },
+          {
+            "@type": "Question",
+            "name": "What will it cost?",
+            "acceptedAnswer": { "@type": "Answer", "text": "Two timers are free. Everything else is a single one-time purchase, with no subscription. The price will be announced at launch." }
+          },
+          {
+            "@type": "Question",
+            "name": "Do I need an Apple Watch?",
+            "acceptedAnswer": { "@type": "Answer", "text": "No. Nudgy Timer works on an iPhone alone, on an Apple Watch with your iPhone, or on both at once. Nudges on the wrist are the most discreet." }
+          },
+          {
+            "@type": "Question",
+            "name": "Which devices does it need?",
+            "acceptedAnswer": { "@type": "Answer", "text": "An iPhone running iOS 17 or later. For wrist nudges, an Apple Watch running watchOS 10 or later." }
+          },
+          {
+            "@type": "Question",
+            "name": "Will anyone else notice the nudges?",
+            "acceptedAnswer": { "@type": "Answer", "text": "With your Apple Watch in Silent Mode, a nudge is a tap on your wrist and nothing more. Without Silent Mode, Apple Watch plays a sound with each tap, so turn Silent Mode on before you start." }
+          },
+          {
+            "@type": "Question",
+            "name": "Do I need an account?",
+            "acceptedAnswer": { "@type": "Answer", "text": "No. There is no account and no server. Your timers stay on your iPhone and Apple Watch." }
+          },
+          {
+            "@type": "Question",
+            "name": "What happens to my email address?",
+            "acceptedAnswer": { "@type": "Answer", "text": "It is used for one purpose: to tell you when Nudgy Timer is on the App Store. It is not shared or sold, and you can ask for it to be deleted at any time." }
+          }
+        ]
+      }
+    ]
+  }
+  </script>
+</head>
+<body>
+  <a class="skip" href="#main">Skip to content</a>
+
+  <header class="site-header">
+    <div class="wrap">
+      <a class="brand" href="/" aria-label="Nudgy Timer home">
+        <svg viewBox="0 0 32 32" aria-hidden="true"><rect width="32" height="32" rx="8" fill="var(--accent)"/><circle cx="9.5" cy="16" r="2.6" fill="var(--accent-ink)"/><circle cx="16" cy="16" r="2.6" fill="var(--accent-ink)"/><circle cx="22.5" cy="16" r="2.6" fill="var(--accent-ink)"/></svg>
+        Nudgy Timer
+      </a>
+      <nav class="nav" aria-label="Main">
+        <a href="#how">How it works</a>
+        <a href="#timers">Timers</a>
+        <a href="#faq">Questions</a>
+        <a class="btn btn-small" href="#waitlist">Join the waitlist</a>
+      </nav>
+    </div>
+  </header>
+
+  <main id="main">
+    <section class="hero">
+      <div class="wrap hero-grid">
+        <div>
+          <p class="eyebrow">For iPhone and Apple Watch · Coming soon</p>
+          <h1>Finish on time without watching the clock.</h1>
+          <p class="lede">Nudgy Timer taps your wrist at the points you choose before a session ends, such as five minutes left, two minutes left and time. You keep your eyes on the room.</p>
+
+          <form class="waitlist" id="waitlist" action="/api/waitlist" method="post" data-source="hero">
+            <label for="email-hero">Get one email when it reaches the App Store</label>
+            <div class="waitlist-row">
+              <input id="email-hero" type="email" name="email" autocomplete="email" inputmode="email" placeholder="you@example.com" required maxlength="254">
+              <button class="btn" type="submit">Join the waitlist</button>
+            </div>
+            <div class="hp" aria-hidden="true">
+              <label for="website-hero">Leave this field empty</label>
+              <input id="website-hero" type="text" name="website" tabindex="-1" autocomplete="off">
+            </div>
+            <p class="consent">One email at launch, nothing else. By joining you agree to the <a href="/privacy">privacy policy</a>.</p>
+            <p class="form-status" role="status" aria-live="polite"></p>
+          </form>
+        </div>
+
+        <div class="hero-art">
+          <svg viewBox="0 0 320 420" role="img" aria-labelledby="watch-title">
+            <title id="watch-title">Illustration of a watch showing five minutes left.</title>
+            <rect class="pulse" x="46" y="96" width="228" height="228" rx="64" fill="none" stroke="var(--accent)" stroke-width="6"/>
+            <rect class="pulse p2" x="46" y="96" width="228" height="228" rx="64" fill="none" stroke="var(--accent)" stroke-width="6"/>
+            <path d="M106 108 L114 14 Q115 4 125 4 H195 Q205 4 206 14 L214 108 Z" fill="var(--surface-2)" stroke="var(--line)" stroke-width="2"/>
+            <path d="M106 312 L114 406 Q115 416 125 416 H195 Q205 416 206 406 L214 312 Z" fill="var(--surface-2)" stroke="var(--line)" stroke-width="2"/>
+            <rect x="254" y="168" width="14" height="40" rx="6" fill="var(--watch-body)"/>
+            <rect x="60" y="110" width="200" height="200" rx="52" fill="var(--watch-body)"/>
+            <rect x="72" y="122" width="176" height="176" rx="42" fill="var(--watch-face)"/>
+            <text x="160" y="176" text-anchor="middle" font-family="-apple-system, 'Segoe UI', Roboto, sans-serif" font-size="14" font-weight="600" fill="#a9b3bf" letter-spacing="1">WORKSHOP</text>
+            <text x="160" y="228" text-anchor="middle" font-family="-apple-system, 'Segoe UI', Roboto, sans-serif" font-size="50" font-weight="700" fill="#f6f1e8">5:00</text>
+            <text x="160" y="252" text-anchor="middle" font-family="-apple-system, 'Segoe UI', Roboto, sans-serif" font-size="14" fill="#a9b3bf">left</text>
+          </svg>
+        </div>
+      </div>
+    </section>
+
+    <section class="band" aria-labelledby="problem-title">
+      <div class="wrap split">
+        <div>
+          <h2 id="problem-title">You are running the room. The clock is running you.</h2>
+        </div>
+        <div>
+          <p>The discussion is finally going somewhere. You glance at your watch, and everyone sees you do it. Or you don't glance, and the session runs ten minutes over.</p>
+          <p>This is not a discipline problem. It is a signalling problem: the time is on a screen, and your attention belongs to the people in front of you.</p>
+          <p>Nudgy Timer moves the signal from your eyes to your wrist.</p>
+        </div>
+      </div>
+    </section>
+
+    <section id="how" aria-labelledby="how-title">
+      <div class="wrap">
+        <div class="section-head">
+          <p class="eyebrow">How it works</p>
+          <h2 id="how-title">Three steps, then forget about it.</h2>
+        </div>
+        <ol class="steps">
+          <li class="card">
+            <h3>Pick a timer</h3>
+            <p class="muted">Choose a ready-made timer, or build your own with up to six nudges, such as ten minutes, five minutes and time's up.</p>
+          </li>
+          <li class="card">
+            <h3>Start it</h3>
+            <p class="muted">Start from your iPhone or your Apple Watch. Both show the countdown, and either can end it.</p>
+          </li>
+          <li class="card">
+            <h3>Feel the nudges</h3>
+            <p class="muted">Taps arrive on your Watch, your iPhone, or both. You decide which when you set up the timer.</p>
+          </li>
+        </ol>
+      </div>
+    </section>
+
+    <section class="band" id="themes" aria-labelledby="themes-title">
+      <div class="wrap">
+        <div class="section-head">
+          <p class="eyebrow">Themes</p>
+          <h2 id="themes-title">Two looks to choose from.</h2>
+          <p class="muted">Nudgy Timer starts in the standard iPhone look. The one-time unlock adds two themes, each with its own app icon. Your Apple Watch follows the theme you pick.</p>
+        </div>
+        <div class="themes">
+          <figure class="card theme-card">
+            <div class="theme-screen theme-quiet" role="img" aria-label="Quiet Signal theme: a dark running-session screen with 6:12 left and the next nudge at 5 minutes left, in amber.">
+              <span class="theme-label">15 min</span>
+              <span class="theme-count">6:12</span>
+              <span class="theme-next">Next nudge: 5 min left</span>
+              <span class="theme-row theme-row-done">7:30 left <em>Done</em></span>
+              <span class="theme-row theme-row-next">5 min left <em>Next</em></span>
+              <span class="theme-row">2 min left</span>
+              <span class="theme-row">Time's up</span>
+            </div>
+            <figcaption><h3>Quiet Signal</h3><p class="muted">Dark, with an amber accent. Calm on a table in a dim room.</p></figcaption>
+          </figure>
+          <figure class="card theme-card">
+            <div class="theme-screen theme-friendly" role="img" aria-label="Friendly Tap theme: a light running-session screen with 6:12 left and the next nudge at 5 minutes left, in violet.">
+              <span class="theme-label">15 min</span>
+              <span class="theme-count">6:12</span>
+              <span class="theme-next">Next nudge: 5 min left</span>
+              <span class="theme-row theme-row-done">7:30 left <em>Done</em></span>
+              <span class="theme-row theme-row-next">5 min left <em>Next</em></span>
+              <span class="theme-row">2 min left</span>
+              <span class="theme-row">Time's up</span>
+            </div>
+            <figcaption><h3>Friendly Tap</h3><p class="muted">Light, with a violet accent. Clear and warm in daylight.</p></figcaption>
+          </figure>
+        </div>
+        <p class="muted theme-note">Both themes come with the one-time unlock.</p>
+      </div>
+    </section>
+
+    <section aria-labelledby="who-title">
+      <div class="wrap">
+        <div class="section-head">
+          <p class="eyebrow">Who it is for</p>
+          <h2 id="who-title">For anyone who holds the room and the time.</h2>
+        </div>
+        <div class="grid-4">
+          <div class="card"><h3>Meeting chairs</h3><p class="muted">Land the agenda and still leave five minutes for actions.</p></div>
+          <div class="card"><h3>Facilitators</h3><p class="muted">Keep an exercise to its time box while you stay with the group.</p></div>
+          <div class="card"><h3>Trainers</h3><p class="muted">Pace a module without a slide clock or a phone on the lectern.</p></div>
+          <div class="card"><h3>Teachers</h3><p class="muted">Know when to start packing up, before the bell tells the whole class.</p></div>
+        </div>
+      </div>
+    </section>
+
+    <section id="timers" class="band" aria-labelledby="timers-title">
+      <div class="wrap">
+        <div class="section-head">
+          <p class="eyebrow">Timers</p>
+          <h2 id="timers-title">Two timers free. One purchase for the rest.</h2>
+          <p class="muted">No subscription. The price will be announced at launch.</p>
+        </div>
+        <div class="plans">
+          <div class="card">
+            <span class="tag">Free</span>
+            <h3>Two built-in timers</h3>
+            <ul>
+              <li><strong>5 minutes</strong>, repeating until you stop it.</li>
+              <li><strong>15 minutes</strong>, with nudges at 7:30, 5:00 and 2:00 left, and at the end.</li>
+              <li>The standard iPhone look.</li>
+              <li>iPhone and Apple Watch.</li>
+            </ul>
+          </div>
+          <div class="card">
+            <span class="tag">One-time unlock</span>
+            <h3>Every timer, and your own</h3>
+            <ul>
+              <li><strong>Meeting</strong>: 30 and 60 minutes.</li>
+              <li><strong>Lesson</strong>: 50 minutes.</li>
+              <li><strong>Workshop</strong>: 90 minutes.</li>
+              <li><strong>Pomodoro</strong>: 25 minutes of work, 5 of break, repeating.</li>
+              <li><strong>Your own timers</strong>, with up to six nudges each.</li>
+              <li><strong>Two themes</strong>, Quiet Signal and Friendly Tap, with matching app icons.</li>
+              <li>Bought once on the iPhone; your Apple Watch follows.</li>
+            </ul>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section aria-labelledby="private-title">
+      <div class="wrap split">
+        <div>
+          <p class="eyebrow">Private by design</p>
+          <h2 id="private-title">No account. No server.</h2>
+          <p class="muted">Your timers stay on your iPhone and Apple Watch. The app does not ask you to sign up for anything.</p>
+        </div>
+        <div>
+          <p class="eyebrow">Good to know</p>
+          <h3>What Apple's rules mean in practice</h3>
+          <ul class="plain-list muted">
+            <li>On Apple Watch, Nudgy Timer plays each nudge itself when it is open as the session starts, for sessions of up to one hour.</li>
+            <li>After an hour, or if you switch to another Watch app, each nudge arrives as a notification with the time left.</li>
+            <li>Put your Apple Watch in Silent Mode. Otherwise it plays a sound with each tap.</li>
+            <li>The app is still in development, so details may change before release.</li>
+          </ul>
+        </div>
+      </div>
+    </section>
+
+    <section id="faq" class="band" aria-labelledby="faq-title">
+      <div class="wrap">
+        <div class="section-head">
+          <p class="eyebrow">Questions</p>
+          <h2 id="faq-title">Before you join the list.</h2>
+        </div>
+        <div class="faq">
+          <details>
+            <summary>When can I get Nudgy Timer?</summary>
+            <p>Nudgy Timer is in development and is not on the App Store yet. Join the waitlist and you will get one email when it is available.</p>
+          </details>
+          <details>
+            <summary>What will it cost?</summary>
+            <p>Two timers are free. Everything else is a single one-time purchase, with no subscription. The price will be announced at launch.</p>
+          </details>
+          <details>
+            <summary>Do I need an Apple Watch?</summary>
+            <p>No. Nudgy Timer works on an iPhone alone, on an Apple Watch with your iPhone, or on both at once. Nudges on the wrist are the most discreet.</p>
+          </details>
+          <details>
+            <summary>Which devices does it need?</summary>
+            <p>An iPhone running iOS 17 or later. For wrist nudges, an Apple Watch running watchOS 10 or later.</p>
+          </details>
+          <details>
+            <summary>Will anyone else notice the nudges?</summary>
+            <p>With your Apple Watch in Silent Mode, a nudge is a tap on your wrist and nothing more. Without Silent Mode, Apple Watch plays a sound with each tap, so turn Silent Mode on before you start.</p>
+          </details>
+          <details>
+            <summary>Do I need an account?</summary>
+            <p>No. There is no account and no server. Your timers stay on your iPhone and Apple Watch.</p>
+          </details>
+          <details>
+            <summary>What happens to my email address?</summary>
+            <p>It is used for one purpose: to tell you when Nudgy Timer is on the App Store. It is not shared or sold, and you can ask for it to be deleted at any time. The <a href="/privacy">privacy policy</a> has the detail.</p>
+          </details>
+        </div>
+      </div>
+    </section>
+
+    <section class="cta" aria-labelledby="cta-title">
+      <div class="wrap">
+        <h2 id="cta-title">Keep your eyes on the room.</h2>
+        <p class="lede">Leave your email and you will hear once, on the day Nudgy Timer reaches the App Store.</p>
+        <form class="waitlist" action="/api/waitlist" method="post" data-source="footer">
+          <label for="email-footer">Your email address</label>
+          <div class="waitlist-row">
+            <input id="email-footer" type="email" name="email" autocomplete="email" inputmode="email" placeholder="you@example.com" required maxlength="254">
+            <button class="btn" type="submit">Join the waitlist</button>
+          </div>
+          <div class="hp" aria-hidden="true">
+            <label for="website-footer">Leave this field empty</label>
+            <input id="website-footer" type="text" name="website" tabindex="-1" autocomplete="off">
+          </div>
+          <p class="consent">One email at launch, nothing else. By joining you agree to the <a href="/privacy">privacy policy</a>.</p>
+          <p class="form-status" role="status" aria-live="polite"></p>
+        </form>
+      </div>
+    </section>
+  </main>
+
+  <footer class="site-footer">
+    <div class="wrap">
+      <p>© 2026 Georg Fasching. Apple Watch and iPhone are trademarks of Apple Inc.</p>
+      <nav aria-label="Footer">
+        <a href="/privacy">Privacy</a>
+        <a href="/support">Support</a>
+      </nav>
+    </div>
+  </footer>
+
+  <script src="/app.js" defer></script>
+</body>
+</html>

@@ -4,10 +4,13 @@ import NudgyKit
 /// Small on-device persistence (UserDefaults + JSON). Nothing leaves the device
 /// except iPhone ↔ Watch sync.
 enum SessionStore {
-    private static let presetsKey = "nudgy.presets.v1"
-    private static let activeKey = "nudgy.activeSession.v1"
+    // v2: nudges are stored in seconds and timers can repeat.
+    private static let presetsKey = "nudgy.presets.v2"
+    private static let templatesKey = "nudgy.templates.v1"
+    private static let activeKey = "nudgy.activeSession.v3"
     private static var defaults: UserDefaults { .standard }
 
+    /// iPhone: the timers the user created. Watch: the timers the iPhone last sent.
     static func loadPresets() -> [SessionPreset]? {
         guard let data = defaults.data(forKey: presetsKey) else { return nil }
         return try? JSONDecoder().decode([SessionPreset].self, from: data)
@@ -15,6 +18,27 @@ enum SessionStore {
 
     static func savePresets(_ presets: [SessionPreset]) {
         defaults.set(try? JSONEncoder().encode(presets), forKey: presetsKey)
+    }
+
+    /// Built-in timers as last saved (only their repeat on/off choice is used).
+    static func loadTemplates() -> [SessionPreset] {
+        guard let data = defaults.data(forKey: templatesKey) else { return [] }
+        return (try? JSONDecoder().decode([SessionPreset].self, from: data)) ?? []
+    }
+
+    static func saveTemplates(_ templates: [SessionPreset]) {
+        defaults.set(try? JSONEncoder().encode(templates), forKey: templatesKey)
+    }
+
+    private static let themeKey = "nudgy.theme.v1"
+
+    /// iPhone: the theme the user picked. Watch: the theme the iPhone last sent.
+    static func loadTheme() -> Theme {
+        defaults.string(forKey: themeKey).flatMap(Theme.init(rawValue:)) ?? .basic
+    }
+
+    static func saveTheme(_ theme: Theme) {
+        defaults.set(theme.rawValue, forKey: themeKey)
     }
 
     private static let deliversKey = "nudgy.delivers.v1"

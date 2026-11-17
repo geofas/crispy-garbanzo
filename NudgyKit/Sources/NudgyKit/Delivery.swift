@@ -59,6 +59,9 @@ public enum SyncMessage: Codable, Equatable, Sendable {
     case start(ActiveSession)
     case stop(sessionID: UUID)
     case presets([SessionPreset])
+    /// Everything the Watch needs from the iPhone's settings: the timers it may start
+    /// (the iPhone applies the free/paid rule) and the theme to show.
+    case appState(presets: [SessionPreset], theme: Theme)
 
     public static let payloadKey = "nudgyPayload"
 

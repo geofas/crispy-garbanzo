@@ -37,10 +37,10 @@ final class PeerConnectivity: NSObject, WCSessionDelegate {
         }
     }
 
-    /// Latest-value sync: the Watch receives the current presets whenever it next connects.
-    func pushPresets(_ presets: [SessionPreset]) {
+    /// Latest-value sync: the Watch receives the current timers and theme whenever it next connects.
+    func pushAppState(presets: [SessionPreset], theme: Theme) {
         guard peerAvailable, let s = session,
-              let payload = try? SyncMessage.presets(presets).encoded() else { return }
+              let payload = try? SyncMessage.appState(presets: presets, theme: theme).encoded() else { return }
         try? s.updateApplicationContext(payload)
     }
 

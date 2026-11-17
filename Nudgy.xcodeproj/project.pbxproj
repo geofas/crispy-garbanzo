@@ -8,25 +8,42 @@
 
 /* Begin PBXBuildFile section */
 		00B17A87C555430CEC49BCA6 /* SessionStore.swift in Sources */ = {isa = PBXBuildFile; fileRef = F9B9F3AB87620D12550EAFD6 /* SessionStore.swift */; };
-		0D8804E580127280DB1DE8C1 /* PhoneHaptics.swift in Sources */ = {isa = PBXBuildFile; fileRef = E113E0A67B914C8B5BFC63B0 /* PhoneHaptics.swift */; };
+		0C76E55D3F52E673E863403A /* Figtree.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 7888FEA3D943CD18800D6D31 /* Figtree.ttf */; };
 		19B753254AB619A39D6D9877 /* AppModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9A9F129880631F1D1DDEA2A3 /* AppModel.swift */; };
+		24AFE3FBCB09B07912FC7D5A /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 4849934867F88C8149B35478 /* Assets.xcassets */; };
 		367742C01942EA61C415C795 /* NotificationScheduler.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7CFFFEA9B454239A31EDA5EE /* NotificationScheduler.swift */; };
 		3F84F65B297349F71611D048 /* RunningSessionView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4809F2E79C9AA633FD5F6308 /* RunningSessionView.swift */; };
 		418C47860B8A0CE432D1EB06 /* SessionStore.swift in Sources */ = {isa = PBXBuildFile; fileRef = F9B9F3AB87620D12550EAFD6 /* SessionStore.swift */; };
 		43DD3CF0EAE079DE8CFEB5B6 /* WatchModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 85079714F41FD983F9DF5195 /* WatchModel.swift */; };
+		52B0DF4BF5EAD049068722F4 /* Figtree.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 7888FEA3D943CD18800D6D31 /* Figtree.ttf */; };
 		7565140566C10318981BB19A /* PresetListView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7C3BAE7F3A4481054DBDA63A /* PresetListView.swift */; };
+		7BDD3B9C0EDCD063E92592F1 /* PhoneAlert.swift in Sources */ = {isa = PBXBuildFile; fileRef = 062D9F0A784C1BBE494DA1F1 /* PhoneAlert.swift */; };
+		838CACCC9E2D12D25F6E6460 /* ThemePickerView.swift in Sources */ = {isa = PBXBuildFile; fileRef = DCDC8D79531B2466B762ECC2 /* ThemePickerView.swift */; };
+		856FFC9387945AD707745519 /* ThemeStyle.swift in Sources */ = {isa = PBXBuildFile; fileRef = 90054DC546BEECD9C8315A40 /* ThemeStyle.swift */; };
+		8B34C26305F6CE2A6B502497 /* Figtree-OFL.txt in Resources */ = {isa = PBXBuildFile; fileRef = 7F866394129B0F8D6ED3E8AF /* Figtree-OFL.txt */; };
 		8E4E48345B6D8E4EF2FEB6CF /* NudgyKit in Frameworks */ = {isa = PBXBuildFile; productRef = 6A5D3DEDA899A0800F1B94AE /* NudgyKit */; };
 		93C4B812A0D8FE3BE0CE7297 /* SessionEngine.swift in Sources */ = {isa = PBXBuildFile; fileRef = 57FAF456ABA14EDECADED52E /* SessionEngine.swift */; };
+		953A13E1D03F90434F73B240 /* NudgeFlash.swift in Sources */ = {isa = PBXBuildFile; fileRef = 04E62055372DC1F0032ECAF5 /* NudgeFlash.swift */; };
 		97931C451465766A59AC96AF /* WatchSupport.swift in Sources */ = {isa = PBXBuildFile; fileRef = 52AEC2AF27E0D63515039C09 /* WatchSupport.swift */; };
+		99642F7A57FD4CC09DAA9CF9 /* SpaceGrotesk-OFL.txt in Resources */ = {isa = PBXBuildFile; fileRef = 6C19B25353528FF7AF59E172 /* SpaceGrotesk-OFL.txt */; };
+		9B6F476DE0D56DC16518E0E8 /* ding.wav in Resources */ = {isa = PBXBuildFile; fileRef = 20270B8C0A093145B692CCEA /* ding.wav */; };
+		AA5F67C192342D0EB481607B /* SpaceGrotesk.ttf in Resources */ = {isa = PBXBuildFile; fileRef = CF2CE827BEE67942DCA517ED /* SpaceGrotesk.ttf */; };
 		AD8EF8AEBAB4BAB5A1ECB4F4 /* NudgyWatchApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = FEE661C3E69E1C0D987B0248 /* NudgyWatchApp.swift */; };
-		B0679B269BD13CBC07848E9D /* silence.wav in Resources */ = {isa = PBXBuildFile; fileRef = 35A0CDC8526F50FD011066E2 /* silence.wav */; };
+		AFC8FFAFE6C4FC6FBBC25EC1 /* Store.swift in Sources */ = {isa = PBXBuildFile; fileRef = D141A2403AAA9086AAD50A37 /* Store.swift */; };
 		B424A42B121EF283B61AFF16 /* SessionEngine.swift in Sources */ = {isa = PBXBuildFile; fileRef = 57FAF456ABA14EDECADED52E /* SessionEngine.swift */; };
+		BA6BAF86240AF926EEDCC806 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 660A5E835B4E2D373475B8C0 /* Assets.xcassets */; };
 		BD761E443108C2222BE31F5E /* PresetEditorView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2BEF783FA141CB80FF29CAFD /* PresetEditorView.swift */; };
 		C6DF6A2421A4CF32A989C795 /* NudgyKit in Frameworks */ = {isa = PBXBuildFile; productRef = 7E99AED4B217136638C8B3A0 /* NudgyKit */; };
 		D0E1C20F7CA9FB0C9CDE3B63 /* NotificationScheduler.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7CFFFEA9B454239A31EDA5EE /* NotificationScheduler.swift */; };
+		D0F5F914448481882590345F /* SpaceGrotesk.ttf in Resources */ = {isa = PBXBuildFile; fileRef = CF2CE827BEE67942DCA517ED /* SpaceGrotesk.ttf */; };
 		D742D9AE6EF0092F00550028 /* PeerConnectivity.swift in Sources */ = {isa = PBXBuildFile; fileRef = D11B2B189BF09738D7685469 /* PeerConnectivity.swift */; };
+		DA39EB8F31DBC477B1835F22 /* NudgeFlash.swift in Sources */ = {isa = PBXBuildFile; fileRef = 04E62055372DC1F0032ECAF5 /* NudgeFlash.swift */; };
+		E73546996298B5BA1DB42CBD /* Figtree-OFL.txt in Resources */ = {isa = PBXBuildFile; fileRef = 7F866394129B0F8D6ED3E8AF /* Figtree-OFL.txt */; };
+		EA485E635EFA982A169E0BB7 /* UpgradeView.swift in Sources */ = {isa = PBXBuildFile; fileRef = A6F6CBB80885354CDD09A3E5 /* UpgradeView.swift */; };
+		EC6814076FEB0E95A19ED7B7 /* ThemeStyle.swift in Sources */ = {isa = PBXBuildFile; fileRef = 90054DC546BEECD9C8315A40 /* ThemeStyle.swift */; };
 		F0410094EFA4D33B7C13046E /* NudgyWatch.app in Embed Watch Content */ = {isa = PBXBuildFile; fileRef = BD908CA3B7C9BE81DDA8E28C /* NudgyWatch.app */; settings = {ATTRIBUTES = (RemoveHeadersOnCopy, ); }; };
 		F20EB5622CD9C8FF5D6ED814 /* PeerConnectivity.swift in Sources */ = {isa = PBXBuildFile; fileRef = D11B2B189BF09738D7685469 /* PeerConnectivity.swift */; };
+		F29A636D3E6A4748B7F83AFA /* SpaceGrotesk-OFL.txt in Resources */ = {isa = PBXBuildFile; fileRef = 6C19B25353528FF7AF59E172 /* SpaceGrotesk-OFL.txt */; };
 		F6DFFCA8D918A4E208E228A8 /* NudgyApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4E64A7BA229780DC8821199 /* NudgyApp.swift */; };
 /* End PBXBuildFile section */
 
@@ -55,23 +72,34 @@
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
+		04E62055372DC1F0032ECAF5 /* NudgeFlash.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NudgeFlash.swift; sourceTree = "<group>"; };
+		062D9F0A784C1BBE494DA1F1 /* PhoneAlert.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PhoneAlert.swift; sourceTree = "<group>"; };
+		20270B8C0A093145B692CCEA /* ding.wav */ = {isa = PBXFileReference; lastKnownFileType = audio.wav; path = ding.wav; sourceTree = "<group>"; };
 		2BEF783FA141CB80FF29CAFD /* PresetEditorView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PresetEditorView.swift; sourceTree = "<group>"; };
-		35A0CDC8526F50FD011066E2 /* silence.wav */ = {isa = PBXFileReference; lastKnownFileType = audio.wav; path = silence.wav; sourceTree = "<group>"; };
 		4809F2E79C9AA633FD5F6308 /* RunningSessionView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RunningSessionView.swift; sourceTree = "<group>"; };
+		4849934867F88C8149B35478 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		52AEC2AF27E0D63515039C09 /* WatchSupport.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WatchSupport.swift; sourceTree = "<group>"; };
 		57FAF456ABA14EDECADED52E /* SessionEngine.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SessionEngine.swift; sourceTree = "<group>"; };
+		660A5E835B4E2D373475B8C0 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
+		6C19B25353528FF7AF59E172 /* SpaceGrotesk-OFL.txt */ = {isa = PBXFileReference; lastKnownFileType = text; path = "SpaceGrotesk-OFL.txt"; sourceTree = "<group>"; };
 		741BE4EB6F9F8995933635CC /* Nudgy.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = Nudgy.entitlements; sourceTree = "<group>"; };
+		7888FEA3D943CD18800D6D31 /* Figtree.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = Figtree.ttf; sourceTree = "<group>"; };
 		7C3BAE7F3A4481054DBDA63A /* PresetListView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PresetListView.swift; sourceTree = "<group>"; };
 		7CFFFEA9B454239A31EDA5EE /* NotificationScheduler.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NotificationScheduler.swift; sourceTree = "<group>"; };
+		7F866394129B0F8D6ED3E8AF /* Figtree-OFL.txt */ = {isa = PBXFileReference; lastKnownFileType = text; path = "Figtree-OFL.txt"; sourceTree = "<group>"; };
 		85079714F41FD983F9DF5195 /* WatchModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WatchModel.swift; sourceTree = "<group>"; };
 		86CBAE6285C368DE04D5DD45 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist; path = Info.plist; sourceTree = "<group>"; };
 		8D61DF1AEF2CBBC3F58FD0C5 /* Nudgy.app */ = {isa = PBXFileReference; includeInIndex = 0; lastKnownFileType = wrapper.application; path = Nudgy.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		90054DC546BEECD9C8315A40 /* ThemeStyle.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ThemeStyle.swift; sourceTree = "<group>"; };
 		9A9F129880631F1D1DDEA2A3 /* AppModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppModel.swift; sourceTree = "<group>"; };
+		A6F6CBB80885354CDD09A3E5 /* UpgradeView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UpgradeView.swift; sourceTree = "<group>"; };
 		A73136CE736E25F8A6D30BF8 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist; path = Info.plist; sourceTree = "<group>"; };
 		BD908CA3B7C9BE81DDA8E28C /* NudgyWatch.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = NudgyWatch.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		CF2CE827BEE67942DCA517ED /* SpaceGrotesk.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = SpaceGrotesk.ttf; sourceTree = "<group>"; };
 		D11B2B189BF09738D7685469 /* PeerConnectivity.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PeerConnectivity.swift; sourceTree = "<group>"; };
+		D141A2403AAA9086AAD50A37 /* Store.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Store.swift; sourceTree = "<group>"; };
 		D4E64A7BA229780DC8821199 /* NudgyApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NudgyApp.swift; sourceTree = "<group>"; };
-		E113E0A67B914C8B5BFC63B0 /* PhoneHaptics.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PhoneHaptics.swift; sourceTree = "<group>"; };
+		DCDC8D79531B2466B762ECC2 /* ThemePickerView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ThemePickerView.swift; sourceTree = "<group>"; };
 		F9B9F3AB87620D12550EAFD6 /* SessionStore.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SessionStore.swift; sourceTree = "<group>"; };
 		FA0B4977AB5E5E706CCA0A90 /* NudgyKit */ = {isa = PBXFileReference; lastKnownFileType = folder; name = NudgyKit; path = NudgyKit; sourceTree = SOURCE_ROOT; };
 		FEE661C3E69E1C0D987B0248 /* NudgyWatchApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NudgyWatchApp.swift; sourceTree = "<group>"; };
@@ -101,25 +129,43 @@
 			isa = PBXGroup;
 			children = (
 				9A9F129880631F1D1DDEA2A3 /* AppModel.swift */,
+				660A5E835B4E2D373475B8C0 /* Assets.xcassets */,
+				20270B8C0A093145B692CCEA /* ding.wav */,
 				A73136CE736E25F8A6D30BF8 /* Info.plist */,
 				741BE4EB6F9F8995933635CC /* Nudgy.entitlements */,
 				D4E64A7BA229780DC8821199 /* NudgyApp.swift */,
-				E113E0A67B914C8B5BFC63B0 /* PhoneHaptics.swift */,
+				062D9F0A784C1BBE494DA1F1 /* PhoneAlert.swift */,
 				2BEF783FA141CB80FF29CAFD /* PresetEditorView.swift */,
 				7C3BAE7F3A4481054DBDA63A /* PresetListView.swift */,
 				4809F2E79C9AA633FD5F6308 /* RunningSessionView.swift */,
-				35A0CDC8526F50FD011066E2 /* silence.wav */,
+				D141A2403AAA9086AAD50A37 /* Store.swift */,
+				DCDC8D79531B2466B762ECC2 /* ThemePickerView.swift */,
+				A6F6CBB80885354CDD09A3E5 /* UpgradeView.swift */,
 			);
 			path = Nudgy;
+			sourceTree = "<group>";
+		};
+		334D4A0936D7BDF07F9013A3 /* Fonts */ = {
+			isa = PBXGroup;
+			children = (
+				7F866394129B0F8D6ED3E8AF /* Figtree-OFL.txt */,
+				7888FEA3D943CD18800D6D31 /* Figtree.ttf */,
+				6C19B25353528FF7AF59E172 /* SpaceGrotesk-OFL.txt */,
+				CF2CE827BEE67942DCA517ED /* SpaceGrotesk.ttf */,
+			);
+			path = Fonts;
 			sourceTree = "<group>";
 		};
 		7C9C78498F3F5930C344BE02 /* Shared */ = {
 			isa = PBXGroup;
 			children = (
 				7CFFFEA9B454239A31EDA5EE /* NotificationScheduler.swift */,
+				04E62055372DC1F0032ECAF5 /* NudgeFlash.swift */,
 				D11B2B189BF09738D7685469 /* PeerConnectivity.swift */,
 				57FAF456ABA14EDECADED52E /* SessionEngine.swift */,
 				F9B9F3AB87620D12550EAFD6 /* SessionStore.swift */,
+				90054DC546BEECD9C8315A40 /* ThemeStyle.swift */,
+				334D4A0936D7BDF07F9013A3 /* Fonts */,
 			);
 			path = Shared;
 			sourceTree = "<group>";
@@ -144,6 +190,7 @@
 		EB1A3DE85FD6C7C62A6115A6 /* NudgyWatch */ = {
 			isa = PBXGroup;
 			children = (
+				4849934867F88C8149B35478 /* Assets.xcassets */,
 				86CBAE6285C368DE04D5DD45 /* Info.plist */,
 				FEE661C3E69E1C0D987B0248 /* NudgyWatchApp.swift */,
 				85079714F41FD983F9DF5195 /* WatchModel.swift */,
@@ -171,6 +218,7 @@
 			buildConfigurationList = D42567501E428DE354054120 /* Build configuration list for PBXNativeTarget "NudgyWatch" */;
 			buildPhases = (
 				5B2E73011B0C7A418D333664 /* Sources */,
+				60B49EB98E0EE0DD49438487 /* Resources */,
 				69CBC0E70ABB85BE3C587DAB /* Frameworks */,
 			);
 			buildRules = (
@@ -250,11 +298,28 @@
 /* End PBXProject section */
 
 /* Begin PBXResourcesBuildPhase section */
+		60B49EB98E0EE0DD49438487 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				24AFE3FBCB09B07912FC7D5A /* Assets.xcassets in Resources */,
+				E73546996298B5BA1DB42CBD /* Figtree-OFL.txt in Resources */,
+				52B0DF4BF5EAD049068722F4 /* Figtree.ttf in Resources */,
+				99642F7A57FD4CC09DAA9CF9 /* SpaceGrotesk-OFL.txt in Resources */,
+				D0F5F914448481882590345F /* SpaceGrotesk.ttf in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		960071471DE3F06D5C7450AC /* Resources */ = {
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				B0679B269BD13CBC07848E9D /* silence.wav in Resources */,
+				BA6BAF86240AF926EEDCC806 /* Assets.xcassets in Resources */,
+				8B34C26305F6CE2A6B502497 /* Figtree-OFL.txt in Resources */,
+				0C76E55D3F52E673E863403A /* Figtree.ttf in Resources */,
+				F29A636D3E6A4748B7F83AFA /* SpaceGrotesk-OFL.txt in Resources */,
+				AA5F67C192342D0EB481607B /* SpaceGrotesk.ttf in Resources */,
+				9B6F476DE0D56DC16518E0E8 /* ding.wav in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -266,10 +331,12 @@
 			buildActionMask = 2147483647;
 			files = (
 				D0E1C20F7CA9FB0C9CDE3B63 /* NotificationScheduler.swift in Sources */,
+				953A13E1D03F90434F73B240 /* NudgeFlash.swift in Sources */,
 				AD8EF8AEBAB4BAB5A1ECB4F4 /* NudgyWatchApp.swift in Sources */,
 				F20EB5622CD9C8FF5D6ED814 /* PeerConnectivity.swift in Sources */,
 				B424A42B121EF283B61AFF16 /* SessionEngine.swift in Sources */,
 				418C47860B8A0CE432D1EB06 /* SessionStore.swift in Sources */,
+				EC6814076FEB0E95A19ED7B7 /* ThemeStyle.swift in Sources */,
 				43DD3CF0EAE079DE8CFEB5B6 /* WatchModel.swift in Sources */,
 				97931C451465766A59AC96AF /* WatchSupport.swift in Sources */,
 			);
@@ -281,14 +348,19 @@
 			files = (
 				19B753254AB619A39D6D9877 /* AppModel.swift in Sources */,
 				367742C01942EA61C415C795 /* NotificationScheduler.swift in Sources */,
+				DA39EB8F31DBC477B1835F22 /* NudgeFlash.swift in Sources */,
 				F6DFFCA8D918A4E208E228A8 /* NudgyApp.swift in Sources */,
 				D742D9AE6EF0092F00550028 /* PeerConnectivity.swift in Sources */,
-				0D8804E580127280DB1DE8C1 /* PhoneHaptics.swift in Sources */,
+				7BDD3B9C0EDCD063E92592F1 /* PhoneAlert.swift in Sources */,
 				BD761E443108C2222BE31F5E /* PresetEditorView.swift in Sources */,
 				7565140566C10318981BB19A /* PresetListView.swift in Sources */,
 				3F84F65B297349F71611D048 /* RunningSessionView.swift in Sources */,
 				93C4B812A0D8FE3BE0CE7297 /* SessionEngine.swift in Sources */,
 				00B17A87C555430CEC49BCA6 /* SessionStore.swift in Sources */,
+				AFC8FFAFE6C4FC6FBBC25EC1 /* Store.swift in Sources */,
+				838CACCC9E2D12D25F6E6460 /* ThemePickerView.swift in Sources */,
+				856FFC9387945AD707745519 /* ThemeStyle.swift in Sources */,
+				EA485E635EFA982A169E0BB7 /* UpgradeView.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -373,6 +445,7 @@
 		3ADFA073468F6152BB91F3CD /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				ASSETCATALOG_COMPILER_ALTERNATE_APPICON_NAMES = "AppIcon-QuietSignal AppIcon-FriendlyTap";
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_ENTITLEMENTS = Nudgy/Nudgy.entitlements;
 				CODE_SIGN_IDENTITY = "iPhone Developer";
@@ -451,6 +524,7 @@
 		BF06FF501401C4C70F5ACD00 /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				ASSETCATALOG_COMPILER_ALTERNATE_APPICON_NAMES = "AppIcon-QuietSignal AppIcon-FriendlyTap";
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_ENTITLEMENTS = Nudgy/Nudgy.entitlements;
 				CODE_SIGN_IDENTITY = "iPhone Developer";

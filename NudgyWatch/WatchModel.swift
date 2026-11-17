@@ -3,13 +3,15 @@ import SwiftUI
 import WatchKit
 import NudgyKit
 
-/// Watch app state: synced presets, the shared session engine, and the runtime session
-/// that keeps distinct tap patterns working with the wrist down.
+/// Watch app state: the timers the iPhone allows (it applies the free/paid rule), the shared session engine, and the runtime session
+/// that keeps Nudgy running with the wrist down.
 @MainActor
 final class WatchModel: ObservableObject {
     @Published private(set) var presets: [SessionPreset]
-    /// True while the extended runtime session is running, i.e. distinct tap patterns
-    /// play with the wrist down. False means only the backup notifications are active.
+    /// The theme the iPhone last sent; Basic until it has sent one.
+    @Published private(set) var theme: Theme
+    /// True while the extended runtime session is running, i.e. Nudgy plays nudges itself
+    /// with the wrist down. False means only the backup notifications are active.
     @Published private(set) var patternsActive = false
 
     let engine: SessionEngine
@@ -19,17 +21,23 @@ final class WatchModel: ObservableObject {
     init() {
         let connectivity = PeerConnectivity()
         self.connectivity = connectivity
-        presets = SessionStore.loadPresets() ?? SessionPreset.defaults
+        // Until the iPhone has sent its list, offer the free timers.
+        presets = SessionStore.loadPresets() ?? Catalog.available(templates: Catalog.templates, custom: [], unlocked: false)
+        theme = SessionStore.loadTheme()
         engine = SessionEngine(platform: .init(
             delivers: { $0.target != .phone },
             peerShouldKnow: { _ in true },
-            play: { WatchHaptics.play(taps: $0) },
+            play: { WatchHaptics.play() },
             send: { connectivity.send($0) }
         ))
 
         engine.onPresets = { [weak self] list in
             self?.presets = list
             SessionStore.savePresets(list)
+        }
+        engine.onTheme = { [weak self] theme in
+            self?.theme = theme
+            SessionStore.saveTheme(theme)
         }
         engine.onSessionBegan = { [weak self] in self?.startRuntimeIfNeeded() }
         engine.onSessionEnded = { [weak self] in self?.runtime.stop() }
@@ -54,7 +62,7 @@ final class WatchModel: ObservableObject {
     }
 
     /// Releases the runtime session shortly after the last nudge, to save battery.
-    /// The delay lets a three-tap pattern finish first.
+    /// The delay lets the last nudge finish first.
     private func releaseRuntimeSoon() {
         Task { [weak self] in
             try? await Task.sleep(nanoseconds: 5_000_000_000)

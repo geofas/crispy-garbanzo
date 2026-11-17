@@ -3,15 +3,33 @@
 Discreet haptic nudges at set points before a session ends, on iPhone and Apple Watch.
 For meeting chairs, facilitators, trainers and teachers.
 
-## What v0.1 does
+## What it does
 
-- Session presets: name, length, up to 6 nudges ("10 min before the end", "at the end"), and where to nudge (Watch, iPhone, or both).
-- Tap patterns: earlier nudges = 1 tap, last warning = 2 taps, end = 3 taps.
-- Start a session from the iPhone or the Watch. Both show the countdown; either can end it.
-- Presets are edited on the iPhone and synced to the Watch.
+- **Timers** with nudges before the end. Every nudge is the same: one white screen flash, one ding and one strong vibration. The ding follows Silent Mode on each device; the vibration does not.
+- **Free timers:** "Quick test" (20 seconds, nudges at 10 seconds left and at the end, repeating; for trying things out), "5 min" (repeat on by default) and "15 min" (nudges at 7:30, 5:00 and 2:00 left, and at the end).
+- **Paid timers**, shown under "Unlock with the one-time purchase" until unlocked: Meeting 30 and 60 min, Lesson 50 min, Workshop 90 min, Pomodoro 25 + 5, and timers of your own (any length, up to 6 nudges, Watch, iPhone or both).
+- **Repeat:** the loop button makes a timer restart by itself until you end it. Rounds are planned in advance, up to 60 nudges or 8 hours, because iOS allows 64 scheduled notifications per app.
+- **Pomodoro:** a nudge when the 25 minutes of work end and when the 5-minute break ends, then the next round. There is no long break.
+- **Running screen:** the countdown, the next nudge, and every nudge of the round in words, marked Done, Next or still to come.
+- **Themes:** Basic (the standard iOS look) is free and the default. The unlock adds Quiet Signal (dark, amber) and Friendly Tap (light, violet), from the design canvas boards A2 and B2. Pick one with the palette button on the timer list. The iPhone app icon changes with the theme; the Watch follows the theme but keeps one icon.
+- Start a timer from the iPhone or the Watch. Both show the countdown; either can end it.
 - No account, no server. Data stays on the devices.
 
-Not built yet: paid/freemium (StoreKit), agenda segments, calendar import, complications, App Store assets.
+Not built yet: agenda segments, calendar import, complications, App Store assets.
+
+## The one-time unlock
+
+- Sold on the iPhone only (StoreKit 2). The iPhone sends the Watch the timers the user may start and the theme to show, so the Watch needs no purchase logic.
+- It unlocks the paid timers, timers of your own and the two themes. If the unlock is lost (for example after a refund), the app falls back to Basic and the primary icon.
+- Product ID: `com.georgfasching.nudgy.unlock`. Create it in App Store Connect as a **non-consumable** in-app purchase. Until it exists, the upgrade screen says "The purchase isn't available yet."
+- Builds run from Xcode (debug builds) show an "Unlock for testing" switch on the upgrade screen. It is not compiled into App Store builds.
+
+## Themes
+
+- `NudgyKit/Sources/NudgyKit/Theme.swift` — the three themes and the free/paid rule.
+- `Shared/ThemeStyle.swift` — colours and type per theme, for iPhone and Watch. Basic leaves everything to the system.
+- Typefaces: Space Grotesk (Quiet Signal countdown and headings) and Figtree (Friendly Tap), in `Shared/Fonts/`, under the SIL Open Font License (licence files beside them). If a font fails to load, the system font is used.
+- App icons: `Nudgy/Assets.xcassets` holds `AppIcon` (Basic) and the alternate icons `AppIcon-QuietSignal` and `AppIcon-FriendlyTap`. Their names must match `Theme.alternateIconName` and `ASSETCATALOG_COMPILER_ALTERNATE_APPICON_NAMES` in `project.yml`. The Watch has one icon (`NudgyWatch/Assets.xcassets`).
 
 ## Build
 
@@ -35,27 +53,25 @@ xcodegen generate
 
 ## How nudges are delivered
 
-| Situation | What you feel |
+| Situation | What you get |
 |---|---|
-| Watch, Nudgy open when the session starts, session ≤ 1 hour | Distinct patterns (1/2/3 taps), wrist down |
-| Watch, after 1 hour, or after pressing the crown / opening another app | A standard notification tap with "5 min left" |
-| Watch, session started from the iPhone and Nudgy not opened on the Watch | A standard notification tap |
-| iPhone, Nudgy on screen | Distinct patterns |
-| iPhone, locked or in another app | A notification vibration (silent sound file) |
-
-The Watch screen shows "Standard taps only" whenever the distinct patterns are not active.
+| Watch, Nudgy open when the session starts, session ≤ 1 hour | Nudgy plays the nudge itself, wrist down: strong haptic with sound, and a white flash if the screen is on |
+| Watch, after 1 hour, or after pressing the crown / opening another app | A notification: the system's haptic and sound, with "5 min left" |
+| Watch, session started from the iPhone and Nudgy not opened on the Watch | A notification, as above |
+| iPhone, Nudgy on screen | Ding, vibration and a white flash |
+| iPhone, locked or in another app | A notification with the same ding and a vibration |
 
 Why: watchOS suspends apps when the wrist drops. Nudgy uses a Mindfulness extended runtime session to stay running, which Apple limits to 1 hour and ends when the user leaves the app. Every nudge also has a backup notification scheduled 2 seconds later; the app cancels it when it plays the nudge itself.
 
 Known limits:
 
-- Watch haptics also make a sound unless the Watch is in Silent Mode. Turn Silent Mode on.
-- iPhone vibration needs "Play Haptics in Silent Mode" enabled in iOS Settings, and a Focus that allows Nudgy (nudges are marked Time Sensitive).
-- **App Review risk:** Apple's documentation says to choose the session type "based on the app's intended use". Nudgy is not a meditation app, so the Mindfulness mode may be rejected. Fallback: remove `WKBackgroundModes` from `project.yml`; the backup notifications then deliver every nudge as a standard tap.
+- The ding follows Silent Mode: with the iPhone's ring switch or the Watch's Silent Mode on, there is only the vibration.
+- A Focus must allow Nudgy for locked-phone nudges (they are marked Time Sensitive).
+- **App Review risk:** Apple's documentation says to choose the session type "based on the app's intended use". Nudgy is not a meditation app, so the Mindfulness mode may be rejected. Fallback: remove `WKBackgroundModes` from `project.yml`; the backup notifications then deliver every nudge on the Watch.
 
 ## Layout
 
-- `NudgyKit/` — platform-neutral logic (presets, scheduling, de-duplication, sync messages) with unit tests.
+- `NudgyKit/` — platform-neutral logic (timers, the free/paid rule, scheduling, repeat, de-duplication, sync messages) with unit tests.
 - `Nudgy/` — iPhone app (SwiftUI).
 - `NudgyWatch/` — Watch app (SwiftUI).
 - `Shared/` — session engine, iPhone ↔ Watch sync, notification scheduling and storage, used by both apps.
@@ -70,6 +86,6 @@ cd NudgyKit && swift test
 
 ## Verification status
 
-- `NudgyKit`: 23 unit tests pass (Swift 6.0, Linux).
+- `NudgyKit`: 44 unit tests pass (Swift 6.0, Linux, GitHub Actions).
 - iPhone and Watch apps: compile for the iOS and watchOS simulators in GitHub Actions (Xcode 16.4, unsigned), on every push.
-- Not yet verified: running on real devices (haptics, wrist-down behaviour, iPhone ↔ Watch sync, notifications) and code signing.
+- Not yet verified: running on real devices (haptics, wrist-down behaviour, iPhone ↔ Watch sync, notifications), the purchase flow, code signing, the theme switch and app icon change, and the bundled typefaces loading.

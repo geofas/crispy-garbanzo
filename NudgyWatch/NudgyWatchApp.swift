@@ -19,20 +19,25 @@ struct NudgyWatchApp: App {
 }
 
 struct WatchRootView: View {
+    @EnvironmentObject private var model: WatchModel
     @EnvironmentObject private var engine: SessionEngine
 
     var body: some View {
-        if let session = engine.active {
-            WatchRunningView(session: session)
-        } else {
-            WatchPresetListView()
+        Group {
+            if let session = engine.active {
+                WatchRunningView(session: session)
+            } else {
+                WatchPresetListView()
+            }
         }
+        .themed(model.theme)
     }
 }
 
 struct WatchPresetListView: View {
     @EnvironmentObject private var model: WatchModel
     @EnvironmentObject private var engine: SessionEngine
+    @Environment(\.themeStyle) private var style
 
     var body: some View {
         NavigationStack {
@@ -40,13 +45,21 @@ struct WatchPresetListView: View {
                 Button {
                     engine.start(preset)
                 } label: {
-                    VStack(alignment: .leading, spacing: 2) {
-                        Text(preset.name).font(.headline)
-                        Text("\(preset.durationMinutes) min")
+                    HStack {
+                        VStack(alignment: .leading, spacing: 2) {
+                            Text(preset.name).font(style.text(.headline, weight: .semibold))
+                            Text(preset.repeats ? "\(preset.durationLabel) · repeats" : preset.durationLabel)
+                                .font(style.text(.caption))
+                                .foregroundStyle(style.secondaryText)
+                        }
+                        Spacer()
+                        Image(systemName: "play.fill")
                             .font(.caption)
-                            .foregroundStyle(.secondary)
+                            .foregroundStyle(style.accent)
+                            .accessibilityHidden(true)
                     }
                 }
+                .themedRow(style)
             }
             .navigationTitle("Nudgy")
         }
@@ -56,14 +69,15 @@ struct WatchPresetListView: View {
 struct WatchRunningView: View {
     @EnvironmentObject private var model: WatchModel
     @EnvironmentObject private var engine: SessionEngine
+    @Environment(\.themeStyle) private var style
     let session: ActiveSession
     @State private var confirmStop = false
 
     var body: some View {
         VStack(spacing: 6) {
-            Text(session.presetName)
-                .font(.caption)
-                .foregroundStyle(.secondary)
+            Label(session.presetName, systemImage: session.repeats ? "repeat" : "timer")
+                .font(style.text(.caption))
+                .foregroundStyle(style.secondaryText)
                 .lineLimit(1)
 
             // Only this block redraws each second.
@@ -71,32 +85,34 @@ struct WatchRunningView: View {
                 let now = context.date
                 VStack(spacing: 6) {
                     Text(CountdownFormatter.string(session.remaining(at: now)))
-                        .font(.system(size: 40, weight: .semibold, design: .rounded))
+                        .font(style.display(40))
                         .monospacedDigit()
                         .minimumScaleFactor(0.5)
                         .lineLimit(1)
-                        .foregroundStyle(session.isFinished(at: now) ? .red : .primary)
+                        .foregroundStyle(session.isFinished(at: now) ? style.destructive : style.primaryText)
 
-                    if let next = session.nextNudge(after: now) {
+                    let upcoming = session.upcomingNudges(after: now)
+                    if let next = upcoming.first {
                         Text("Next: \(next.message)")
-                            .font(.caption2)
-                            .foregroundStyle(.secondary)
-
-                        if engine.delivering && !model.patternsActive {
-                            Text("Standard taps only")
-                                .font(.caption2)
-                                .foregroundStyle(.orange)
-                        }
+                            .font(style.text(.footnote, weight: .semibold))
+                            .foregroundStyle(style.highlight)
+                    }
+                    if upcoming.count > 1 {
+                        Text("Then: \(upcoming[1].message)")
+                            .font(style.text(.caption2))
+                            .foregroundStyle(style.secondaryText)
                     }
                 }
             }
 
             Button("End", role: .destructive) { confirmStop = true }
+                .confirmationDialog("End this session?", isPresented: $confirmStop, titleVisibility: .visible) {
+                    Button("End session", role: .destructive) { engine.stop() }
+                    Button("Keep running", role: .cancel) {}
+                }
                 .padding(.top, 4)
         }
-        .confirmationDialog("End this session?", isPresented: $confirmStop, titleVisibility: .visible) {
-            Button("End session", role: .destructive) { engine.stop() }
-            Button("Keep running", role: .cancel) {}
-        }
+        .frame(maxWidth: .infinity, maxHeight: .infinity)
+        .nudgeFlash(engine.nudgeFlash)
     }
 }
