@@ -22,13 +22,17 @@ struct NudgyApp: App {
 }
 
 struct ContentView: View {
+    @EnvironmentObject private var model: AppModel
     @EnvironmentObject private var engine: SessionEngine
 
     var body: some View {
-        if let session = engine.active {
-            RunningSessionView(session: session)
-        } else {
-            PresetListView()
+        Group {
+            if let session = engine.active {
+                RunningSessionView(session: session)
+            } else {
+                PresetListView()
+            }
         }
+        .themed(model.theme)
     }
 }

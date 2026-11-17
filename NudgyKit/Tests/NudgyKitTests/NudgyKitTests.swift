@@ -348,3 +348,64 @@ final class DeliveryAndFormatTests: XCTestCase {
         XCTAssertNil(SyncMessage.decode([SyncMessage.payloadKey: Data("junk".utf8)]))
     }
 }
+
+final class ThemeTests: XCTestCase {
+    func testOnlyBasicIsFree() {
+        XCTAssertEqual(Theme.allCases.filter(\.isFree), [.basic])
+        XCTAssertTrue(Theme.basic.isAvailable(unlocked: false))
+        XCTAssertFalse(Theme.quietSignal.isAvailable(unlocked: false))
+        XCTAssertFalse(Theme.friendlyTap.isAvailable(unlocked: false))
+        XCTAssertTrue(Theme.allCases.allSatisfy { $0.isAvailable(unlocked: true) })
+    }
+
+    func testEffectiveFallsBackToBasicWithoutUnlock() {
+        XCTAssertEqual(Theme.effective(selected: .quietSignal, unlocked: true), .quietSignal)
+        XCTAssertEqual(Theme.effective(selected: .quietSignal, unlocked: false), .basic)
+        XCTAssertEqual(Theme.effective(selected: .friendlyTap, unlocked: false), .basic)
+        XCTAssertEqual(Theme.effective(selected: .basic, unlocked: false), .basic)
+    }
+
+    func testIconNames() {
+        XCTAssertNil(Theme.basic.alternateIconName)
+        let names = Theme.allCases.compactMap(\.alternateIconName)
+        XCTAssertEqual(names, ["AppIcon-QuietSignal", "AppIcon-FriendlyTap"])
+    }
+
+    func testThemeStoredByStableName() throws {
+        XCTAssertEqual(String(data: try JSONEncoder().encode([Theme.quietSignal]), encoding: .utf8), #"["quietSignal"]"#)
+        XCTAssertEqual(Theme(rawValue: "friendlyTap"), .friendlyTap)
+    }
+
+    func testAppStateRoundTrip() throws {
+        let msg = SyncMessage.appState(presets: Catalog.templates, theme: .friendlyTap)
+        XCTAssertEqual(SyncMessage.decode(try msg.encoded()), msg)
+    }
+}
+
+final class RoundStepTests: XCTestCase {
+    private let t0 = Date(timeIntervalSince1970: 1_000_000)
+
+    func testStepsMarkDoneNextAndLater() {
+        // 15 min: nudges at 7:30, 5:00, 2:00 left and at the end.
+        let s = ActiveSession.start(Catalog.fifteenMinutes, at: t0)
+        let steps = s.roundSteps(at: t0.addingTimeInterval(9 * 60)) // 6:00 left
+        XCTAssertEqual(steps.map(\.label), ["7:30 left", "5 min left", "2 min left", "Time's up"])
+        XCTAssertEqual(steps.map(\.state), [.done, .next, .later, .later])
+    }
+
+    func testBeforeAndAfterEveryNudge() {
+        let s = ActiveSession.start(Catalog.fifteenMinutes, at: t0)
+        XCTAssertEqual(s.roundSteps(at: t0).map(\.state), [.next, .later, .later, .later])
+        XCTAssertEqual(s.roundSteps(at: t0.addingTimeInterval(16 * 60)).map(\.state), [.done, .done, .done, .done])
+    }
+
+    func testRepeatingTimerListsOnlyTheCurrentRound() {
+        // 5 min, one nudge at the end, repeating.
+        let s = ActiveSession.start(Catalog.fiveMinutes, at: t0)
+        XCTAssertGreaterThan(s.cycles, 1)
+        let steps = s.roundSteps(at: t0.addingTimeInterval(7 * 60)) // second round, 3:00 left
+        XCTAssertEqual(steps.count, 1)
+        XCTAssertEqual(steps.first?.label, "Time's up")
+        XCTAssertEqual(steps.first?.state, .next)
+    }
+}

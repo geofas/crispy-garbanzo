@@ -8,6 +8,8 @@ import NudgyKit
 @MainActor
 final class WatchModel: ObservableObject {
     @Published private(set) var presets: [SessionPreset]
+    /// The theme the iPhone last sent; Basic until it has sent one.
+    @Published private(set) var theme: Theme
 
     let engine: SessionEngine
     private let connectivity: PeerConnectivity
@@ -17,6 +19,7 @@ final class WatchModel: ObservableObject {
         self.connectivity = connectivity
         // Until the iPhone has sent its list, offer the free timers.
         presets = SessionStore.loadPresets() ?? Catalog.available(templates: Catalog.templates, custom: [], unlocked: false)
+        theme = SessionStore.loadTheme()
         engine = SessionEngine(platform: .init(
             delivers: { $0.target != .phone },
             peerShouldKnow: { _ in true },
@@ -27,6 +30,10 @@ final class WatchModel: ObservableObject {
         engine.onPresets = { [weak self] list in
             self?.presets = list
             SessionStore.savePresets(list)
+        }
+        engine.onTheme = { [weak self] theme in
+            self?.theme = theme
+            SessionStore.saveTheme(theme)
         }
         connectivity.onMessage = { [weak self] message in self?.engine.handle(message) }
         connectivity.activate()
