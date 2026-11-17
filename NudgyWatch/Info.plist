@@ -27,10 +27,6 @@
 	</array>
 	<key>WKApplication</key>
 	<true/>
-	<key>WKBackgroundModes</key>
-	<array>
-		<string>mindfulness</string>
-	</array>
 	<key>WKCompanionAppBundleIdentifier</key>
 	<string>com.georgfasching.nudgy</string>
 </dict>

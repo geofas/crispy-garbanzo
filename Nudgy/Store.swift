@@ -16,7 +16,7 @@ final class Store: ObservableObject {
     var onUnlockedChange: ((Bool) -> Void)?
 
     private static let cacheKey = "nudgy.unlocked.v1"
-    private static let debugKey = "nudgy.debugUnlocked.v1"
+    private static let debugKey = "nudgy.debugMode.v1"
     private var updates: Task<Void, Never>?
 
     init() {
@@ -88,7 +88,11 @@ final class Store: ObservableObject {
             }
         }
         #if DEBUG
-        if debugUnlocked { owned = true }
+        switch debugMode {
+        case .real: break
+        case .free: owned = false
+        case .paid: owned = true
+        }
         #endif
         if owned != unlocked {
             unlocked = owned
@@ -99,10 +103,27 @@ final class Store: ObservableObject {
 
     #if DEBUG
     /// Test switch, compiled into debug builds only (runs from Xcode), never into App Store builds.
-    var debugUnlocked: Bool {
-        get { UserDefaults.standard.bool(forKey: Self.debugKey) }
+    enum DebugMode: String, CaseIterable, Identifiable {
+        /// What the App Store says this Apple ID owns.
+        case real
+        /// Paid features removed, even if a test purchase was made.
+        case free
+        /// Paid features on, without a purchase.
+        case paid
+        var id: String { rawValue }
+        var title: String {
+            switch self {
+            case .real: return "Real purchase"
+            case .free: return "Free"
+            case .paid: return "Paid"
+            }
+        }
+    }
+
+    var debugMode: DebugMode {
+        get { DebugMode(rawValue: UserDefaults.standard.string(forKey: Self.debugKey) ?? "") ?? .real }
         set {
-            UserDefaults.standard.set(newValue, forKey: Self.debugKey)
+            UserDefaults.standard.set(newValue.rawValue, forKey: Self.debugKey)
             objectWillChange.send()
             Task { await refresh() }
         }

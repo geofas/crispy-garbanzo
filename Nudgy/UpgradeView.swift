@@ -47,10 +47,7 @@ struct UpgradeView: View {
 
                 #if DEBUG
                 Section {
-                    Toggle("Unlock for testing", isOn: Binding(
-                        get: { store.debugUnlocked },
-                        set: { store.debugUnlocked = $0 }
-                    ))
+                    DebugModePicker()
                 } footer: {
                     Text("Only in builds run from Xcode. Not in App Store builds.")
                 }
@@ -70,3 +67,22 @@ struct UpgradeView: View {
         }
     }
 }
+
+#if DEBUG
+/// Testing only: switch between the free and paid versions without buying or refunding.
+struct DebugModePicker: View {
+    @EnvironmentObject private var store: Store
+
+    var body: some View {
+        Picker("Test as", selection: Binding(
+            get: { store.debugMode },
+            set: { store.debugMode = $0 }
+        )) {
+            ForEach(Store.DebugMode.allCases) { mode in
+                Text(mode.title).tag(mode)
+            }
+        }
+        .pickerStyle(.segmented)
+    }
+}
+#endif

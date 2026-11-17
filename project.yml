@@ -77,8 +77,6 @@ targets:
         CFBundleVersion: $(CURRENT_PROJECT_VERSION)
         WKApplication: true
         WKCompanionAppBundleIdentifier: com.georgfasching.nudgy
-        WKBackgroundModes:
-          - mindfulness
         UIAppFonts:
           - SpaceGrotesk.ttf
           - Figtree.ttf
