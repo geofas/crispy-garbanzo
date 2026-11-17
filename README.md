@@ -22,7 +22,7 @@ Not built yet: agenda segments, calendar import, complications, App Store assets
 - Sold on the iPhone only (StoreKit 2). The iPhone sends the Watch the timers the user may start and the theme to show, so the Watch needs no purchase logic.
 - It unlocks the paid timers, timers of your own and the two themes. If the unlock is lost (for example after a refund), the app falls back to Basic and the primary icon.
 - Product ID: `com.georgfasching.nudgy.unlock`. Create it in App Store Connect as a **non-consumable** in-app purchase. Until it exists, the upgrade screen says "The purchase isn't available yet."
-- Builds run from Xcode (debug builds) show an "Unlock for testing" switch on the upgrade screen. It is not compiled into App Store builds.
+- Builds run from Xcode (debug builds) have a "Test as" switch on the upgrade screen: Real purchase, Free or Paid. While unlocked, a "Remove paid features" button at the bottom of the timer list switches back to Free, even after a test purchase. Your own timers are kept. None of this is compiled into App Store builds.
 
 ## Themes
 

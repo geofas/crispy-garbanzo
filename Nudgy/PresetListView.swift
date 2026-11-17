@@ -78,6 +78,21 @@ struct PresetListView: View {
                         .padding(.top, 8)
                     }
                 }
+
+                #if DEBUG
+                if model.unlocked {
+                    Section {
+                        Button("Remove paid features", role: .destructive) {
+                            store.debugMode = .free
+                        }
+                        .themedRow(style)
+                    } header: {
+                        Text("Testing")
+                    } footer: {
+                        Text("Shows the free version again. Your own timers are kept and come back when you unlock. Only in builds run from Xcode.")
+                    }
+                }
+                #endif
             }
             .themedListBackground(style)
             .navigationTitle("Nudgy")
